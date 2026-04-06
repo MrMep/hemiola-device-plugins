@@ -1,6 +1,8 @@
 {
   "slug": "my_cc_device",
   "name": "My CC Device",
+  "manufacturer": "n/a",
+  "author": "Gianluca Barbaro",
   "version": "1.0.0",
   "enabled": true,
   "triggers": [
