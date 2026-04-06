@@ -1,5 +1,7 @@
 # Hemiola Device Plugins
 
+[![Validate Plugins](https://github.com/MrMep/hemiola-device-plugins/actions/workflows/validate-plugins.yml/badge.svg)](https://github.com/MrMep/hemiola-device-plugins/actions/workflows/validate-plugins.yml)
+
 Hemiola device plugins are JSON documents that describe how a MIDI device is detected, how it exchanges data, and how its configuration UI is rendered inside [Hemiola](https://hemiola.app).
 
 This repository is the public home of those plugins, their documentation, and the supporting tooling around them.
