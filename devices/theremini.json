@@ -1,0 +1,1005 @@
+{
+  "slug": "theremini",
+  "name": "Moog Theremini",
+  "manufacturer": "Moog - inMusic Brands, Inc.",
+  "author": "Gianluca Barbaro",
+  "version": "1.6.1",
+  "enabled": true,
+  "triggers": ["Theremin", "Theremini", "THEREMINI", "Moog Theremini"],
+  "requiresLandscape": false,
+  "_notes": "Mixed CC/SysEx plugin. v1.6.1: Save Patch As section moved to BASIC tab (second section) with Save as... action inline in section; SAVE tab removed. v1.6.0: send_param explicit sequence. Full-dump fragments in workdir/theremini-fulldump-fragments.json.",
+  "protocol": {
+    "type": "mixed",
+    "channel": 0,
+    "onConnect": [
+      { "bytes": "F0 7E 7F 06 01 F7" },
+      { "bytes": "F0 04 0B 06 00 00 00 00 00 00 00 00 00 00 00 00 F7" }
+    ],
+    "responses": [
+      {
+        "id": "currentPatchSync",
+        "match": "F0 04 0B"
+      }
+    ]
+  },
+  "parameters": [
+    {
+      "id": "requestSelectedPreset",
+      "min": 0,
+      "max": 31,
+      "default": 0,
+      "sendCommand": {
+        "type": "sysex_map",
+        "options": {
+          "0": "F0 04 0B 06 01 00 00 00 00 00 00 00 00 00 7F F7",
+          "1": "F0 04 0B 06 01 01 00 00 00 00 00 00 00 00 00 7E F7",
+          "2": "F0 04 0B 06 01 02 00 00 00 00 00 00 00 00 00 7D F7",
+          "3": "F0 04 0B 06 01 03 00 00 00 00 00 00 00 00 00 7C F7",
+          "4": "F0 04 0B 06 01 04 00 00 00 00 00 00 00 00 00 7B F7",
+          "5": "F0 04 0B 06 01 05 00 00 00 00 00 00 00 00 00 7A F7",
+          "6": "F0 04 0B 06 01 06 00 00 00 00 00 00 00 00 00 79 F7",
+          "7": "F0 04 0B 06 01 07 00 00 00 00 00 00 00 00 00 78 F7",
+          "8": "F0 04 0B 06 01 08 00 00 00 00 00 00 00 00 00 77 F7",
+          "9": "F0 04 0B 06 01 09 00 00 00 00 00 00 00 00 00 76 F7",
+          "10": "F0 04 0B 06 01 0A 00 00 00 00 00 00 00 00 00 75 F7",
+          "11": "F0 04 0B 06 01 0B 00 00 00 00 00 00 00 00 00 74 F7",
+          "12": "F0 04 0B 06 01 0C 00 00 00 00 00 00 00 00 00 73 F7",
+          "13": "F0 04 0B 06 01 0D 00 00 00 00 00 00 00 00 00 72 F7",
+          "14": "F0 04 0B 06 01 0E 00 00 00 00 00 00 00 00 00 71 F7",
+          "15": "F0 04 0B 06 01 0F 00 00 00 00 00 00 00 00 00 70 F7",
+          "16": "F0 04 0B 06 01 10 00 00 00 00 00 00 00 00 00 6F F7",
+          "17": "F0 04 0B 06 01 11 00 00 00 00 00 00 00 00 00 6E F7",
+          "18": "F0 04 0B 06 01 12 00 00 00 00 00 00 00 00 00 6D F7",
+          "19": "F0 04 0B 06 01 13 00 00 00 00 00 00 00 00 00 6C F7",
+          "20": "F0 04 0B 06 01 14 00 00 00 00 00 00 00 00 00 6B F7",
+          "21": "F0 04 0B 06 01 15 00 00 00 00 00 00 00 00 00 6A F7",
+          "22": "F0 04 0B 06 01 16 00 00 00 00 00 00 00 00 00 69 F7",
+          "23": "F0 04 0B 06 01 17 00 00 00 00 00 00 00 00 00 68 F7",
+          "24": "F0 04 0B 06 01 18 00 00 00 00 00 00 00 00 00 67 F7",
+          "25": "F0 04 0B 06 01 19 00 00 00 00 00 00 00 00 00 66 F7",
+          "26": "F0 04 0B 06 01 1A 00 00 00 00 00 00 00 00 00 65 F7",
+          "27": "F0 04 0B 06 01 1B 00 00 00 00 00 00 00 00 00 64 F7",
+          "28": "F0 04 0B 06 01 1C 00 00 00 00 00 00 00 00 00 63 F7",
+          "29": "F0 04 0B 06 01 1D 00 00 00 00 00 00 00 00 00 62 F7",
+          "30": "F0 04 0B 06 01 1E 00 00 00 00 00 00 00 00 00 61 F7",
+          "31": "F0 04 0B 06 01 1F 00 00 00 00 00 00 00 00 00 60 F7"
+        }
+      }
+    },
+    {
+      "id": "presetSlot",
+      "min": 0,
+      "max": 31,
+      "default": 0,
+      "onSetByValue": {
+        "0": [{ "param": "requestSelectedPreset", "value": 0 }],
+        "1": [{ "param": "requestSelectedPreset", "value": 1 }],
+        "2": [{ "param": "requestSelectedPreset", "value": 2 }],
+        "3": [{ "param": "requestSelectedPreset", "value": 3 }],
+        "4": [{ "param": "requestSelectedPreset", "value": 4 }],
+        "5": [{ "param": "requestSelectedPreset", "value": 5 }],
+        "6": [{ "param": "requestSelectedPreset", "value": 6 }],
+        "7": [{ "param": "requestSelectedPreset", "value": 7 }],
+        "8": [{ "param": "requestSelectedPreset", "value": 8 }],
+        "9": [{ "param": "requestSelectedPreset", "value": 9 }],
+        "10": [{ "param": "requestSelectedPreset", "value": 10 }],
+        "11": [{ "param": "requestSelectedPreset", "value": 11 }],
+        "12": [{ "param": "requestSelectedPreset", "value": 12 }],
+        "13": [{ "param": "requestSelectedPreset", "value": 13 }],
+        "14": [{ "param": "requestSelectedPreset", "value": 14 }],
+        "15": [{ "param": "requestSelectedPreset", "value": 15 }],
+        "16": [{ "param": "requestSelectedPreset", "value": 16 }],
+        "17": [{ "param": "requestSelectedPreset", "value": 17 }],
+        "18": [{ "param": "requestSelectedPreset", "value": 18 }],
+        "19": [{ "param": "requestSelectedPreset", "value": 19 }],
+        "20": [{ "param": "requestSelectedPreset", "value": 20 }],
+        "21": [{ "param": "requestSelectedPreset", "value": 21 }],
+        "22": [{ "param": "requestSelectedPreset", "value": 22 }],
+        "23": [{ "param": "requestSelectedPreset", "value": 23 }],
+        "24": [{ "param": "requestSelectedPreset", "value": 24 }],
+        "25": [{ "param": "requestSelectedPreset", "value": 25 }],
+        "26": [{ "param": "requestSelectedPreset", "value": 26 }],
+        "27": [{ "param": "requestSelectedPreset", "value": 27 }],
+        "28": [{ "param": "requestSelectedPreset", "value": 28 }],
+        "29": [{ "param": "requestSelectedPreset", "value": 29 }],
+        "30": [{ "param": "requestSelectedPreset", "value": 30 }],
+        "31": [{ "param": "requestSelectedPreset", "value": 31 }]
+      },
+      "sendCommand": {
+        "type": "program_change"
+      }
+    },
+    {
+      "id": "waveform",
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "min": 0,
+      "max": 6,
+      "default": 6,
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 40, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": { "type": "cc", "cc": 90 }
+    },
+    {
+      "id": "scanRate", "min": 0, "max": 32, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 41, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc14", "ccMsb": 9,
+        "transform": { "inputMin": 0, "inputMax": 32, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "scanAmount", "min": 0, "max": 2, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 50, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc14", "ccMsb": 20,
+        "transform": { "inputMin": 0, "inputMax": 2, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "scanPosition", "min": 0, "max": 2, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 49, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc14", "ccMsb": 21,
+        "transform": { "inputMin": 0, "inputMax": 2, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "filterType",
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "min": 0,
+      "max": 6,
+      "default": 0,
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 45, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": { "type": "cc", "cc": 80 }
+    },
+    {
+      "id": "filterCutoff", "min": 0, "max": 100, "default": 100,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 43, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc", "cc": 74,
+        "transform": { "inputMin": 0, "inputMax": 100, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "filterResonance", "min": 0, "max": 100, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 44, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc", "cc": 71,
+        "transform": { "inputMin": 0, "inputMax": 100, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "filterPitchTrack", "min": -800, "max": 800, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 46, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc14", "ccMsb": 29,
+        "transform": { "inputMin": -800, "inputMax": 800, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "pitchCorrection", "min": 0, "max": 100, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 18, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc", "cc": 84,
+        "transform": { "inputMin": 0, "inputMax": 100, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "scale",
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "min": 0,
+      "max": 21,
+      "default": 0,
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 16, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": { "type": "cc", "cc": 85 }
+    },
+    {
+      "id": "rootNote",
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "min": 0,
+      "max": 11,
+      "default": 0,
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 17, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": { "type": "cc", "cc": 86 }
+    },
+    { "id": "lowNote",            "min": 0,   "max": 127, "default": 24,  "sendCommand": { "type": "cc",   "cc": 87   } },
+    { "id": "highNote",           "min": 0,   "max": 127, "default": 84,  "sendCommand": { "type": "cc",   "cc": 88   } },
+    {
+      "id": "transpose", "min": -64, "max": 63, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 19, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc", "cc": 102,
+        "transform": { "inputMin": -64, "inputMax": 63, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "masterVolume", "min": 0, "max": 100, "default": 79,
+      "sendCommand": {
+        "type": "cc14", "ccMsb": 7,
+        "transform": { "inputMin": 0, "inputMax": 100, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "presetVolume",
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "min": 0,
+      "max": 127,
+      "default": 127,
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 57, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": { "type": "cc", "cc": 103 }
+    },
+    {
+      "id": "delayTime", "min": 0, "max": 830, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 21, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc14", "ccMsb": 12,
+        "transform": { "inputMin": 0, "inputMax": 830, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "delayFeedback", "min": 0, "max": 100, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 23, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc14", "ccMsb": 14,
+        "transform": { "inputMin": 0, "inputMax": 100, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "delayType", "min": 0, "max": 3, "default": 0,
+      "sendCommand": {
+        "type": "sysex_map",
+        "options": {
+          "0": "F0 04 0B 06 08 00 00 00 00 00 00 00 00 00 00 00 01 4F 46 46 20 20 20 20 20 20 20 20 20 20 20 20 F7",
+          "1": "F0 04 0B 06 08 00 00 00 00 00 00 00 00 00 00 00 01 53 48 4F 52 54 20 44 45 4C 41 59 20 20 20 20 F7",
+          "2": "F0 04 0B 06 08 00 00 00 00 00 00 00 00 00 00 00 01 4D 45 44 20 44 45 4C 41 59 20 20 20 20 20 20 F7",
+          "3": "F0 04 0B 06 08 00 00 00 00 00 00 00 00 00 00 00 01 4C 4F 4E 47 20 44 45 4C 41 59 20 20 20 20 20 F7"
+        }
+      },
+      "onSetByValue": {
+        "0": [{ "param": "delayTime", "value": 0   }, { "param": "delayFeedback", "value": 0 }],
+        "1": [{ "param": "delayTime", "value": 21  }, { "param": "delayFeedback", "value": 2 }],
+        "2": [{ "param": "delayTime", "value": 53  }, { "param": "delayFeedback", "value": 5 }],
+        "3": [{ "param": "delayTime", "value": 145 }, { "param": "delayFeedback", "value": 7 }]
+      }
+    },
+    {
+      "id": "effectMix",
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 26, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": { "type": "cc", "cc": 91 }
+    },
+    {
+      "id": "volModVolume", "min": 0, "max": 1600, "default": 1260,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 56, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc14", "ccMsb": 26,
+        "transform": { "inputMin": 0, "inputMax": 1600, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "volModCutoff", "min": -100, "max": 100, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 48, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc14", "ccMsb": 27,
+        "transform": { "inputMin": -100, "inputMax": 100, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "volModResonance", "min": -200, "max": 200, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 47, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc14", "ccMsb": 28,
+        "transform": { "inputMin": -200, "inputMax": 200, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "volModScanFreq", "min": -400, "max": 400, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 52, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc14", "ccMsb": 23,
+        "transform": { "inputMin": -400, "inputMax": 400, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "volModScanAmount", "min": -400, "max": 400, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 54, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc14", "ccMsb": 25,
+        "transform": { "inputMin": -400, "inputMax": 400, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "pitchModResonance", "min": -400, "max": 400, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 55, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc14", "ccMsb": 30,
+        "transform": { "inputMin": -400, "inputMax": 400, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "pitchModScanFreq", "min": -400, "max": 400, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 51, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc14", "ccMsb": 22,
+        "transform": { "inputMin": -400, "inputMax": 400, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "pitchModScanAmount", "min": -400, "max": 400, "default": 0,
+      "source": "currentPatchSync",
+      "sourceRecordSelectorParam": "presetSlot",
+      "receiveDecode": { "type": "moogPackedTriplet16", "tripletIndex": 53, "tripletStartByte": 23, "output": "logical" },
+      "sendCommand": {
+        "type": "cc14", "ccMsb": 24,
+        "transform": { "inputMin": -400, "inputMax": 400, "outputMin": 0, "outputMax": 127 }
+      }
+    },
+    {
+      "id": "presetNameToSave",
+      "valueType": "string",
+      "stringRules": {
+        "maxLength": 14,
+        "uppercase": true,
+        "ascii": true,
+        "rightPadChar": " "
+      },
+      "initialString": ""
+    },
+    {
+      "id": "saveTargetSlot",
+      "min": 0,
+      "max": 31,
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Default",
+      "values": {
+        "waveform": 6,
+        "scanRate": 0,
+        "scanAmount": 0,
+        "scanPosition": 0,
+        "filterType": 0,
+        "filterCutoff": 100,
+        "filterResonance": 0,
+        "filterPitchTrack": 0,
+        "pitchCorrection": 0,
+        "scale": 0,
+        "rootNote": 0,
+        "lowNote": 24,
+        "highNote": 84,
+        "transpose": 0,
+        "masterVolume": 79,
+        "presetVolume": 127,
+        "delayTime": 0,
+        "delayFeedback": 0,
+        "delayType": 0,
+        "effectMix": 0,
+        "volModVolume": 1260,
+        "volModCutoff": 0,
+        "volModResonance": 0,
+        "volModScanFreq": 0,
+        "volModScanAmount": 0,
+        "pitchModResonance": 0,
+        "pitchModScanFreq": 0,
+        "pitchModScanAmount": 0
+      }
+    },
+    {
+      "name": "Traditional Theremin",
+      "values": {
+        "waveform": 6,
+        "scanRate": 0,
+        "scanAmount": 0,
+        "scanPosition": 0,
+        "filterType": 0,
+        "filterCutoff": 100,
+        "filterResonance": 0,
+        "filterPitchTrack": 0,
+        "pitchCorrection": 0,
+        "scale": 0,
+        "rootNote": 0,
+        "lowNote": 24,
+        "highNote": 84,
+        "transpose": 0,
+        "masterVolume": 79,
+        "presetVolume": 127,
+        "delayTime": 0,
+        "delayFeedback": 0,
+        "delayType": 0,
+        "effectMix": 0,
+        "volModVolume": 1260,
+        "volModCutoff": 0,
+        "volModResonance": 0,
+        "volModScanFreq": 0,
+        "volModScanAmount": 0,
+        "pitchModResonance": 0,
+        "pitchModScanFreq": 0,
+        "pitchModScanAmount": 0
+      }
+    },
+    {
+      "name": "Sine Wave",
+      "values": {
+        "waveform": 0,
+        "scanRate": 0,
+        "scanAmount": 0,
+        "scanPosition": 0,
+        "filterType": 0,
+        "filterCutoff": 100,
+        "filterResonance": 0,
+        "filterPitchTrack": 0,
+        "pitchCorrection": 50,
+        "scale": 0,
+        "rootNote": 0,
+        "lowNote": 24,
+        "highNote": 84,
+        "transpose": 0,
+        "masterVolume": 79,
+        "presetVolume": 127,
+        "delayTime": 0,
+        "delayFeedback": 0,
+        "delayType": 0,
+        "effectMix": 0,
+        "volModVolume": 1260,
+        "volModCutoff": 0,
+        "volModResonance": 0,
+        "volModScanFreq": 0,
+        "volModScanAmount": 0,
+        "pitchModResonance": 0,
+        "pitchModScanFreq": 0,
+        "pitchModScanAmount": 0
+      }
+    }
+  ],
+  "ui": {
+    "tabs": [
+      {
+        "label": "BASIC",
+        "sections": [
+          {
+            "title": "Patch Slot",
+            "helpAnchor": "basic-patches",
+            "controls": [
+              {
+                "type": "tile_picker",
+                "param": "presetSlot",
+                "label": "Patch Slot",
+                "color": "#2563EB",
+                "options": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+                "optionLabels": ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32"]
+              },
+              {
+                "type": "action",
+                "label": "Reload from device",
+                "action": "request"
+              }
+            ]
+          },
+          {
+            "title": "Save Current Values As",
+            "helpAnchor": "basic-patches",
+            "controls": [
+              {
+                "type": "text_input",
+                "param": "presetNameToSave",
+                "label": "Patch Name"
+              },
+              {
+                "type": "dropdown",
+                "param": "saveTargetSlot",
+                "label": "Target Slot",
+                "options": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
+                "optionLabels": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32"],
+                "inline": true
+              },
+              {
+                "type": "action",
+                "label": "Save as...",
+                "inline": true,
+                "action": "sequence",
+                "confirm": {
+                  "title": "Overwrite preset?",
+                  "text": "The selected preset slot will be permanently overwritten on the device. This cannot be undone.",
+                  "yesLabel": "Overwrite",
+                  "noLabel": "Cancel"
+                },
+                "steps": [
+                  { "type": "sysex_template", "template": "F0 04 0B 06 07 00 00 00 00 00 00 00 00 00 00 00 01 {{presetNameToSave:ascii14}} 00 F7" },
+                  { "type": "sysex", "bytes": "F0 04 0B 06 08 00 00 00 00 00 00 00 00 00 00 00 01 50 52 45 53 45 54 20 20 20 20 20 20 20 20 20 F7" },
+                  { "type": "send_param", "param": "waveform" },
+                  { "type": "send_param", "param": "scanRate" },
+                  { "type": "send_param", "param": "scanAmount" },
+                  { "type": "send_param", "param": "scanPosition" },
+                  { "type": "send_param", "param": "filterType" },
+                  { "type": "send_param", "param": "filterCutoff" },
+                  { "type": "send_param", "param": "filterResonance" },
+                  { "type": "send_param", "param": "filterPitchTrack" },
+                  { "type": "send_param", "param": "pitchCorrection" },
+                  { "type": "send_param", "param": "scale" },
+                  { "type": "send_param", "param": "rootNote" },
+                  { "type": "send_param", "param": "lowNote" },
+                  { "type": "send_param", "param": "highNote" },
+                  { "type": "send_param", "param": "transpose" },
+                  { "type": "send_param", "param": "masterVolume" },
+                  { "type": "send_param", "param": "presetVolume" },
+                  { "type": "send_param", "param": "delayTime" },
+                  { "type": "send_param", "param": "delayFeedback" },
+                  { "type": "send_param", "param": "delayType" },
+                  { "type": "send_param", "param": "effectMix" },
+                  { "type": "send_param", "param": "volModVolume" },
+                  { "type": "send_param", "param": "volModCutoff" },
+                  { "type": "send_param", "param": "volModResonance" },
+                  { "type": "send_param", "param": "volModScanFreq" },
+                  { "type": "send_param", "param": "volModScanAmount" },
+                  { "type": "send_param", "param": "pitchModResonance" },
+                  { "type": "send_param", "param": "pitchModScanFreq" },
+                  { "type": "send_param", "param": "pitchModScanAmount" },
+                  { "type": "program_change", "param": "saveTargetSlot" },
+                  { "type": "cc", "cc": 119, "value": 127 }
+                ]
+              },
+              {
+                "type": "action",
+                "label": "Quick Save",
+                "action": "cc",
+                "cc": 119,
+                "value": 127,
+                "confirm": {
+                  "title": "Quick Save?",
+                  "text": "All current values will be stored permanently on the current slot. This cannot be undone.",
+                  "yesLabel": "Save",
+                  "noLabel": "Cancel"
+                }
+              }
+            ]
+          },
+          {
+            "title": "Scale and Pitch Correction",
+            "helpAnchor": "basic-scale-pitch",
+            "controls": [
+              {
+                "type": "dropdown",
+                "param": "scale",
+                "label": "Scale",
+                "color": "#2563EB",
+                "options": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
+                "optionLabels": [
+                  "Chromatic", "Ionian", "Dorian", "Phrygian", "Lydian",
+                  "Mixolydian", "Aeolian", "Locrian", "Major Blues", "Minor Blues",
+                  "Diminished", "Major Penta", "Minor Penta", "Spanish", "Gypsy",
+                  "Arabian", "Egyptian", "Ryukyu", "Wholetone", "Major 3rd",
+                  "Minor 3rd", "5th"
+                ]
+              },
+              {
+                "type": "tile_picker",
+                "param": "rootNote",
+                "label": "Root",
+                "color": "#1D4ED8",
+                "options": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                "optionLabels": ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+              },
+              { "type": "knob", "param": "pitchCorrection", "label": "Pitch Correction (%)", "color": "#3B82F6" }
+            ]
+          },
+          {
+            "title": "Wave and Scan",
+            "helpAnchor": "basic-wave-scan",
+            "controls": [
+              {
+                "type": "tile_picker",
+                "param": "waveform",
+                "label": "Waveform",
+                "color": "#0F766E",
+                "options": [0, 1, 2, 3, 4, 5, 6],
+                "optionLabels": ["Sine", "Triangle", "Super Saw", "Animoog 1", "Bright", "Hollow", "Etherwave"]
+              },
+              { "type": "knob",   "param": "scanRate",     "label": "Scan Rate (Hz)", "color": "#14B8A6" },
+              { "type": "knob",   "param": "scanAmount",   "label": "Scan Amount (0-2)", "color": "#0D9488" },
+              { "type": "knob",   "param": "scanPosition", "label": "Scan Position (0-2)", "color": "#0F766E" }
+            ]
+          },
+          {
+            "title": "Filter",
+            "helpAnchor": "basic-filter",
+            "controls": [
+              {
+                "type": "tile_picker",
+                "param": "filterType",
+                "label": "Filter Type",
+                "color": "#D97706",
+                "options": [0, 1, 2, 3, 4],
+                "optionLabels": ["None", "2-Pole LP", "2-Pole BP", "2-Pole HP", "2-Pole Notch"]
+              },
+              { "type": "knob", "param": "filterCutoff",    "label": "Cutoff (%)", "color": "#F59E0B" },
+              { "type": "knob", "param": "filterResonance", "label": "Resonance (%)", "color": "#D97706" },
+              { "type": "knob", "param": "filterPitchTrack","label": "Pitch Track (%)", "color": "#B45309" }
+            ]
+          },
+          {
+            "title": "Delay",
+            "helpAnchor": "basic-delay",
+            "controls": [
+              {
+                "type": "tile_picker",
+                "param": "delayType",
+                "label": "Delay Type",
+                "color": "#7C3AED",
+                "options": [0, 1, 2, 3],
+                "optionLabels": ["Off", "Short", "Med", "Long"]
+              },
+              { "type": "knob", "param": "delayTime",     "label": "Delay Time (ms)", "color": "#8B5CF6" },
+              { "type": "knob", "param": "delayFeedback", "label": "Feedback (%)", "color": "#7C3AED" },
+              { "type": "knob", "param": "effectMix",     "label": "Amount", "color": "#6D28D9" }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "ADVANCED",
+        "sections": [
+          {
+            "title": "Volume Antenna",
+            "helpAnchor": "advanced",
+            "controls": [
+              { "type": "knob", "param": "volModVolume",     "label": "Volume Mod (%)", "color": "#22C55E" },
+              { "type": "knob", "param": "volModCutoff",     "label": "Cutoff Mod (%)", "color": "#16A34A" },
+              { "type": "knob", "param": "volModResonance",  "label": "Resonance Mod (%)", "color": "#15803D" },
+              { "type": "knob", "param": "volModScanFreq",   "label": "Scan Rate Mod (%)", "color": "#166534" },
+              { "type": "knob", "param": "volModScanAmount", "label": "Scan Amount Mod (%)", "color": "#14532D" }
+            ]
+          },
+          {
+            "title": "Pitch Antenna",
+            "helpAnchor": "advanced",
+            "controls": [
+              { "type": "knob", "param": "pitchModResonance",  "label": "Resonance Mod (%)", "color": "#EC4899" },
+              { "type": "knob", "param": "pitchModScanFreq",   "label": "Scan Rate Mod (%)", "color": "#DB2777" },
+              { "type": "knob", "param": "pitchModScanAmount", "label": "Scan Amount Mod (%)", "color": "#BE185D" }
+            ]
+          },
+          {
+            "title": "Pitch Transpose",
+            "helpAnchor": "advanced",
+            "controls": [
+              { "type": "knob", "param": "transpose", "label": "Transpose (st)", "min": -64, "max": 63, "color": "#EF4444" },
+              { "type": "knob", "param": "presetVolume", "label": "Preset Volume", "color": "#DC2626" }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "GLOBAL SETTINGS",
+        "sections": [
+          {
+            "title": "Global",
+            "helpAnchor": "global-settings",
+            "controls": [
+              { "type": "knob", "param": "masterVolume", "label": "Master Volume (%)", "color": "#6366F1" },
+              {
+                "type": "knob",
+                "param": "lowNote",
+                "label": "Lo Note",
+                "min": 0,
+                "max": 127,
+                "color": "#4F46E5",
+                "valueFormatter": {
+                  "type": "midi_note",
+                  "octaveBase": -1,
+                  "style": "sharp"
+                }
+              },
+              {
+                "type": "knob",
+                "param": "highNote",
+                "label": "Hi Note",
+                "min": 0,
+                "max": 127,
+                "color": "#4338CA",
+                "valueFormatter": {
+                  "type": "midi_note",
+                  "octaveBase": -1,
+                  "style": "sharp"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "actions": [
+      { "label": "Send All", "action": "writeAll", "tabs": ["BASIC","ADVANCED","GLOBAL SETTINGS"] }
+    ]
+  },
+  "help": [
+    {
+      "title": "Moog Theremini – Overview",
+      "icon": "music_note",
+      "entries": [
+        {
+          "type": "para",
+          "text": "The Moog Theremini is a digital theremin with built-in pitch correction, a synthesizer engine, and audio effects. This plugin lets you edit and control the Theremini from Hemiola."
+        },
+        {
+          "type": "note",
+          "text": "Connect via USB. The Theremini listens on MIDI channel 1 by default. Use the front-panel Setup menu if you need to change the channel."
+        },
+        {
+          "type": "para",
+          "text": "Use 'Reload from device' in the Patch Slot section to re-read the current sound from the Theremini. Use 'Send All' to push all current values from Hemiola to the device. Use 'Quick Save' in the Save Current Values As section to write the current settings permanently into the selected preset slot."
+        }
+      ]
+    },
+    {
+      "anchor": "basic-patches",
+      "title": "BASIC - Patches",
+      "icon": "save",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "Patch Slot"
+        },
+        {
+          "type": "para",
+          "text": "The Theremini stores 32 preset slots. Tap a slot to load it instantly — the device switches to that preset and all controls in Hemiola update to reflect its values. The currently active slot is highlighted."
+        },
+        {
+          "type": "subtitle",
+          "text": "Target Slot"
+        },
+        {
+          "type": "para",
+          "text": "Choose one of the 32 preset slots as the save destination. Its existing content will be overwritten."
+        },
+        {
+          "type": "subtitle",
+          "text": "Patch Name"
+        },
+        {
+          "type": "para",
+          "text": "Type a name for the patch — up to 14 characters. The name is stored on the device alongside the patch settings."
+        },
+        {
+          "type": "subtitle",
+          "text": "Save as..."
+        },
+        {
+          "type": "para",
+          "text": "Writes all current parameter values to the device, sets the patch name, then stores the result permanently into the selected preset slot. A confirmation prompt appears first."
+        }
+      ]
+    },
+    {
+      "anchor": "basic-wave-scan",
+      "title": "BASIC - Wave and Scan",
+      "icon": "graphic_eq",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "Waveform"
+        },
+        {
+          "type": "para",
+          "text": "Select the oscillator waveform. Etherwave gives the classic theremin timbre. Animoog 1 is a wavetable voice with animated scan. Sine, Triangle, Super Saw, Bright, and Hollow offer different tonal characters."
+        },
+        {
+          "type": "subtitle",
+          "text": "Wavetable Scan"
+        },
+        {
+          "type": "para",
+          "text": "Scan Rate sets how fast the wavetable cycles. Scan Amount controls how wide the sweep is. Scan Position sets the starting point within the wavetable. Scan controls are most effective with wavetable waveforms such as Animoog 1 and Etherwave."
+        }
+      ]
+    },
+    {
+      "anchor": "basic-filter",
+      "title": "BASIC - Filter",
+      "icon": "tune",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "Filter Type"
+        },
+        {
+          "type": "para",
+          "text": "Choose the filter character. Lowpass darkens the tone by attenuating highs. Bandpass isolates a frequency band. Highpass thins the tone by attenuating lows. Notch removes a narrow frequency band. None passes the signal without filtering."
+        },
+        {
+          "type": "subtitle",
+          "text": "Cutoff"
+        },
+        {
+          "type": "para",
+          "text": "Sets the frequency dividing line for the active filter type. Higher values open the filter; lower values close it."
+        },
+        {
+          "type": "subtitle",
+          "text": "Resonance"
+        },
+        {
+          "type": "para",
+          "text": "Boosts the frequencies around the cutoff point. High resonance values produce a sharp, ringing peak."
+        },
+        {
+          "type": "subtitle",
+          "text": "Pitch Track"
+        },
+        {
+          "type": "para",
+          "text": "Makes the filter cutoff follow the pitch you play. At 0 there is no tracking — the filter stays where you set it. Positive values open the filter as you play higher; negative values close it."
+        }
+      ]
+    },
+    {
+      "anchor": "basic-scale-pitch",
+      "title": "BASIC - Scale and Pitch",
+      "icon": "piano",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "Scale & Root"
+        },
+        {
+          "type": "para",
+          "text": "The Scale and Root Note define which notes are available when Pitch Correction is active. Chromatic allows all 12 pitch classes. The remaining scales restrict available notes to a specific musical mode or genre scale."
+        },
+        {
+          "type": "subtitle",
+          "text": "Pitch Correction"
+        },
+        {
+          "type": "para",
+          "text": "Controls how strongly the Theremini snaps the pitch to the nearest note in the selected scale. At 0 the instrument plays exactly as a traditional theremin with no pitch assistance. As you increase the value, notes become more quantised and easier to play in tune."
+        }
+      ]
+    },
+    {
+      "anchor": "basic-delay",
+      "title": "BASIC - Delay",
+      "icon": "blur_on",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "Delay"
+        },
+        {
+          "type": "para",
+          "text": "The Theremini has a built-in stereo delay effect. Delay Time sets the echo interval. Feedback controls how many repeats are heard. Amount blends the dry signal with the delayed signal."
+        },
+        {
+          "type": "note",
+          "text": "Set Delay Type to Off to disable the effect entirely."
+        }
+      ]
+    },
+    {
+      "anchor": "advanced",
+      "title": "ADVANCED",
+      "icon": "waves",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "Volume Antenna"
+        },
+        {
+          "type": "para",
+          "text": "These controls define how moving your hand toward the Volume Antenna affects each sound parameter in addition to the volume itself. A value of 0 on any bipolar control means no modulation from the volume antenna for that parameter."
+        },
+        {
+          "type": "subtitle",
+          "text": "Pitch Antenna"
+        },
+        {
+          "type": "para",
+          "text": "These controls define how moving your hand toward the Pitch Antenna modulates resonance and scan parameters alongside the pitch. A value of 0 means no additional modulation."
+        },
+        {
+          "type": "subtitle",
+          "text": "Pitch Transpose and Preset Volume"
+        },
+        {
+          "type": "para",
+          "text": "Transpose shifts the entire playable pitch range up or down in semitones. Preset Volume sets the output level stored with this patch."
+        }
+      ]
+    },
+    {
+      "anchor": "global-settings",
+      "title": "GLOBAL SETTINGS",
+      "icon": "settings",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "Master Volume"
+        },
+        {
+          "type": "para",
+          "text": "Controls the overall output level of the instrument regardless of the patch."
+        },
+        {
+          "type": "subtitle",
+          "text": "Lo Note / Hi Note"
+        },
+        {
+          "type": "para",
+          "text": "Sets the note range the pitch antenna covers. Lo Note is the pitch farthest from your hand; Hi Note is the pitch closest. A narrower range makes individual notes easier to target."
+        }
+      ]
+    },
+    {
+      "title": "Tips",
+      "icon": "info",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "Playing in tune"
+        },
+        {
+          "type": "para",
+          "text": "Set a Scale and Root Note, then raise Pitch Correction to make individual notes snap into place. A lower Pitch Correction value gives a more expressive, gliding theremin feel; a higher value makes melody playing easier."
+        },
+        {
+          "type": "subtitle",
+          "text": "Saving your work"
+        },
+        {
+          "type": "para",
+          "text": "Changes you make in Hemiola are sent live to the Theremini but are not stored until you save. Use 'Quick Save' in the Save Current Values As section to write the current settings into the currently active preset slot, or use 'Save as...' to name the patch and choose a specific target slot."
+        },
+        {
+          "type": "subtitle",
+          "text": "Antenna modulation"
+        },
+        {
+          "type": "para",
+          "text": "The ADVANCED tab lets you shape how the antennas influence the sound beyond pitch and volume. Experimenting with small modulation values on filter cutoff or scan parameters can add expressive movement to the tone as you play."
+        }
+      ]
+    }
+  ]
+}

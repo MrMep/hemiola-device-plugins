@@ -1,0 +1,1041 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hemiola.dev/schema/hemiola-plugin.schema.json",
+  "title": "Hemiola Device Plugin",
+  "description": "JSON schema for Hemiola device plugins.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "slug",
+    "name",
+    "manufacturer",
+    "author",
+    "triggers",
+    "protocol",
+    "parameters",
+    "ui"
+  ],
+  "properties": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "manufacturer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Plugin author or developer name"
+    },
+    "version": {
+      "type": "string",
+      "default": "1.0.0"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "triggers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "requiresLandscape": {
+      "type": "boolean",
+      "default": false
+    },
+    "protocol": {
+      "$ref": "#/$defs/protocol"
+    },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/parameter"
+      }
+    },
+    "presets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/devicePreset"
+      }
+    },
+    "ui": {
+      "$ref": "#/$defs/ui"
+    },
+    "help": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/helpSection"
+      }
+    },
+    "_notes": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "hexBytes": {
+      "type": "string",
+      "pattern": "^(?:\\$[A-Z][A-Z0-9]*|[A-Fa-f0-9]{1,2}|0x[A-Fa-f0-9]{1,2})(?:\\s+(?:\\$[A-Z][A-Z0-9]*|[A-Fa-f0-9]{1,2}|0x[A-Fa-f0-9]{1,2}))*$"
+    },
+    "linearTransform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inputMin",
+        "inputMax",
+        "outputMin",
+        "outputMax"
+      ],
+      "properties": {
+        "inputMin": { "type": "integer" },
+        "inputMax": { "type": "integer" },
+        "outputMin": { "type": "integer" },
+        "outputMax": { "type": "integer" }
+      }
+    },
+    "midiCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bytes"],
+      "properties": {
+        "bytes": { "$ref": "#/$defs/hexBytes" }
+      }
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["cc", "sysex", "mixed"]
+        },
+        "channel": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 15,
+          "default": 0
+        },
+        "autoWrite": {
+          "type": "boolean",
+          "default": false
+        },
+        "onConnect": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/midiCommand" }
+        },
+        "responses": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/response" }
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "match"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "match": { "$ref": "#/$defs/hexBytes" },
+        "container": { "$ref": "#/$defs/container" },
+        "writePrefix": { "$ref": "#/$defs/hexBytes" },
+        "checksumType": {
+          "type": "string",
+          "enum": ["robkoo_xor"]
+        },
+        "writeLength": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "role": {
+          "type": "string",
+          "enum": ["battery", "patch_list"]
+        },
+        "byteIndex": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pcByteIndex": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "internalIdByteIndex": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "versionByteIndex": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "typeMap": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "propertyNames": { "pattern": "^[0-9]+$" }
+        },
+        "nameMap": {
+          "type": "object",
+          "propertyNames": { "pattern": "^[0-9]+$" },
+          "additionalProperties": {
+            "type": "object",
+            "propertyNames": { "pattern": "^[0-9]+$" },
+            "additionalProperties": { "type": "string" }
+          }
+        }
+      }
+    },
+    "container": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "headerBytes",
+        "recordCount",
+        "recordStride",
+        "recordPayloadBytes"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["fixed_stride_records"]
+        },
+        "headerBytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "recordCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "recordStride": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "recordPayloadBytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "recordSeparator": { "$ref": "#/$defs/hexBytes" }
+      }
+    },
+    "ccMessage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cc"],
+      "properties": {
+        "cc": { "type": "integer", "minimum": 0, "maximum": 127 },
+        "value": { "type": "integer", "minimum": 0, "maximum": 127 },
+        "useParam": { "type": "boolean", "default": false }
+      }
+    },
+    "receiveCC": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cc"],
+      "properties": {
+        "cc": { "type": "integer", "minimum": 0, "maximum": 127 },
+        "channel": { "type": "integer", "minimum": 0, "maximum": 15 },
+        "transform": { "$ref": "#/$defs/linearTransform" }
+      }
+    },
+    "paramSetRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["param"],
+      "properties": {
+        "param": { "type": "string", "minLength": 1 },
+        "value": { "type": "integer" }
+      }
+    },
+    "stringParamRules": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "maxLength": { "type": "integer", "minimum": 1, "default": 64 },
+        "ascii": { "type": "boolean", "default": true },
+        "uppercase": { "type": "boolean", "default": false },
+        "rightPadChar": { "type": "string", "minLength": 1, "maxLength": 1, "default": " " }
+      }
+    },
+    "sendCommand": {
+      "type": "object",
+      "oneOf": [
+        { "$ref": "#/$defs/sendCommandCc" },
+        { "$ref": "#/$defs/sendCommandCc14" },
+        { "$ref": "#/$defs/sendCommandSysexMap" },
+        { "$ref": "#/$defs/sendCommandProgramChange" },
+        { "$ref": "#/$defs/sendCommandNrpn" },
+        { "$ref": "#/$defs/sendCommandSysex" },
+        { "$ref": "#/$defs/sendCommandMultiSysex" },
+        { "$ref": "#/$defs/sendCommandCcPair" },
+        { "$ref": "#/$defs/sendCommandCcSequence" }
+      ]
+    },
+    "sendCommandBase": {
+      "type": "object",
+      "properties": {
+        "channel": { "type": "integer", "minimum": 0, "maximum": 15 },
+        "transform": { "$ref": "#/$defs/linearTransform" }
+      }
+    },
+    "sendCommandCc": {
+      "allOf": [
+        { "$ref": "#/$defs/sendCommandBase" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "cc"],
+          "properties": {
+            "type": { "const": "cc" },
+            "cc": { "type": "integer", "minimum": 0, "maximum": 127 },
+            "channel": { "type": "integer", "minimum": 0, "maximum": 15 },
+            "transform": { "$ref": "#/$defs/linearTransform" }
+          }
+        }
+      ]
+    },
+    "sendCommandCc14": {
+      "allOf": [
+        { "$ref": "#/$defs/sendCommandBase" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "ccMsb"],
+          "properties": {
+            "type": { "const": "cc14" },
+            "ccMsb": { "type": "integer", "minimum": 0, "maximum": 31 },
+            "ccLsb": { "type": "integer", "minimum": 32, "maximum": 63 },
+            "exactPairs": {
+              "type": "object",
+              "propertyNames": { "pattern": "^(?:[0-9]|[1-9][0-9]|1[01][0-9]|12[0-7])$" },
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["msb", "lsb"],
+                "properties": {
+                  "msb": { "type": "integer", "minimum": 0, "maximum": 127 },
+                  "lsb": { "type": "integer", "minimum": 0, "maximum": 127 }
+                }
+              }
+            },
+            "channel": { "type": "integer", "minimum": 0, "maximum": 15 },
+            "transform": { "$ref": "#/$defs/linearTransform" }
+          }
+        }
+      ]
+    },
+    "sendCommandSysexMap": {
+      "allOf": [
+        { "$ref": "#/$defs/sendCommandBase" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "options"],
+          "properties": {
+            "type": { "const": "sysex_map" },
+            "options": {
+              "type": "object",
+              "propertyNames": { "pattern": "^-?[0-9]+$" },
+              "additionalProperties": { "$ref": "#/$defs/hexBytes" }
+            },
+            "channel": { "type": "integer", "minimum": 0, "maximum": 15 },
+            "transform": { "$ref": "#/$defs/linearTransform" }
+          }
+        }
+      ]
+    },
+    "sendCommandProgramChange": {
+      "allOf": [
+        { "$ref": "#/$defs/sendCommandBase" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": { "const": "program_change" },
+            "channel": { "type": "integer", "minimum": 0, "maximum": 15 },
+            "transform": { "$ref": "#/$defs/linearTransform" }
+          }
+        }
+      ]
+    },
+    "sendCommandNrpn": {
+      "allOf": [
+        { "$ref": "#/$defs/sendCommandBase" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "nrpnMsb", "nrpnLsb"],
+          "properties": {
+            "type": { "const": "nrpn" },
+            "nrpnMsb": { "type": "integer", "minimum": 0, "maximum": 127 },
+            "nrpnLsb": { "type": "integer", "minimum": 0, "maximum": 127 },
+            "channel": { "type": "integer", "minimum": 0, "maximum": 15 },
+            "transform": { "$ref": "#/$defs/linearTransform" }
+          }
+        }
+      ]
+    },
+    "sendCommandSysex": {
+      "allOf": [
+        { "$ref": "#/$defs/sendCommandBase" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "bytes"],
+          "properties": {
+            "type": { "const": "sysex" },
+            "bytes": { "$ref": "#/$defs/hexBytes" },
+            "checksum": {
+              "type": "string",
+              "enum": ["ae01", "robkoo_xor"]
+            },
+            "postChecksumBytes": {
+              "type": "array",
+              "items": { "type": "integer", "minimum": 0, "maximum": 127 }
+            },
+            "nibbleScale": { "type": "number" },
+            "channel": { "type": "integer", "minimum": 0, "maximum": 15 },
+            "transform": { "$ref": "#/$defs/linearTransform" }
+          }
+        }
+      ]
+    },
+    "sendCommandMultiSysex": {
+      "allOf": [
+        { "$ref": "#/$defs/sendCommandBase" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "bytes"],
+          "properties": {
+            "type": { "const": "multi_sysex" },
+            "bytes": { "$ref": "#/$defs/hexBytes" },
+            "channelByteIndex": { "type": "integer", "minimum": 0 },
+            "channelByteBase": { "type": "integer", "minimum": 0, "maximum": 127 },
+            "paramRefs": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "channel": { "type": "integer", "minimum": 0, "maximum": 15 },
+            "transform": { "$ref": "#/$defs/linearTransform" }
+          }
+        }
+      ]
+    },
+    "sendCommandCcPair": {
+      "allOf": [
+        { "$ref": "#/$defs/sendCommandBase" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "cc1", "cc1Value", "cc2"],
+          "properties": {
+            "type": { "const": "cc_pair" },
+            "cc1": { "type": "integer", "minimum": 0, "maximum": 127 },
+            "cc1Value": { "type": "integer", "minimum": 0, "maximum": 127 },
+            "cc2": { "type": "integer", "minimum": 0, "maximum": 127 },
+            "channel": { "type": "integer", "minimum": 0, "maximum": 15 },
+            "transform": { "$ref": "#/$defs/linearTransform" }
+          }
+        }
+      ]
+    },
+    "sendCommandCcSequence": {
+      "allOf": [
+        { "$ref": "#/$defs/sendCommandBase" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "messages"],
+          "properties": {
+            "type": { "const": "cc_sequence" },
+            "messages": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/ccMessage" }
+            },
+            "channel": { "type": "integer", "minimum": 0, "maximum": 15 },
+            "transform": { "$ref": "#/$defs/linearTransform" }
+          }
+        }
+      ]
+    },
+    "receiveDecode": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string", "enum": ["moogPackedTriplet16"] },
+        "tripletIndex": { "type": "integer", "minimum": 0 },
+        "tripletStartByte": { "type": "integer", "minimum": 0 },
+        "byteIndex": { "type": "integer", "minimum": 0 },
+        "output": { "type": "string", "enum": ["logical", "u16", "normalized"] }
+      },
+      "required": ["type"],
+      "oneOf": [
+        {
+          "required": ["tripletIndex"]
+        },
+        {
+          "required": ["byteIndex"]
+        }
+      ]
+    },
+    "parameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "min": { "type": "integer" },
+        "max": { "type": "integer" },
+        "default": { "type": "integer" },
+        "source": { "type": "string" },
+        "byteIndex": { "type": "integer", "minimum": 0 },
+        "sourceRecordSelectorParam": { "type": "string", "minLength": 1 },
+        "receiveDecode": { "$ref": "#/$defs/receiveDecode" },
+        "valueOffset": { "type": "integer" },
+        "valueInvert": { "type": "boolean", "default": false },
+        "cc": { "type": "integer", "minimum": 0, "maximum": 127 },
+        "channel": { "type": "integer", "minimum": 0, "maximum": 15 },
+        "sendCommand": { "$ref": "#/$defs/sendCommand" },
+        "receiveCC": { "$ref": "#/$defs/receiveCC" },
+        "sendValueMap": {
+          "type": "object",
+          "propertyNames": { "pattern": "^-?[0-9]+$" },
+          "additionalProperties": { "type": "integer" }
+        },
+        "receiveValueMap": {
+          "type": "object",
+          "propertyNames": { "pattern": "^-?[0-9]+$" },
+          "additionalProperties": { "type": "integer" }
+        },
+        "onSet": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/paramSetRule" }
+        },
+        "onSetByValue": {
+          "type": "object",
+          "propertyNames": { "pattern": "^-?[0-9]+$" },
+          "additionalProperties": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/paramSetRule" }
+          }
+        },
+        "valueType": {
+          "type": "string",
+          "enum": ["int", "string"],
+          "default": "int"
+        },
+        "stringRules": { "$ref": "#/$defs/stringParamRules" },
+        "initialString": { "type": "string" }
+      }
+    },
+    "devicePreset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "values"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "values": {
+          "type": "object",
+          "propertyNames": { "type": "string" },
+          "additionalProperties": { "type": "integer" }
+        }
+      }
+    },
+    "presetOption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "values"],
+      "properties": {
+        "label": { "type": "string", "minLength": 1 },
+        "values": {
+          "type": "array",
+          "items": { "type": "integer" }
+        }
+      }
+    },
+    "pressedKeysSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "bitByteIndex", "bits"],
+      "properties": {
+        "source": { "type": "string" },
+        "bitByteIndex": { "type": "integer", "minimum": 0 },
+        "bits": {
+          "type": "array",
+          "items": { "type": "integer" }
+        },
+        "bitOrder": {
+          "type": "string",
+          "enum": ["msb", "lsb"],
+          "default": "msb"
+        }
+      }
+    },
+    "pressedKeysGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["indices"],
+      "properties": {
+        "indices": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 0 }
+        },
+        "label": { "type": "string" }
+      }
+    },
+    "valueFormatter": {
+      "type": "object",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": { "const": "midi_note" },
+            "octaveBase": { "type": "integer" },
+            "style": {
+              "type": "string",
+              "enum": ["sharp", "flat"],
+              "default": "sharp"
+            }
+          }
+        }
+      ]
+    },
+    "keyboardDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["options", "optionLabels"],
+      "properties": {
+        "options": {
+          "type": "array",
+          "items": { "type": "integer" }
+        },
+        "optionLabels": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "noteParams": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "groups": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/pressedKeysGroup" }
+        },
+        "sources": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/pressedKeysSource" }
+        },
+        "source": { "type": "string" },
+        "bitByteIndex": { "type": "integer", "minimum": 0 },
+        "bits": {
+          "type": "array",
+          "items": { "type": "integer" }
+        },
+        "bitOrder": {
+          "type": "string",
+          "enum": ["msb", "lsb"],
+          "default": "msb"
+        },
+        "keyBits": {
+          "type": "array",
+          "items": { "type": "integer" }
+        }
+      }
+    },
+    "control": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "label"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "slider",
+            "dropdown",
+            "toggle",
+            "knob",
+            "tile_picker",
+            "preset_picker",
+            "cc_select",
+            "pressed_keys",
+            "custom_fingering_manager",
+            "text_input",
+            "action"
+          ]
+        },
+        "param": { "type": "string" },
+        "label": { "type": "string" },
+        "action": {
+          "type": "string",
+          "enum": ["writeAll", "request", "sysex", "cc", "sequence"]
+        },
+        "bytes": { "$ref": "#/$defs/hexBytes" },
+        "cc": { "type": "integer", "minimum": 0, "maximum": 127 },
+        "value": { "type": "integer", "minimum": 0, "maximum": 127 },
+        "channel": { "type": "integer", "minimum": 0, "maximum": 15 },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/sequenceStep" }
+        },
+        "confirm": { "$ref": "#/$defs/actionConfirm" },
+        "tabs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "inline": { "type": "boolean", "default": false },
+        "min": { "type": "integer" },
+        "max": { "type": "integer" },
+        "options": {
+          "type": "array",
+          "items": { "type": "integer" }
+        },
+        "optionLabels": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "noteParams": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "size": { "type": "number", "exclusiveMinimum": 0 },
+        "color": {
+          "oneOf": [
+            { "type": "integer" },
+            { "type": "string", "pattern": "^#(?:[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$" }
+          ]
+        },
+        "displayOffset": { "type": "integer" },
+        "inputOffset": { "type": "integer" },
+        "valueFormatter": { "$ref": "#/$defs/valueFormatter" },
+        "colors": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "integer" },
+              { "type": "string", "pattern": "^#(?:[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$" }
+            ]
+          }
+        },
+        "params": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "presets": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/presetOption" }
+        },
+        "valueOffset": { "type": "integer" },
+        "patchListSource": { "type": "string" },
+        "patchNameMap": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "keyboardRef": { "type": "string" },
+        "sources": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/pressedKeysSource" }
+        },
+        "source": { "type": "string" },
+        "bitByteIndex": { "type": "integer", "minimum": 0 },
+        "bits": {
+          "type": "array",
+          "items": { "type": "integer" }
+        },
+        "bitOrder": {
+          "type": "string",
+          "enum": ["msb", "lsb"],
+          "default": "msb"
+        },
+        "groups": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/pressedKeysGroup" }
+        },
+        "noteOnVelocity": { "type": "integer", "minimum": 0, "maximum": 127 },
+        "keyBits": {
+          "type": "array",
+          "items": { "type": "integer" }
+        },
+        "customProfile": { "type": "string" },
+        "slotDataOffset": { "type": "integer", "minimum": 0 },
+        "slotCount": { "type": "integer", "minimum": 1 },
+        "includeDisabledSlot": { "type": "boolean", "default": false },
+        "slotDataSource": { "type": "string" },
+        "disabledDataSource": { "type": "string" },
+        "addressPrefix": {
+          "type": "array",
+          "items": { "type": "integer" }
+        },
+        "slotStride": { "type": "integer", "minimum": 0 },
+        "enabledOffset": { "type": "integer", "minimum": 0 },
+        "highOffset": { "type": "integer", "minimum": 0 },
+        "lowOffset": { "type": "integer", "minimum": 0 },
+        "noteOffset": { "type": "integer", "minimum": 0 },
+        "disabledHighAddress": {
+          "type": "array",
+          "items": { "type": "integer" }
+        },
+        "disabledLowAddress": {
+          "type": "array",
+          "items": { "type": "integer" }
+        },
+        "checksum": {
+          "type": "string",
+          "enum": ["ae01", "robkoo_xor"]
+        },
+        "listenStreamParam": { "type": "string" },
+        "padModeParam": { "type": "string" },
+        "enabled": { "type": "boolean", "default": true }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "action" } } },
+          "then": { "required": ["action"] }
+        }
+      ]
+    },
+    "section": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["controls"],
+      "properties": {
+        "title": { "type": "string" },
+        "helpAnchor": { "type": "string", "minLength": 1 },
+        "controls": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/control" }
+        },
+        "enabled": { "type": "boolean", "default": true }
+      }
+    },
+    "tab": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "sections"],
+      "properties": {
+        "label": { "type": "string" },
+        "sections": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/section" }
+        },
+        "enabled": { "type": "boolean", "default": true }
+      }
+    },
+    "sequenceStep": {
+      "type": "object",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "template"],
+          "properties": {
+            "type": { "const": "sysex_template" },
+            "template": { "type": "string", "minLength": 1 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "bytes"],
+          "properties": {
+            "type": { "const": "sysex" },
+            "bytes": { "$ref": "#/$defs/hexBytes" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": { "const": "writeAll" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "param"],
+          "properties": {
+            "type": { "const": "send_param" },
+            "param": { "type": "string", "minLength": 1 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": { "const": "program_change" },
+            "value": { "type": "integer", "minimum": 0, "maximum": 127 },
+            "param": { "type": "string", "minLength": 1 },
+            "channel": { "type": "integer", "minimum": 0, "maximum": 15 }
+          },
+          "oneOf": [
+            {
+              "required": ["value"],
+              "not": { "required": ["param"] }
+            },
+            {
+              "required": ["param"],
+              "not": { "required": ["value"] }
+            }
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "cc", "value"],
+          "properties": {
+            "type": { "const": "cc" },
+            "cc": { "type": "integer", "minimum": 0, "maximum": 127 },
+            "value": { "type": "integer", "minimum": 0, "maximum": 127 },
+            "channel": { "type": "integer", "minimum": 0, "maximum": 15 }
+          }
+        }
+      ]
+    },
+    "actionConfirm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "text", "yesLabel", "noLabel"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "text": { "type": "string", "minLength": 1 },
+        "yesLabel": { "type": "string", "minLength": 1 },
+        "noLabel": { "type": "string", "minLength": 1 }
+      }
+    },
+    "action": {
+      "type": "object",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label", "action"],
+          "properties": {
+            "label": { "type": "string" },
+            "action": { "enum": ["writeAll", "request"] },
+            "confirm": { "$ref": "#/$defs/actionConfirm" },
+            "tabs": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "uniqueItems": true
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label", "action", "bytes"],
+          "properties": {
+            "label": { "type": "string" },
+            "action": { "const": "sysex" },
+            "bytes": { "$ref": "#/$defs/hexBytes" },
+            "confirm": { "$ref": "#/$defs/actionConfirm" },
+            "tabs": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "uniqueItems": true
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label", "action", "cc"],
+          "properties": {
+            "label": { "type": "string" },
+            "action": { "const": "cc" },
+            "cc": { "type": "integer", "minimum": 0, "maximum": 127 },
+            "value": { "type": "integer", "minimum": 0, "maximum": 127 },
+            "channel": { "type": "integer", "minimum": 0, "maximum": 15 },
+            "confirm": { "$ref": "#/$defs/actionConfirm" },
+            "tabs": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "uniqueItems": true
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label", "action", "steps"],
+          "properties": {
+            "label": { "type": "string" },
+            "action": { "const": "sequence" },
+            "steps": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "$ref": "#/$defs/sequenceStep" }
+            },
+            "confirm": { "$ref": "#/$defs/actionConfirm" },
+            "tabs": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "uniqueItems": true
+            }
+          }
+        }
+      ]
+    },
+    "ui": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tabs"],
+      "properties": {
+        "keyboardDefinitions": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/keyboardDefinition" }
+        },
+        "tabs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/tab" }
+        },
+        "actions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/action" }
+        }
+      }
+    },
+    "helpEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "text"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["para", "note", "subtitle", "item"]
+        },
+        "text": { "type": "string" }
+      }
+    },
+    "helpSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "icon", "entries"],
+      "properties": {
+        "anchor": { "type": "string", "minLength": 1 },
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string" },
+        "icon": { "type": "string" },
+        "entries": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/helpEntry" }
+        }
+      }
+    }
+  }
+}

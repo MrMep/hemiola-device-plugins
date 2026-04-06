@@ -1,0 +1,3718 @@
+{
+  "_notes": "Windkey JSON plugin. Covers 43 of 52 parameters. Added: masterTuning (nibble SysEx), bcOnOff (CC11 inverted), scaleTuning C#-C (12-byte multi_sysex). Omitted: tvfVelocity (reserved/no MIDI), temperament (UI-only preset cascade). Protocol: Roland GS SysEx header F0 41 00 42 12 40; NRPN (CC99+CC98+CC6); CC; Program Change.",
+  "slug": "windkey",
+  "name": "Windkey",
+  "manufacturer": "Tahorng",
+  "author": "Gianluca Barbaro",
+  "version": "1.0.0",
+  "enabled": true,
+  "triggers": [
+    "windkey"
+  ],
+  "requiresLandscape": false,
+  "protocol": {
+    "type": "mixed",
+    "channel": 0,
+    "onConnect": [],
+    "responses": []
+  },
+  "parameters": [
+    {
+      "id": "patch",
+      "min": 0,
+      "max": 9,
+      "default": 0,
+      "sendCommand": {
+        "type": "program_change"
+      }
+    },
+    {
+      "id": "volume",
+      "min": 0,
+      "max": 10,
+      "default": 7,
+      "receiveCC": {
+        "cc": 7,
+        "transform": {
+          "inputMin": 0,
+          "inputMax": 127,
+          "outputMin": 0,
+          "outputMax": 10
+        }
+      },
+      "sendCommand": {
+        "type": "cc",
+        "cc": 7,
+        "transform": {
+          "inputMin": 0,
+          "inputMax": 10,
+          "outputMin": 0,
+          "outputMax": 127
+        }
+      }
+    },
+    {
+      "id": "masterTranspose",
+      "min": -24,
+      "max": 24,
+      "default": 0,
+      "sendCommand": {
+        "type": "sysex",
+        "bytes": "F0 41 00 42 12 40 00 05 $V 00 F7",
+        "transform": {
+          "inputMin": -24,
+          "inputMax": 24,
+          "outputMin": 40,
+          "outputMax": 88
+        }
+      }
+    },
+    {
+      "id": "brightness",
+      "min": 0,
+      "max": 100,
+      "default": 100,
+      "receiveCC": {
+        "cc": 74,
+        "transform": {
+          "inputMin": 0,
+          "inputMax": 127,
+          "outputMin": 0,
+          "outputMax": 100
+        }
+      },
+      "sendCommand": {
+        "type": "cc",
+        "cc": 74,
+        "transform": {
+          "inputMin": 0,
+          "inputMax": 100,
+          "outputMin": 0,
+          "outputMax": 127
+        }
+      }
+    },
+    {
+      "id": "vibratoRate",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "nrpn",
+        "nrpnMsb": 1,
+        "nrpnLsb": 8
+      }
+    },
+    {
+      "id": "vibratoDepth",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "nrpn",
+        "nrpnMsb": 1,
+        "nrpnLsb": 9
+      }
+    },
+    {
+      "id": "vibratoDelay",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "sendCommand": {
+        "type": "nrpn",
+        "nrpnMsb": 1,
+        "nrpnLsb": 10
+      }
+    },
+    {
+      "id": "tvfCutoff",
+      "min": 0,
+      "max": 127,
+      "default": 127,
+      "sendCommand": {
+        "type": "nrpn",
+        "nrpnMsb": 1,
+        "nrpnLsb": 32
+      }
+    },
+    {
+      "id": "tvfResonance",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "sendCommand": {
+        "type": "nrpn",
+        "nrpnMsb": 1,
+        "nrpnLsb": 33
+      }
+    },
+    {
+      "id": "tvfAttack",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "nrpn",
+        "nrpnMsb": 1,
+        "nrpnLsb": 99
+      }
+    },
+    {
+      "id": "tvfDecay",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "nrpn",
+        "nrpnMsb": 1,
+        "nrpnLsb": 100
+      }
+    },
+    {
+      "id": "tvfRelease",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "nrpn",
+        "nrpnMsb": 1,
+        "nrpnLsb": 102
+      }
+    },
+    {
+      "id": "velocitySlope",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "multi_sysex",
+        "bytes": "F0 41 00 42 12 40 10 1A $V 00 F7",
+        "channelByteIndex": 6,
+        "channelByteBase": 16
+      }
+    },
+    {
+      "id": "velocityOffset",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "sendCommand": {
+        "type": "multi_sysex",
+        "bytes": "F0 41 00 42 12 40 10 1B $V 00 F7",
+        "channelByteIndex": 6,
+        "channelByteBase": 16
+      }
+    },
+    {
+      "id": "pbRange",
+      "min": -24,
+      "max": 24,
+      "default": 2,
+      "sendCommand": {
+        "type": "multi_sysex",
+        "bytes": "F0 41 00 42 12 40 20 10 $V 00 F7",
+        "channelByteIndex": 6,
+        "channelByteBase": 32,
+        "transform": {
+          "inputMin": -24,
+          "inputMax": 24,
+          "outputMin": 40,
+          "outputMax": 88
+        }
+      }
+    },
+    {
+      "id": "eqOnOff",
+      "min": 0,
+      "max": 1,
+      "default": 0,
+      "sendCommand": {
+        "type": "nrpn",
+        "nrpnMsb": 55,
+        "nrpnLsb": 85
+      }
+    },
+    {
+      "id": "eqLowGain",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "nrpn",
+        "nrpnMsb": 55,
+        "nrpnLsb": 8
+      }
+    },
+    {
+      "id": "eqHighGain",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "nrpn",
+        "nrpnMsb": 55,
+        "nrpnLsb": 11
+      }
+    },
+    {
+      "id": "eqLowFreq",
+      "min": 0,
+      "max": 127,
+      "default": 32,
+      "sendCommand": {
+        "type": "nrpn",
+        "nrpnMsb": 55,
+        "nrpnLsb": 12
+      }
+    },
+    {
+      "id": "eqHighFreq",
+      "min": 0,
+      "max": 127,
+      "default": 96,
+      "sendCommand": {
+        "type": "nrpn",
+        "nrpnMsb": 55,
+        "nrpnLsb": 15
+      }
+    },
+    {
+      "id": "reverbType",
+      "min": 0,
+      "max": 7,
+      "default": 0,
+      "sendCommand": {
+        "type": "sysex",
+        "bytes": "F0 41 00 42 12 40 01 30 $V 00 F7"
+      }
+    },
+    {
+      "id": "reverbLevel",
+      "min": 0,
+      "max": 15,
+      "default": 4,
+      "receiveCC": {
+        "cc": 91,
+        "transform": {
+          "inputMin": 0,
+          "inputMax": 120,
+          "outputMin": 0,
+          "outputMax": 15
+        }
+      },
+      "sendCommand": {
+        "type": "cc",
+        "cc": 91,
+        "transform": {
+          "inputMin": 0,
+          "inputMax": 15,
+          "outputMin": 0,
+          "outputMax": 120
+        }
+      }
+    },
+    {
+      "id": "reverbCharacter",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "sysex",
+        "bytes": "F0 41 00 42 12 40 01 31 $V 00 F7"
+      }
+    },
+    {
+      "id": "reverbPreLpf",
+      "min": 0,
+      "max": 7,
+      "default": 0,
+      "sendCommand": {
+        "type": "sysex",
+        "bytes": "F0 41 00 42 12 40 01 32 $V 00 F7"
+      }
+    },
+    {
+      "id": "reverbMasterLevel",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "sysex",
+        "bytes": "F0 41 00 42 12 40 01 33 $V 00 F7"
+      }
+    },
+    {
+      "id": "reverbTime",
+      "min": 0,
+      "max": 127,
+      "default": 80,
+      "sendCommand": {
+        "type": "sysex",
+        "bytes": "F0 41 00 42 12 40 01 34 $V 00 F7"
+      }
+    },
+    {
+      "id": "reverbFeedback",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "sendCommand": {
+        "type": "sysex",
+        "bytes": "F0 41 00 42 12 40 01 35 $V 00 F7"
+      }
+    },
+    {
+      "id": "reverbPredelay",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "sendCommand": {
+        "type": "sysex",
+        "bytes": "F0 41 00 42 12 40 01 37 $V 00 F7"
+      }
+    },
+    {
+      "id": "chorusType",
+      "min": 0,
+      "max": 7,
+      "default": 0,
+      "sendCommand": {
+        "type": "sysex",
+        "bytes": "F0 41 00 42 12 40 01 38 $V 00 F7"
+      }
+    },
+    {
+      "id": "chorusPreLpf",
+      "min": 0,
+      "max": 7,
+      "default": 0,
+      "sendCommand": {
+        "type": "sysex",
+        "bytes": "F0 41 00 42 12 40 01 39 $V 00 F7"
+      }
+    },
+    {
+      "id": "chorusLevel",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "sysex",
+        "bytes": "F0 41 00 42 12 40 01 3A $V 00 F7"
+      }
+    },
+    {
+      "id": "chorusFeedback",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "sendCommand": {
+        "type": "sysex",
+        "bytes": "F0 41 00 42 12 40 01 3B $V 00 F7"
+      }
+    },
+    {
+      "id": "chorusDelay",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "sysex",
+        "bytes": "F0 41 00 42 12 40 01 3C $V 00 F7"
+      }
+    },
+    {
+      "id": "chorusRate",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "sysex",
+        "bytes": "F0 41 00 42 12 40 01 3D $V 00 F7"
+      }
+    },
+    {
+      "id": "chorusDepth",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "sysex",
+        "bytes": "F0 41 00 42 12 40 01 3E $V 00 F7"
+      }
+    },
+    {
+      "id": "chorusSend",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "receiveCC": {
+        "cc": 93
+      },
+      "sendCommand": {
+        "type": "cc",
+        "cc": 93
+      }
+    },
+    {
+      "id": "bcOnOff",
+      "min": 0,
+      "max": 1,
+      "default": 0,
+      "sendCommand": {
+        "type": "cc",
+        "cc": 11,
+        "transform": {
+          "inputMin": 0,
+          "inputMax": 1,
+          "outputMin": 127,
+          "outputMax": 0
+        }
+      }
+    },
+    {
+      "id": "masterTuning",
+      "min": 0,
+      "max": 200,
+      "default": 100,
+      "sendCommand": {
+        "type": "sysex",
+        "nibbleScale": 10.12,
+        "bytes": "F0 41 00 42 12 40 00 00 $N0 $N1 $N2 $N3 00 F7"
+      }
+    },
+    {
+      "id": "scaleTuneCs",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "multi_sysex",
+        "channelByteIndex": 6,
+        "channelByteBase": 16,
+        "bytes": "F0 41 00 42 12 40 10 40 $P0 $V $P1 $P2 $P3 $P4 $P5 $P6 $P7 $P8 $P9 $P10 00 F7",
+        "paramRefs": [
+          "scaleTuneC",
+          "scaleTuneD",
+          "scaleTuneDs",
+          "scaleTuneE",
+          "scaleTuneF",
+          "scaleTuneFs",
+          "scaleTuneG",
+          "scaleTuneGs",
+          "scaleTuneA",
+          "scaleTuneAs",
+          "scaleTuneB"
+        ]
+      }
+    },
+    {
+      "id": "scaleTuneD",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "multi_sysex",
+        "channelByteIndex": 6,
+        "channelByteBase": 16,
+        "bytes": "F0 41 00 42 12 40 10 40 $P0 $P1 $V $P2 $P3 $P4 $P5 $P6 $P7 $P8 $P9 $P10 00 F7",
+        "paramRefs": [
+          "scaleTuneC",
+          "scaleTuneCs",
+          "scaleTuneDs",
+          "scaleTuneE",
+          "scaleTuneF",
+          "scaleTuneFs",
+          "scaleTuneG",
+          "scaleTuneGs",
+          "scaleTuneA",
+          "scaleTuneAs",
+          "scaleTuneB"
+        ]
+      }
+    },
+    {
+      "id": "scaleTuneDs",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "multi_sysex",
+        "channelByteIndex": 6,
+        "channelByteBase": 16,
+        "bytes": "F0 41 00 42 12 40 10 40 $P0 $P1 $P2 $V $P3 $P4 $P5 $P6 $P7 $P8 $P9 $P10 00 F7",
+        "paramRefs": [
+          "scaleTuneC",
+          "scaleTuneCs",
+          "scaleTuneD",
+          "scaleTuneE",
+          "scaleTuneF",
+          "scaleTuneFs",
+          "scaleTuneG",
+          "scaleTuneGs",
+          "scaleTuneA",
+          "scaleTuneAs",
+          "scaleTuneB"
+        ]
+      }
+    },
+    {
+      "id": "scaleTuneE",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "multi_sysex",
+        "channelByteIndex": 6,
+        "channelByteBase": 16,
+        "bytes": "F0 41 00 42 12 40 10 40 $P0 $P1 $P2 $P3 $V $P4 $P5 $P6 $P7 $P8 $P9 $P10 00 F7",
+        "paramRefs": [
+          "scaleTuneC",
+          "scaleTuneCs",
+          "scaleTuneD",
+          "scaleTuneDs",
+          "scaleTuneF",
+          "scaleTuneFs",
+          "scaleTuneG",
+          "scaleTuneGs",
+          "scaleTuneA",
+          "scaleTuneAs",
+          "scaleTuneB"
+        ]
+      }
+    },
+    {
+      "id": "scaleTuneF",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "multi_sysex",
+        "channelByteIndex": 6,
+        "channelByteBase": 16,
+        "bytes": "F0 41 00 42 12 40 10 40 $P0 $P1 $P2 $P3 $P4 $V $P5 $P6 $P7 $P8 $P9 $P10 00 F7",
+        "paramRefs": [
+          "scaleTuneC",
+          "scaleTuneCs",
+          "scaleTuneD",
+          "scaleTuneDs",
+          "scaleTuneE",
+          "scaleTuneFs",
+          "scaleTuneG",
+          "scaleTuneGs",
+          "scaleTuneA",
+          "scaleTuneAs",
+          "scaleTuneB"
+        ]
+      }
+    },
+    {
+      "id": "scaleTuneFs",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "multi_sysex",
+        "channelByteIndex": 6,
+        "channelByteBase": 16,
+        "bytes": "F0 41 00 42 12 40 10 40 $P0 $P1 $P2 $P3 $P4 $P5 $V $P6 $P7 $P8 $P9 $P10 00 F7",
+        "paramRefs": [
+          "scaleTuneC",
+          "scaleTuneCs",
+          "scaleTuneD",
+          "scaleTuneDs",
+          "scaleTuneE",
+          "scaleTuneF",
+          "scaleTuneG",
+          "scaleTuneGs",
+          "scaleTuneA",
+          "scaleTuneAs",
+          "scaleTuneB"
+        ]
+      }
+    },
+    {
+      "id": "scaleTuneG",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "multi_sysex",
+        "channelByteIndex": 6,
+        "channelByteBase": 16,
+        "bytes": "F0 41 00 42 12 40 10 40 $P0 $P1 $P2 $P3 $P4 $P5 $P6 $V $P7 $P8 $P9 $P10 00 F7",
+        "paramRefs": [
+          "scaleTuneC",
+          "scaleTuneCs",
+          "scaleTuneD",
+          "scaleTuneDs",
+          "scaleTuneE",
+          "scaleTuneF",
+          "scaleTuneFs",
+          "scaleTuneGs",
+          "scaleTuneA",
+          "scaleTuneAs",
+          "scaleTuneB"
+        ]
+      }
+    },
+    {
+      "id": "scaleTuneGs",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "multi_sysex",
+        "channelByteIndex": 6,
+        "channelByteBase": 16,
+        "bytes": "F0 41 00 42 12 40 10 40 $P0 $P1 $P2 $P3 $P4 $P5 $P6 $P7 $V $P8 $P9 $P10 00 F7",
+        "paramRefs": [
+          "scaleTuneC",
+          "scaleTuneCs",
+          "scaleTuneD",
+          "scaleTuneDs",
+          "scaleTuneE",
+          "scaleTuneF",
+          "scaleTuneFs",
+          "scaleTuneG",
+          "scaleTuneA",
+          "scaleTuneAs",
+          "scaleTuneB"
+        ]
+      }
+    },
+    {
+      "id": "scaleTuneA",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "multi_sysex",
+        "channelByteIndex": 6,
+        "channelByteBase": 16,
+        "bytes": "F0 41 00 42 12 40 10 40 $P0 $P1 $P2 $P3 $P4 $P5 $P6 $P7 $P8 $V $P9 $P10 00 F7",
+        "paramRefs": [
+          "scaleTuneC",
+          "scaleTuneCs",
+          "scaleTuneD",
+          "scaleTuneDs",
+          "scaleTuneE",
+          "scaleTuneF",
+          "scaleTuneFs",
+          "scaleTuneG",
+          "scaleTuneGs",
+          "scaleTuneAs",
+          "scaleTuneB"
+        ]
+      }
+    },
+    {
+      "id": "scaleTuneAs",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "multi_sysex",
+        "channelByteIndex": 6,
+        "channelByteBase": 16,
+        "bytes": "F0 41 00 42 12 40 10 40 $P0 $P1 $P2 $P3 $P4 $P5 $P6 $P7 $P8 $P9 $V $P10 00 F7",
+        "paramRefs": [
+          "scaleTuneC",
+          "scaleTuneCs",
+          "scaleTuneD",
+          "scaleTuneDs",
+          "scaleTuneE",
+          "scaleTuneF",
+          "scaleTuneFs",
+          "scaleTuneG",
+          "scaleTuneGs",
+          "scaleTuneA",
+          "scaleTuneB"
+        ]
+      }
+    },
+    {
+      "id": "scaleTuneB",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "multi_sysex",
+        "channelByteIndex": 6,
+        "channelByteBase": 16,
+        "bytes": "F0 41 00 42 12 40 10 40 $P0 $P1 $P2 $P3 $P4 $P5 $P6 $P7 $P8 $P9 $P10 $V 00 F7",
+        "paramRefs": [
+          "scaleTuneC",
+          "scaleTuneCs",
+          "scaleTuneD",
+          "scaleTuneDs",
+          "scaleTuneE",
+          "scaleTuneF",
+          "scaleTuneFs",
+          "scaleTuneG",
+          "scaleTuneGs",
+          "scaleTuneA",
+          "scaleTuneAs"
+        ]
+      }
+    },
+    {
+      "id": "scaleTuneC",
+      "min": 0,
+      "max": 127,
+      "default": 64,
+      "sendCommand": {
+        "type": "multi_sysex",
+        "channelByteIndex": 6,
+        "channelByteBase": 16,
+        "bytes": "F0 41 00 42 12 40 10 40 $V $P0 $P1 $P2 $P3 $P4 $P5 $P6 $P7 $P8 $P9 $P10 00 F7",
+        "paramRefs": [
+          "scaleTuneCs",
+          "scaleTuneD",
+          "scaleTuneDs",
+          "scaleTuneE",
+          "scaleTuneF",
+          "scaleTuneFs",
+          "scaleTuneG",
+          "scaleTuneGs",
+          "scaleTuneA",
+          "scaleTuneAs",
+          "scaleTuneB"
+        ]
+      }
+    }
+  ],
+  "ui": {
+    "tabs": [
+      {
+        "label": "Main",
+        "sections": [
+          {
+            "title": "Instrument",
+            "controls": [
+              {
+                "type": "tile_picker",
+                "param": "patch",
+                "label": "Instrument",
+                "options": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9
+                ],
+                "optionLabels": [
+                  "Melodica",
+                  "Accordion",
+                  "Harmonica",
+                  "Reed Organ",
+                  "Synth Lead",
+                  "Strings",
+                  "Sax",
+                  "Clarinet",
+                  "Flute",
+                  "Recorder"
+                ],
+                "colors": [
+                  "#FBBF24",
+                  "#34D399",
+                  "#60A5FA",
+                  "#A78BFA",
+                  "#22D3EE",
+                  "#F472B6",
+                  "#FB923C",
+                  "#2DD4BF",
+                  "#818CF8",
+                  "#A3E635"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Level & Tuning",
+            "controls": [
+              {
+                "type": "toggle",
+                "param": "bcOnOff",
+                "label": "Breath Ctrl"
+              },
+              {
+                "type": "knob",
+                "param": "volume",
+                "label": "Volume",
+                "min": 0,
+                "max": 10
+              },
+              {
+                "type": "knob",
+                "param": "masterTranspose",
+                "label": "Transpose",
+                "min": -24,
+                "max": 24,
+                "color": "#4ADE80"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Synth",
+        "sections": [
+          {
+            "title": "Vibrato",
+            "controls": [
+              {
+                "type": "knob",
+                "param": "vibratoRate",
+                "label": "Rate",
+                "color": "#27C2ED"
+              },
+              {
+                "type": "knob",
+                "param": "vibratoDepth",
+                "label": "Depth",
+                "color": "#C084FC"
+              },
+              {
+                "type": "knob",
+                "param": "vibratoDelay",
+                "label": "Delay",
+                "color": "#60A5FA"
+              }
+            ]
+          },
+          {
+            "title": "TVF",
+            "controls": [
+              {
+                "type": "knob",
+                "param": "tvfCutoff",
+                "label": "Cutoff",
+                "color": "#FB923C"
+              },
+              {
+                "type": "knob",
+                "param": "tvfResonance",
+                "label": "Resonance",
+                "color": "#FBBF24"
+              }
+            ]
+          },
+          {
+            "title": "TVF Envelope",
+            "controls": [
+              {
+                "type": "knob",
+                "param": "tvfAttack",
+                "label": "Attack",
+                "color": "#4ADE80"
+              },
+              {
+                "type": "knob",
+                "param": "tvfDecay",
+                "label": "Decay",
+                "color": "#2DD4BF"
+              },
+              {
+                "type": "knob",
+                "param": "tvfRelease",
+                "label": "Release",
+                "color": "#F472B6"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Dynamics",
+        "sections": [
+          {
+            "title": "Velocity",
+            "controls": [
+              {
+                "type": "knob",
+                "param": "velocitySlope",
+                "label": "Slope",
+                "color": "#60A5FA"
+              },
+              {
+                "type": "knob",
+                "param": "velocityOffset",
+                "label": "Offset",
+                "color": "#A78BFA"
+              }
+            ]
+          },
+          {
+            "title": "Pitch Bend",
+            "controls": [
+              {
+                "type": "knob",
+                "param": "pbRange",
+                "label": "Range (semi)",
+                "min": -24,
+                "max": 24,
+                "color": "#F472B6"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "FX",
+        "sections": [
+          {
+            "title": "Equaliser",
+            "controls": [
+              {
+                "type": "toggle",
+                "param": "eqOnOff",
+                "label": "EQ Enable"
+              },
+              {
+                "type": "knob",
+                "param": "brightness",
+                "label": "Brightness",
+                "min": 0,
+                "max": 100,
+                "color": "#FBBF24"
+              },
+              {
+                "type": "knob",
+                "param": "eqLowGain",
+                "label": "Low Gain",
+                "color": "#34D399"
+              },
+              {
+                "type": "knob",
+                "param": "eqHighGain",
+                "label": "High Gain",
+                "color": "#4ADE80"
+              },
+              {
+                "type": "knob",
+                "param": "eqLowFreq",
+                "label": "Low Freq",
+                "color": "#60A5FA"
+              },
+              {
+                "type": "knob",
+                "param": "eqHighFreq",
+                "label": "High Freq",
+                "color": "#818CF8"
+              }
+            ]
+          },
+          {
+            "title": "Reverb",
+            "controls": [
+              {
+                "type": "tile_picker",
+                "param": "reverbType",
+                "label": "Type",
+                "options": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7
+                ],
+                "optionLabels": [
+                  "Room 1",
+                  "Room 2",
+                  "Room 3",
+                  "Hall 1",
+                  "Hall 2",
+                  "Plate",
+                  "Delay",
+                  "Pan Delay"
+                ],
+                "colors": [
+                  "#6EE7B7",
+                  "#34D399",
+                  "#10B981",
+                  "#60A5FA",
+                  "#3B82F6",
+                  "#A78BFA",
+                  "#7C3AED",
+                  "#818CF8"
+                ]
+              },
+              {
+                "type": "knob",
+                "param": "reverbLevel",
+                "label": "Level",
+                "min": 0,
+                "max": 15,
+                "color": "#22D3EE"
+              },
+              {
+                "type": "knob",
+                "param": "reverbCharacter",
+                "label": "Character",
+                "color": "#A78BFA"
+              },
+              {
+                "type": "knob",
+                "param": "reverbPreLpf",
+                "label": "Pre-LPF",
+                "min": 0,
+                "max": 7,
+                "color": "#F472B6"
+              },
+              {
+                "type": "knob",
+                "param": "reverbMasterLevel",
+                "label": "Master Level",
+                "color": "#FB923C"
+              },
+              {
+                "type": "knob",
+                "param": "reverbTime",
+                "label": "Time",
+                "color": "#2DD4BF"
+              },
+              {
+                "type": "knob",
+                "param": "reverbFeedback",
+                "label": "Feedback",
+                "color": "#A3E635"
+              },
+              {
+                "type": "knob",
+                "param": "reverbPredelay",
+                "label": "Pre-delay",
+                "color": "#A3E635"
+              }
+            ]
+          },
+          {
+            "title": "Chorus",
+            "controls": [
+              {
+                "type": "tile_picker",
+                "param": "chorusType",
+                "label": "Type",
+                "options": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7
+                ],
+                "optionLabels": [
+                  "Chorus",
+                  "Chorus 2",
+                  "Chorus 3",
+                  "Chorus 4",
+                  "Feedback",
+                  "Flanger",
+                  "Short Delay",
+                  "FB Delay"
+                ],
+                "colors": [
+                  "#22D3EE",
+                  "#67E8F9",
+                  "#A5F3FC",
+                  "#818CF8",
+                  "#A78BFA",
+                  "#F472B6",
+                  "#FBBF24",
+                  "#4ADE80"
+                ]
+              },
+              {
+                "type": "knob",
+                "param": "chorusLevel",
+                "label": "Level",
+                "color": "#22D3EE"
+              },
+              {
+                "type": "knob",
+                "param": "chorusSend",
+                "label": "Send",
+                "color": "#4ADE80"
+              },
+              {
+                "type": "knob",
+                "param": "chorusFeedback",
+                "label": "Feedback",
+                "color": "#A78BFA"
+              },
+              {
+                "type": "knob",
+                "param": "chorusDelay",
+                "label": "Delay",
+                "color": "#F472B6"
+              },
+              {
+                "type": "knob",
+                "param": "chorusRate",
+                "label": "Rate",
+                "color": "#FBBF24"
+              },
+              {
+                "type": "knob",
+                "param": "chorusDepth",
+                "label": "Depth",
+                "color": "#FB923C"
+              },
+              {
+                "type": "knob",
+                "param": "chorusPreLpf",
+                "label": "Pre-LPF",
+                "min": 0,
+                "max": 7,
+                "color": "#818CF8"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Tuning",
+        "sections": [
+          {
+            "title": "Master Tuning",
+            "controls": [
+              {
+                "type": "knob",
+                "param": "masterTuning",
+                "label": "Master Tuning",
+                "min": 0,
+                "max": 200,
+                "displayOffset": -100,
+                "inputOffset": -100,
+                "color": "#FBBF24"
+              }
+            ]
+          },
+          {
+            "title": "Scale Tuning",
+            "controls": [
+              {
+                "type": "preset_picker",
+                "label": "Temperament",
+                "params": [
+                  "scaleTuneCs",
+                  "scaleTuneD",
+                  "scaleTuneDs",
+                  "scaleTuneE",
+                  "scaleTuneF",
+                  "scaleTuneFs",
+                  "scaleTuneG",
+                  "scaleTuneGs",
+                  "scaleTuneA",
+                  "scaleTuneAs",
+                  "scaleTuneB",
+                  "scaleTuneC"
+                ],
+                "valueOffset": 64,
+                "presets": [
+                  {
+                    "label": "Equal Tempered, Perfect Octave",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "label": "Equal Tempered, Perfect Fourth",
+                    "values": [
+                      3,
+                      3,
+                      2,
+                      2,
+                      2,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      -1,
+                      4
+                    ]
+                  },
+                  {
+                    "label": "Equal Tempered, Perfect Fifth",
+                    "values": [
+                      -2,
+                      -2,
+                      -2,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      -3
+                    ]
+                  },
+                  {
+                    "label": "Equal Tempered, Stretched (1.0 Cent)",
+                    "values": [
+                      -1,
+                      -1,
+                      -1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      -1
+                    ]
+                  },
+                  {
+                    "label": "Equal Tempered, Stretched (1.25 Cent)",
+                    "values": [
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      -1
+                    ]
+                  },
+                  {
+                    "label": "Equal Tempered, Stretched (1.5 Cent)",
+                    "values": [
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      -1
+                    ]
+                  },
+                  {
+                    "label": "Just Tempered (Schugk)",
+                    "values": [
+                      -14,
+                      20,
+                      31,
+                      2,
+                      14,
+                      6,
+                      18,
+                      29,
+                      0,
+                      33,
+                      4,
+                      16
+                    ]
+                  },
+                  {
+                    "label": "Just Tempered (Barbour)",
+                    "values": [
+                      -14,
+                      20,
+                      31,
+                      2,
+                      14,
+                      6,
+                      18,
+                      -12,
+                      0,
+                      33,
+                      4,
+                      16
+                    ]
+                  },
+                  {
+                    "label": "Naturally Harmonious (Thirds)",
+                    "values": [
+                      27,
+                      20,
+                      31,
+                      2,
+                      14,
+                      6,
+                      18,
+                      29,
+                      0,
+                      12,
+                      4,
+                      16
+                    ]
+                  },
+                  {
+                    "label": "Naturally Harmonious",
+                    "values": [
+                      27,
+                      20,
+                      31,
+                      2,
+                      14,
+                      6,
+                      18,
+                      29,
+                      0,
+                      33,
+                      4,
+                      16
+                    ]
+                  },
+                  {
+                    "label": "Pythagorean",
+                    "values": [
+                      8,
+                      -2,
+                      -12,
+                      2,
+                      -8,
+                      6,
+                      -4,
+                      10,
+                      0,
+                      -10,
+                      4,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Pythagorean (Perfect)",
+                    "values": [
+                      8,
+                      20,
+                      12,
+                      2,
+                      14,
+                      6,
+                      18,
+                      10,
+                      0,
+                      12,
+                      4,
+                      16
+                    ]
+                  },
+                  {
+                    "label": "Pythagorean (Fifth chain Cb-E)",
+                    "values": [
+                      -16,
+                      -2,
+                      -12,
+                      2,
+                      -8,
+                      -18,
+                      -4,
+                      -14,
+                      0,
+                      -10,
+                      -20,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Pythagorean (Fifth chain Db-F#)",
+                    "values": [
+                      -16,
+                      -2,
+                      -12,
+                      2,
+                      -8,
+                      6,
+                      -4,
+                      -14,
+                      0,
+                      -10,
+                      4,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Pythagorean (Fifth chain Ebb-G)",
+                    "values": [
+                      8,
+                      -2,
+                      12,
+                      2,
+                      16,
+                      6,
+                      20,
+                      10,
+                      0,
+                      14,
+                      4,
+                      18
+                    ]
+                  },
+                  {
+                    "label": "Pythagorean (Fifth chain Fb-A)",
+                    "values": [
+                      -16,
+                      -2,
+                      -12,
+                      -22,
+                      -8,
+                      -18,
+                      -4,
+                      -14,
+                      0,
+                      -10,
+                      -20,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Pythagorean (Fifth chain F-A#)",
+                    "values": [
+                      8,
+                      -2,
+                      12,
+                      2,
+                      -8,
+                      6,
+                      -4,
+                      10,
+                      0,
+                      14,
+                      4,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Pythagorean (Fifth chain Ab-C#)",
+                    "values": [
+                      8,
+                      -2,
+                      -12,
+                      2,
+                      -8,
+                      6,
+                      -4,
+                      -14,
+                      0,
+                      -10,
+                      4,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Pythagorean (Fifth chain Bb-D#)",
+                    "values": [
+                      8,
+                      -2,
+                      12,
+                      2,
+                      -8,
+                      6,
+                      -4,
+                      10,
+                      0,
+                      -10,
+                      4,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Meantone",
+                    "values": [
+                      -10,
+                      3,
+                      16,
+                      -3,
+                      12,
+                      -8,
+                      6,
+                      -11,
+                      0,
+                      14,
+                      -6,
+                      9
+                    ]
+                  },
+                  {
+                    "label": "Meantone # (-1/4)",
+                    "values": [
+                      -14,
+                      3,
+                      -21,
+                      -3,
+                      14,
+                      -10,
+                      7,
+                      -17,
+                      0,
+                      -24,
+                      -7,
+                      10
+                    ]
+                  },
+                  {
+                    "label": "Meantone b (-1/4)",
+                    "values": [
+                      27,
+                      3,
+                      21,
+                      -3,
+                      14,
+                      31,
+                      7,
+                      24,
+                      0,
+                      17,
+                      -7,
+                      10
+                    ]
+                  },
+                  {
+                    "label": "Meantone (-1/4) LargeThird",
+                    "values": [
+                      -14,
+                      3,
+                      21,
+                      -3,
+                      14,
+                      -10,
+                      7,
+                      -17,
+                      0,
+                      17,
+                      -7,
+                      10
+                    ]
+                  },
+                  {
+                    "label": "Meantone (Small Third)",
+                    "values": [
+                      -21,
+                      5,
+                      31,
+                      -5,
+                      21,
+                      -16,
+                      10,
+                      -26,
+                      0,
+                      26,
+                      -10,
+                      16
+                    ]
+                  },
+                  {
+                    "label": "Meantone (Homogeneous)",
+                    "values": [
+                      -9,
+                      2,
+                      14,
+                      -2,
+                      9,
+                      -7,
+                      5,
+                      -12,
+                      0,
+                      12,
+                      -5,
+                      7
+                    ]
+                  },
+                  {
+                    "label": "Meantone (Homogeneous Third)",
+                    "values": [
+                      -17,
+                      4,
+                      25,
+                      -4,
+                      17,
+                      -13,
+                      8,
+                      -21,
+                      0,
+                      21,
+                      -8,
+                      13
+                    ]
+                  },
+                  {
+                    "label": "Meantone (Homogeneous Gradated)",
+                    "values": [
+                      -7,
+                      2,
+                      10,
+                      -2,
+                      7,
+                      -5,
+                      3,
+                      -8,
+                      0,
+                      8,
+                      -3,
+                      5
+                    ]
+                  },
+                  {
+                    "label": "Comma Temperament (1/7)",
+                    "values": [
+                      -4,
+                      1,
+                      7,
+                      -1,
+                      4,
+                      -3,
+                      2,
+                      -6,
+                      0,
+                      6,
+                      -2,
+                      3
+                    ]
+                  },
+                  {
+                    "label": "Comma Temperament (1/8)",
+                    "values": [
+                      -3,
+                      1,
+                      4,
+                      -1,
+                      3,
+                      -2,
+                      1,
+                      -4,
+                      0,
+                      4,
+                      -1,
+                      2
+                    ]
+                  },
+                  {
+                    "label": "Comma Temperament (1/9)",
+                    "values": [
+                      -2,
+                      0,
+                      3,
+                      0,
+                      2,
+                      -1,
+                      1,
+                      -2,
+                      0,
+                      2,
+                      -1,
+                      1
+                    ]
+                  },
+                  {
+                    "label": "Comma Temperament (2/9)",
+                    "values": [
+                      -11,
+                      3,
+                      17,
+                      -3,
+                      11,
+                      -8,
+                      6,
+                      -14,
+                      0,
+                      14,
+                      -6,
+                      8
+                    ]
+                  },
+                  {
+                    "label": "Comma Temperament (1/10)",
+                    "values": [
+                      -1,
+                      0,
+                      1,
+                      0,
+                      1,
+                      -1,
+                      0,
+                      -1,
+                      0,
+                      1,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "label": "Comma Temperament (3/11)",
+                    "values": [
+                      -16,
+                      4,
+                      23,
+                      -4,
+                      16,
+                      -12,
+                      8,
+                      -20,
+                      0,
+                      20,
+                      -8,
+                      12
+                    ]
+                  },
+                  {
+                    "label": "Pythagorean Comma (3-Split)",
+                    "values": [
+                      0,
+                      -2,
+                      4,
+                      2,
+                      8,
+                      -2,
+                      4,
+                      2,
+                      0,
+                      6,
+                      4,
+                      10
+                    ]
+                  },
+                  {
+                    "label": "Pythagorean Comma (4-Split)",
+                    "values": [
+                      2,
+                      -2,
+                      0,
+                      2,
+                      4,
+                      0,
+                      2,
+                      4,
+                      0,
+                      2,
+                      -2,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Pythagorean Comma (5-Split)",
+                    "values": [
+                      -2,
+                      3,
+                      2,
+                      -3,
+                      6,
+                      -4,
+                      5,
+                      0,
+                      0,
+                      4,
+                      -5,
+                      8
+                    ]
+                  },
+                  {
+                    "label": "Pythagorean Comma (6-Split)",
+                    "values": [
+                      -4,
+                      2,
+                      0,
+                      -2,
+                      4,
+                      -6,
+                      4,
+                      -2,
+                      0,
+                      2,
+                      -4,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Pythagorean Comma (6 & 12-Split)",
+                    "values": [
+                      -4,
+                      2,
+                      8,
+                      -2,
+                      8,
+                      -4,
+                      4,
+                      -4,
+                      0,
+                      8,
+                      -4,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Syntonic Comma (2-Split)",
+                    "values": [
+                      -14,
+                      9,
+                      31,
+                      2,
+                      14,
+                      -5,
+                      18,
+                      -12,
+                      0,
+                      22,
+                      4,
+                      16
+                    ]
+                  },
+                  {
+                    "label": "Syntonic Comma (4-Split)",
+                    "values": [
+                      -4,
+                      3,
+                      4,
+                      -3,
+                      8,
+                      -10,
+                      7,
+                      2,
+                      0,
+                      6,
+                      -7,
+                      10
+                    ]
+                  },
+                  {
+                    "label": "Syntonic Comma (5-Split)",
+                    "values": [
+                      1,
+                      2,
+                      4,
+                      -2,
+                      6,
+                      0,
+                      5,
+                      2,
+                      0,
+                      5,
+                      -1,
+                      7
+                    ]
+                  },
+                  {
+                    "label": "Diatonic (Chromatic Addition)",
+                    "values": [
+                      -14,
+                      20,
+                      31,
+                      2,
+                      14,
+                      6,
+                      18,
+                      -12,
+                      0,
+                      12,
+                      4,
+                      16
+                    ]
+                  },
+                  {
+                    "label": "Organ Freiberg (Silbermann, 1985)",
+                    "values": [
+                      -6,
+                      0,
+                      2,
+                      -2,
+                      4,
+                      -6,
+                      2,
+                      -6,
+                      0,
+                      4,
+                      -4,
+                      4
+                    ]
+                  },
+                  {
+                    "label": "Organ Fribourg (Manderscheidt, 1640)",
+                    "values": [
+                      -1,
+                      3,
+                      15,
+                      -5,
+                      9,
+                      -3,
+                      6,
+                      -11,
+                      0,
+                      13,
+                      -5,
+                      8
+                    ]
+                  },
+                  {
+                    "label": "Organ Hamburg (Schnitger, 1993)",
+                    "values": [
+                      -5,
+                      2,
+                      3,
+                      -2,
+                      9,
+                      -7,
+                      5,
+                      -3,
+                      0,
+                      7,
+                      -5,
+                      7
+                    ]
+                  },
+                  {
+                    "label": "Organ Maihingen (Baumeister, 1737)",
+                    "values": [
+                      -11,
+                      3,
+                      10,
+                      -9,
+                      5,
+                      -13,
+                      6,
+                      -15,
+                      0,
+                      -2,
+                      -10,
+                      4
+                    ]
+                  },
+                  {
+                    "label": "Organ Muri (Evangelien-Orgel)",
+                    "values": [
+                      -11,
+                      4,
+                      15,
+                      -3,
+                      11,
+                      -9,
+                      8,
+                      -12,
+                      0,
+                      10,
+                      -6,
+                      9
+                    ]
+                  },
+                  {
+                    "label": "Organ Niederbobritzsch (Gothel)",
+                    "values": [
+                      -2,
+                      2,
+                      -2,
+                      -1,
+                      3,
+                      0,
+                      -1,
+                      -2,
+                      0,
+                      1,
+                      -6,
+                      0
+                    ]
+                  },
+                  {
+                    "label": "Organ Weingarten (Gabler, 1750)",
+                    "values": [
+                      -9,
+                      2,
+                      13,
+                      -2,
+                      9,
+                      -6,
+                      4,
+                      -11,
+                      0,
+                      11,
+                      -4,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Organ Weingarten (Gabler, 1983)",
+                    "values": [
+                      0,
+                      1,
+                      6,
+                      -1,
+                      4,
+                      -4,
+                      3,
+                      3,
+                      0,
+                      6,
+                      -4,
+                      5
+                    ]
+                  },
+                  {
+                    "label": "Agricola (Martin, 1539)",
+                    "values": [
+                      -14,
+                      -2,
+                      -10,
+                      2,
+                      -8,
+                      -16,
+                      -4,
+                      -12,
+                      0,
+                      -10,
+                      4,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Ammerbach (1571)",
+                    "values": [
+                      -8,
+                      4,
+                      9,
+                      -2,
+                      4,
+                      -4,
+                      8,
+                      -10,
+                      0,
+                      5,
+                      -2,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Ammerbach (1583)",
+                    "values": [
+                      -4,
+                      4,
+                      6,
+                      2,
+                      4,
+                      0,
+                      8,
+                      -2,
+                      0,
+                      8,
+                      4,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Bach (Billeter, Well-Tempered)",
+                    "values": [
+                      -3,
+                      5,
+                      1,
+                      -5,
+                      5,
+                      -5,
+                      5,
+                      -1,
+                      0,
+                      3,
+                      -5,
+                      5
+                    ]
+                  },
+                  {
+                    "label": "Bach (Kelletat, 1966)",
+                    "values": [
+                      -1,
+                      5,
+                      3,
+                      -5,
+                      7,
+                      -3,
+                      9,
+                      1,
+                      0,
+                      5,
+                      -5,
+                      9
+                    ]
+                  },
+                  {
+                    "label": "Bach (Kellner, Well-Tempered)",
+                    "values": [
+                      0,
+                      3,
+                      4,
+                      -3,
+                      8,
+                      -2,
+                      7,
+                      2,
+                      0,
+                      6,
+                      -1,
+                      10
+                    ]
+                  },
+                  {
+                    "label": "Bach (Kellner, 1977)",
+                    "values": [
+                      -2,
+                      3,
+                      2,
+                      -3,
+                      6,
+                      -4,
+                      5,
+                      0,
+                      0,
+                      4,
+                      -1,
+                      8
+                    ]
+                  },
+                  {
+                    "label": "Bach (Klais)",
+                    "values": [
+                      -2,
+                      4,
+                      2,
+                      -5,
+                      6,
+                      -4,
+                      8,
+                      0,
+                      0,
+                      4,
+                      -6,
+                      7
+                    ]
+                  },
+                  {
+                    "label": "Barnes (1971)",
+                    "values": [
+                      -1,
+                      1,
+                      0,
+                      -1,
+                      4,
+                      -3,
+                      2,
+                      1,
+                      0,
+                      2,
+                      -2,
+                      3
+                    ]
+                  },
+                  {
+                    "label": "Barnes (1977)",
+                    "values": [
+                      0,
+                      2,
+                      4,
+                      -2,
+                      8,
+                      -2,
+                      4,
+                      2,
+                      0,
+                      6,
+                      0,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Bendeler (Fractions)",
+                    "values": [
+                      1,
+                      -2,
+                      5,
+                      2,
+                      9,
+                      -1,
+                      3,
+                      3,
+                      0,
+                      7,
+                      4,
+                      10
+                    ]
+                  },
+                  {
+                    "label": "Bermudo (1555)",
+                    "values": [
+                      -2,
+                      -2,
+                      -8,
+                      -2,
+                      -4,
+                      -4,
+                      0,
+                      0,
+                      0,
+                      -6,
+                      0,
+                      -2
+                    ]
+                  },
+                  {
+                    "label": "Bossart I",
+                    "values": [
+                      -4,
+                      4,
+                      15,
+                      -4,
+                      10,
+                      -6,
+                      5,
+                      0,
+                      0,
+                      14,
+                      -5,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Bossart II",
+                    "values": [
+                      0,
+                      1,
+                      15,
+                      0,
+                      10,
+                      -2,
+                      5,
+                      2,
+                      0,
+                      11,
+                      2,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Bossart III",
+                    "values": [
+                      -1,
+                      4,
+                      12,
+                      -4,
+                      10,
+                      -3,
+                      5,
+                      3,
+                      0,
+                      11,
+                      -5,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Bruder (1829)",
+                    "values": [
+                      -2,
+                      6,
+                      0,
+                      -6,
+                      2,
+                      -3,
+                      4,
+                      -1,
+                      0,
+                      1,
+                      -5,
+                      3
+                    ]
+                  },
+                  {
+                    "label": "Ganassi (1543)",
+                    "values": [
+                      4,
+                      -2,
+                      -3,
+                      2,
+                      14,
+                      13,
+                      18,
+                      6,
+                      0,
+                      -1,
+                      4,
+                      16
+                    ]
+                  },
+                  {
+                    "label": "Grammateus (1518)",
+                    "values": [
+                      -4,
+                      -2,
+                      0,
+                      2,
+                      -8,
+                      -6,
+                      -4,
+                      -2,
+                      0,
+                      -10,
+                      4,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Kelletat (1960)",
+                    "values": [
+                      -2,
+                      4,
+                      2,
+                      -5,
+                      6,
+                      -4,
+                      8,
+                      0,
+                      0,
+                      4,
+                      -6,
+                      8
+                    ]
+                  },
+                  {
+                    "label": "Kelletat (1966)",
+                    "values": [
+                      -2,
+                      4,
+                      2,
+                      -4,
+                      6,
+                      -4,
+                      8,
+                      0,
+                      0,
+                      4,
+                      -6,
+                      8
+                    ]
+                  },
+                  {
+                    "label": "Kircher",
+                    "values": [
+                      -14,
+                      20,
+                      -10,
+                      2,
+                      14,
+                      6,
+                      18,
+                      -12,
+                      0,
+                      -8,
+                      4,
+                      16
+                    ]
+                  },
+                  {
+                    "label": "Kirnberger I (1766)",
+                    "values": [
+                      6,
+                      20,
+                      10,
+                      2,
+                      14,
+                      6,
+                      18,
+                      8,
+                      0,
+                      12,
+                      4,
+                      16
+                    ]
+                  },
+                  {
+                    "label": "Kirnberger II (1771)",
+                    "values": [
+                      -5,
+                      9,
+                      -1,
+                      -9,
+                      3,
+                      -5,
+                      7,
+                      -3,
+                      0,
+                      1,
+                      -7,
+                      5
+                    ]
+                  },
+                  {
+                    "label": "Kirnberger II (1776)",
+                    "values": [
+                      -4,
+                      10,
+                      0,
+                      -10,
+                      4,
+                      -6,
+                      8,
+                      -2,
+                      0,
+                      2,
+                      -8,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Kirnberger III (1779)",
+                    "values": [
+                      0,
+                      3,
+                      4,
+                      -3,
+                      8,
+                      0,
+                      7,
+                      2,
+                      0,
+                      6,
+                      -1,
+                      10
+                    ]
+                  },
+                  {
+                    "label": "Lambert (1774)",
+                    "values": [
+                      -2,
+                      1,
+                      2,
+                      -1,
+                      6,
+                      -4,
+                      3,
+                      0,
+                      0,
+                      4,
+                      -3,
+                      4
+                    ]
+                  },
+                  {
+                    "label": "Lublin (1540)",
+                    "values": [
+                      -14,
+                      -2,
+                      2,
+                      2,
+                      6,
+                      6,
+                      3,
+                      -12,
+                      0,
+                      4,
+                      4,
+                      1
+                    ]
+                  },
+                  {
+                    "label": "Malcolm (Alexander, 1721)",
+                    "values": [
+                      21,
+                      20,
+                      13,
+                      2,
+                      14,
+                      19,
+                      18,
+                      11,
+                      0,
+                      5,
+                      4,
+                      16
+                    ]
+                  },
+                  {
+                    "label": "Marpurg II",
+                    "values": [
+                      4,
+                      -2,
+                      8,
+                      2,
+                      -8,
+                      2,
+                      -4,
+                      6,
+                      0,
+                      10,
+                      0,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Marpurg III",
+                    "values": [
+                      -10,
+                      -2,
+                      -6,
+                      2,
+                      -8,
+                      -12,
+                      -4,
+                      -8,
+                      0,
+                      -10,
+                      -14,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Marpurg IV",
+                    "values": [
+                      -8,
+                      -2,
+                      -12,
+                      2,
+                      -8,
+                      -10,
+                      -4,
+                      -6,
+                      0,
+                      -10,
+                      -12,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Marpurg V",
+                    "values": [
+                      -2,
+                      -2,
+                      2,
+                      2,
+                      -8,
+                      -4,
+                      -4,
+                      0,
+                      0,
+                      4,
+                      -6,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Marpurg VI",
+                    "values": [
+                      -4,
+                      -2,
+                      0,
+                      2,
+                      -8,
+                      -6,
+                      -4,
+                      -2,
+                      0,
+                      2,
+                      4,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Marpurg VII",
+                    "values": [
+                      0,
+                      -2,
+                      -4,
+                      2,
+                      0,
+                      -2,
+                      -4,
+                      2,
+                      0,
+                      -2,
+                      -4,
+                      2
+                    ]
+                  },
+                  {
+                    "label": "Marpurg VIII",
+                    "values": [
+                      2,
+                      -2,
+                      0,
+                      2,
+                      -2,
+                      0,
+                      -4,
+                      -2,
+                      0,
+                      2,
+                      -2,
+                      0
+                    ]
+                  },
+                  {
+                    "label": "Marpurg IX",
+                    "values": [
+                      -4,
+                      -2,
+                      0,
+                      2,
+                      -2,
+                      0,
+                      -4,
+                      -2,
+                      0,
+                      2,
+                      4,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Marpurg X",
+                    "values": [
+                      0,
+                      2,
+                      0,
+                      2,
+                      0,
+                      2,
+                      0,
+                      2,
+                      0,
+                      2,
+                      0,
+                      2
+                    ]
+                  },
+                  {
+                    "label": "Marpurg XI",
+                    "values": [
+                      0,
+                      -2,
+                      -4,
+                      2,
+                      -8,
+                      2,
+                      -4,
+                      -2,
+                      0,
+                      -6,
+                      4,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Marpurg XII",
+                    "values": [
+                      4,
+                      -2,
+                      -12,
+                      -2,
+                      -8,
+                      2,
+                      -4,
+                      6,
+                      0,
+                      -10,
+                      0,
+                      -8
+                    ]
+                  },
+                  {
+                    "label": "Meister",
+                    "values": [
+                      17,
+                      3,
+                      21,
+                      -3,
+                      3,
+                      15,
+                      7,
+                      19,
+                      0,
+                      1,
+                      -7,
+                      5
+                    ]
+                  },
+                  {
+                    "label": "Mersenne (Fractions)",
+                    "values": [
+                      -14,
+                      20,
+                      31,
+                      2,
+                      14,
+                      -16,
+                      18,
+                      29,
+                      0,
+                      12,
+                      4,
+                      16
+                    ]
+                  },
+                  {
+                    "label": "Mersenne (Marin, 1636)",
+                    "values": [
+                      2,
+                      -2,
+                      -5,
+                      -9,
+                      -7,
+                      -5,
+                      -3,
+                      -2,
+                      0,
+                      2,
+                      3,
+                      5
+                    ]
+                  },
+                  {
+                    "label": "Neidhardt (1724, Grosse Stadt)",
+                    "values": [
+                      2,
+                      2,
+                      4,
+                      0,
+                      4,
+                      2,
+                      2,
+                      2,
+                      0,
+                      4,
+                      2,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Neidhardt (1732, Dorf)",
+                    "values": [
+                      0,
+                      4,
+                      2,
+                      -4,
+                      4,
+                      -2,
+                      6,
+                      0,
+                      0,
+                      4,
+                      -2,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Neidthardt I",
+                    "values": [
+                      0,
+                      2,
+                      2,
+                      -2,
+                      4,
+                      -2,
+                      4,
+                      2,
+                      0,
+                      2,
+                      -2,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Neidthardt II",
+                    "values": [
+                      2,
+                      2,
+                      4,
+                      0,
+                      6,
+                      2,
+                      4,
+                      2,
+                      0,
+                      6,
+                      2,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Neidthardt III",
+                    "values": [
+                      2,
+                      2,
+                      4,
+                      0,
+                      4,
+                      2,
+                      4,
+                      2,
+                      0,
+                      4,
+                      2,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Rameau",
+                    "values": [
+                      -4,
+                      4,
+                      0,
+                      -4,
+                      16,
+                      -6,
+                      8,
+                      -2,
+                      0,
+                      8,
+                      -8,
+                      12
+                    ]
+                  },
+                  {
+                    "label": "Rameau (-1/4)",
+                    "values": [
+                      -3,
+                      3,
+                      -5,
+                      -3,
+                      14,
+                      -5,
+                      7,
+                      -1,
+                      0,
+                      5,
+                      -7,
+                      10
+                    ]
+                  },
+                  {
+                    "label": "Ramis de Pareia (1482)",
+                    "values": [
+                      8,
+                      -2,
+                      10,
+                      2,
+                      14,
+                      6,
+                      18,
+                      8,
+                      0,
+                      12,
+                      4,
+                      16
+                    ]
+                  },
+                  {
+                    "label": "Reinhard (Andreas, 1604)",
+                    "values": [
+                      15,
+                      20,
+                      8,
+                      2,
+                      14,
+                      13,
+                      18,
+                      6,
+                      0,
+                      -1,
+                      4,
+                      16
+                    ]
+                  },
+                  {
+                    "label": "Schlick (Barbour)",
+                    "values": [
+                      -4,
+                      2,
+                      8,
+                      -2,
+                      8,
+                      -4,
+                      4,
+                      2,
+                      0,
+                      8,
+                      -4,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Schlick (Dupont)",
+                    "values": [
+                      -14,
+                      3,
+                      21,
+                      -3,
+                      14,
+                      -10,
+                      7,
+                      3,
+                      0,
+                      17,
+                      -7,
+                      10
+                    ]
+                  },
+                  {
+                    "label": "Schlick (Lange)",
+                    "values": [
+                      -8,
+                      2,
+                      12,
+                      -2,
+                      8,
+                      -6,
+                      4,
+                      6,
+                      0,
+                      10,
+                      -4,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Schlick (Ratte)",
+                    "values": [
+                      -6,
+                      2,
+                      10,
+                      -2,
+                      8,
+                      -4,
+                      4,
+                      6,
+                      0,
+                      8,
+                      -4,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Schlick (Schugk)",
+                    "values": [
+                      -11,
+                      3,
+                      16,
+                      -3,
+                      11,
+                      -8,
+                      5,
+                      19,
+                      0,
+                      14,
+                      -5,
+                      8
+                    ]
+                  },
+                  {
+                    "label": "Schlick (Tessmer)",
+                    "values": [
+                      -5,
+                      2,
+                      10,
+                      -2,
+                      10,
+                      -5,
+                      5,
+                      6,
+                      0,
+                      10,
+                      -5,
+                      7
+                    ]
+                  },
+                  {
+                    "label": "Schlick (Vogel)",
+                    "values": [
+                      -6,
+                      3,
+                      2,
+                      -3,
+                      11,
+                      -8,
+                      5,
+                      -4,
+                      0,
+                      9,
+                      -5,
+                      8
+                    ]
+                  },
+                  {
+                    "label": "Schneegass II (1590)",
+                    "values": [
+                      -11,
+                      3,
+                      21,
+                      0,
+                      14,
+                      -7,
+                      7,
+                      -14,
+                      0,
+                      17,
+                      -4,
+                      10
+                    ]
+                  },
+                  {
+                    "label": "Schneegass III (1590)",
+                    "values": [
+                      -9,
+                      4,
+                      18,
+                      -1,
+                      11,
+                      -9,
+                      6,
+                      -14,
+                      0,
+                      16,
+                      -4,
+                      10
+                    ]
+                  },
+                  {
+                    "label": "Silbermann (1/6)",
+                    "values": [
+                      -8,
+                      2,
+                      12,
+                      -2,
+                      8,
+                      -6,
+                      4,
+                      -10,
+                      0,
+                      10,
+                      -4,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Sorge",
+                    "values": [
+                      2,
+                      2,
+                      4,
+                      0,
+                      4,
+                      2,
+                      4,
+                      4,
+                      0,
+                      4,
+                      2,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Stanhope (1801)",
+                    "values": [
+                      0,
+                      6,
+                      4,
+                      -6,
+                      8,
+                      -2,
+                      12,
+                      2,
+                      0,
+                      6,
+                      -4,
+                      10
+                    ]
+                  },
+                  {
+                    "label": "Trost (Johann Caspar, 1677)",
+                    "values": [
+                      -7,
+                      3,
+                      -7,
+                      -3,
+                      0,
+                      -3,
+                      -7,
+                      -10,
+                      0,
+                      3,
+                      -14,
+                      -3
+                    ]
+                  },
+                  {
+                    "label": "Valotti (1754)",
+                    "values": [
+                      0,
+                      2,
+                      4,
+                      -2,
+                      8,
+                      -2,
+                      4,
+                      2,
+                      0,
+                      6,
+                      -4,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Van Zwolle",
+                    "values": [
+                      -16,
+                      -2,
+                      -12,
+                      2,
+                      -8,
+                      -18,
+                      -4,
+                      -14,
+                      0,
+                      -10,
+                      4,
+                      -6
+                    ]
+                  },
+                  {
+                    "label": "Veroli (Ordinaire)",
+                    "values": [
+                      -9,
+                      3,
+                      -1,
+                      -3,
+                      8,
+                      -9,
+                      7,
+                      -7,
+                      0,
+                      4,
+                      -7,
+                      10
+                    ]
+                  },
+                  {
+                    "label": "Werckmeister I",
+                    "values": [
+                      2,
+                      4,
+                      6,
+                      2,
+                      10,
+                      0,
+                      8,
+                      4,
+                      0,
+                      8,
+                      4,
+                      12
+                    ]
+                  },
+                  {
+                    "label": "Werckmeister II",
+                    "values": [
+                      -8,
+                      6,
+                      4,
+                      2,
+                      8,
+                      -2,
+                      4,
+                      -6,
+                      0,
+                      14,
+                      -4,
+                      10
+                    ]
+                  },
+                  {
+                    "label": "Werckmeister III",
+                    "values": [
+                      -4,
+                      4,
+                      0,
+                      -4,
+                      4,
+                      0,
+                      2,
+                      -8,
+                      0,
+                      2,
+                      -2,
+                      0
+                    ]
+                  },
+                  {
+                    "label": "Werckmeister IV",
+                    "values": [
+                      -2,
+                      -5,
+                      5,
+                      2,
+                      6,
+                      3,
+                      6,
+                      0,
+                      0,
+                      7,
+                      4,
+                      8
+                    ]
+                  },
+                  {
+                    "label": "Wiegleb",
+                    "values": [
+                      -2,
+                      2,
+                      2,
+                      0,
+                      6,
+                      -4,
+                      4,
+                      0,
+                      0,
+                      4,
+                      -2,
+                      6
+                    ]
+                  },
+                  {
+                    "label": "Wiegleb (1790)",
+                    "values": [
+                      0,
+                      3,
+                      4,
+                      0,
+                      8,
+                      -2,
+                      6,
+                      2,
+                      0,
+                      6,
+                      -1,
+                      9
+                    ]
+                  },
+                  {
+                    "label": "Young I",
+                    "values": [
+                      0,
+                      2,
+                      4,
+                      -2,
+                      6,
+                      -2,
+                      4,
+                      2,
+                      0,
+                      6,
+                      -2,
+                      6
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "knob",
+                "param": "scaleTuneC",
+                "label": "C",
+                "displayOffset": -64,
+                "inputOffset": -64
+              },
+              {
+                "type": "knob",
+                "param": "scaleTuneCs",
+                "label": "C#/Db",
+                "displayOffset": -64,
+                "inputOffset": -64
+              },
+              {
+                "type": "knob",
+                "param": "scaleTuneD",
+                "label": "D",
+                "displayOffset": -64,
+                "inputOffset": -64
+              },
+              {
+                "type": "knob",
+                "param": "scaleTuneDs",
+                "label": "D#/Eb",
+                "displayOffset": -64,
+                "inputOffset": -64
+              },
+              {
+                "type": "knob",
+                "param": "scaleTuneE",
+                "label": "E",
+                "displayOffset": -64,
+                "inputOffset": -64
+              },
+              {
+                "type": "knob",
+                "param": "scaleTuneF",
+                "label": "F",
+                "displayOffset": -64,
+                "inputOffset": -64
+              },
+              {
+                "type": "knob",
+                "param": "scaleTuneFs",
+                "label": "F#/Gb",
+                "displayOffset": -64,
+                "inputOffset": -64
+              },
+              {
+                "type": "knob",
+                "param": "scaleTuneG",
+                "label": "G",
+                "displayOffset": -64,
+                "inputOffset": -64
+              },
+              {
+                "type": "knob",
+                "param": "scaleTuneGs",
+                "label": "G#/Ab",
+                "displayOffset": -64,
+                "inputOffset": -64
+              },
+              {
+                "type": "knob",
+                "param": "scaleTuneA",
+                "label": "A",
+                "displayOffset": -64,
+                "inputOffset": -64
+              },
+              {
+                "type": "knob",
+                "param": "scaleTuneAs",
+                "label": "A#/Bb",
+                "displayOffset": -64,
+                "inputOffset": -64
+              },
+              {
+                "type": "knob",
+                "param": "scaleTuneB",
+                "label": "B",
+                "displayOffset": -64,
+                "inputOffset": -64
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "label": "Send All",
+        "action": "writeAll"
+      }
+    ]
+  },
+  "help": [
+    {
+      "title": "Windkey – Overview",
+      "icon": "air",
+      "entries": [
+        {
+          "type": "para",
+          "text": "The Tahorng Windkey is a USB MIDI wind controller. This section documents all parameters configurable from Hemiola’s Configuration Tool tab."
+        },
+        {
+          "type": "note",
+          "text": "Changes are sent to the device in real time but are not saved to its internal memory. Use Presets to store and recall your settings."
+        }
+      ]
+    },
+    {
+      "title": "Tab: Main",
+      "icon": "home",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "Instrument"
+        },
+        {
+          "type": "para",
+          "text": "Select one of 10 available voices: Melodica, Accordion, Harmonica, Reed Organ, Synth Lead, Strings, Sax, Clarinet, Flute, Recorder."
+        },
+        {
+          "type": "subtitle",
+          "text": "Breath Controller"
+        },
+        {
+          "type": "para",
+          "text": "Enables or disables breath-sensor control of expression. When on, blowing harder increases volume and expressiveness; when off, volume is fixed."
+        },
+        {
+          "type": "subtitle",
+          "text": "Volume"
+        },
+        {
+          "type": "para",
+          "text": "Overall MIDI output level (0 – 10)."
+        },
+        {
+          "type": "subtitle",
+          "text": "Transpose"
+        },
+        {
+          "type": "para",
+          "text": "Shifts all notes up or down in semitones (−24 to +24). 0 = no shift, positive = higher pitch, negative = lower pitch."
+        },
+        {
+          "type": "subtitle",
+          "text": "MIDI"
+        },
+        {
+          "type": "item",
+          "text": "Velocity Slope – maps playing force to note volume. Lower values give a softer, more even response; higher values make playing more dynamic."
+        },
+        {
+          "type": "item",
+          "text": "Velocity Offset – shifts the baseline loudness. Raise this if notes feel too quiet even when playing hard."
+        },
+        {
+          "type": "item",
+          "text": "PB Range – sets how far the pitch bend moves in semitones."
+        }
+      ]
+    },
+    {
+      "title": "Tab: Synth",
+      "icon": "graphic_eq",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "Vibrato"
+        },
+        {
+          "type": "item",
+          "text": "Rate – how fast the pitch oscillates."
+        },
+        {
+          "type": "item",
+          "text": "Depth – how wide the pitch oscillation is. Keep this low for a subtle effect."
+        },
+        {
+          "type": "item",
+          "text": "Delay – how long after playing a note before vibrato starts."
+        },
+        {
+          "type": "subtitle",
+          "text": "TVF (Time-Variant Filter)"
+        },
+        {
+          "type": "para",
+          "text": "A low-pass filter that shapes the brightness of the sound over time."
+        },
+        {
+          "type": "item",
+          "text": "Cutoff – the frequency above which harmonics are rolled off. Lower = darker sound; higher = brighter sound."
+        },
+        {
+          "type": "item",
+          "text": "Resonance – emphasises frequencies around the cutoff, adding a characteristic peak."
+        },
+        {
+          "type": "subtitle",
+          "text": "TVF Envelope"
+        },
+        {
+          "type": "para",
+          "text": "Controls how the filter opens and closes around each note."
+        },
+        {
+          "type": "item",
+          "text": "Attack – how quickly filter brightness rises at the start of a note."
+        },
+        {
+          "type": "item",
+          "text": "Decay – how quickly the brightness drops after the initial peak."
+        },
+        {
+          "type": "item",
+          "text": "Release – how quickly the filter closes after releasing the note."
+        },
+        {
+          "type": "note",
+          "text": "Centre value (64) is the neutral position for all Synth parameters."
+        }
+      ]
+    },
+    {
+      "title": "Tab: FX",
+      "icon": "blur_on",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "EQ"
+        },
+        {
+          "type": "item",
+          "text": "EQ Enable – master on/off switch for the equaliser."
+        },
+        {
+          "type": "item",
+          "text": "Brightness – overall tonal brightness (0–100). Works closely with the EQ parameters."
+        },
+        {
+          "type": "item",
+          "text": "Low Gain – boosts or cuts bass frequencies (in dB)."
+        },
+        {
+          "type": "item",
+          "text": "Low Freq – the frequency around which the bass adjustment is applied (up to 800 Hz)."
+        },
+        {
+          "type": "item",
+          "text": "High Gain – boosts or cuts treble frequencies (in dB)."
+        },
+        {
+          "type": "item",
+          "text": "High Freq – the frequency around which the treble adjustment is applied (up to 5.8 kHz)."
+        },
+        {
+          "type": "subtitle",
+          "text": "Reverb"
+        },
+        {
+          "type": "para",
+          "text": "Select a reverb type: Room 1/2/3, Hall 1/2, Plate, Delay, Pan Delay."
+        },
+        {
+          "type": "item",
+          "text": "Level – how much reverb is added to the dry signal."
+        },
+        {
+          "type": "item",
+          "text": "Character – tonal colour of the space (darker to brighter)."
+        },
+        {
+          "type": "item",
+          "text": "Pre-LPF – softens the reverb input; higher values give a warmer, less bright tail."
+        },
+        {
+          "type": "item",
+          "text": "Master Level – overall output level of the reverb effect."
+        },
+        {
+          "type": "item",
+          "text": "Time – how long the reverb tail lingers."
+        },
+        {
+          "type": "item",
+          "text": "Pre-delay – a short pause before the first reflection, giving a sense of room size."
+        },
+        {
+          "type": "item",
+          "text": "Feedback – tail density for reverb types; repeat count for delay types."
+        },
+        {
+          "type": "subtitle",
+          "text": "Chorus"
+        },
+        {
+          "type": "para",
+          "text": "Select a chorus type: Chorus 1–4, Feedback, Flanger, Short Delay, FB Delay."
+        },
+        {
+          "type": "item",
+          "text": "Level – output level of the chorus effect."
+        },
+        {
+          "type": "item",
+          "text": "Send – how much of the chorus signal is sent to the reverb unit (0–127)."
+        },
+        {
+          "type": "item",
+          "text": "Feedback – amount of processed signal fed back into the chorus; more = stronger, swirling effect."
+        },
+        {
+          "type": "item",
+          "text": "Delay – base delay time of the chorus modulation; longer values give a wider, more spread-out sound."
+        },
+        {
+          "type": "item",
+          "text": "Rate – how fast the modulation oscillates."
+        },
+        {
+          "type": "item",
+          "text": "Depth – how wide the pitch/delay modulation swings."
+        },
+        {
+          "type": "item",
+          "text": "Pre-LPF – low-pass filter before the chorus; higher values cut more high-frequency content entering the effect."
+        }
+      ]
+    },
+    {
+      "title": "Tab: Tuning",
+      "icon": "music_note",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "Master Tuning"
+        },
+        {
+          "type": "para",
+          "text": "Fine-tunes the entire instrument in cents (−100 to +100 ¢). 0 ¢ corresponds to the standard A4 = 440 Hz."
+        },
+        {
+          "type": "subtitle",
+          "text": "Temperament"
+        },
+        {
+          "type": "para",
+          "text": "Selects a historical or specialised tuning system. Choosing a temperament automatically calculates and sends all 12 per-note scale-tuning values."
+        },
+        {
+          "type": "item",
+          "text": "Equal Tempered (standard) and several stretched variants."
+        },
+        {
+          "type": "item",
+          "text": "Just Tempered (Schugk, Barbour) – naturally harmonious intervals."
+        },
+        {
+          "type": "item",
+          "text": "Pythagorean and its many fifth-chain transpositions."
+        },
+        {
+          "type": "item",
+          "text": "Meantone, Comma-based, and historical organ temperaments (Silbermann, Manderscheidt, etc.)."
+        },
+        {
+          "type": "subtitle",
+          "text": "Per-note Scale Tuning"
+        },
+        {
+          "type": "para",
+          "text": "Each of the 12 chromatic notes (C through B) has its own knob showing the offset in cents (−63 to +63 ¢) relative to equal temperament."
+        },
+        {
+          "type": "note",
+          "text": "Adjusting any knob overrides the selected temperament. Selecting a temperament replaces all 12 per-note values; further edits are applied on top."
+        }
+      ]
+    }
+  ]
+}

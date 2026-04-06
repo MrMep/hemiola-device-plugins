@@ -1,0 +1,516 @@
+{
+  "slug": "clariimini",
+  "name": "Clarii mini",
+  "manufacturer": "Robkoo Information & Technologies Co., Ltd.",
+  "author": "Gianluca Barbaro",
+  "version": "1.1.0",
+  "enabled": true,
+  "triggers": ["clariimini", "clarii mini", "ClariiMini", "clarii"],
+  "requiresLandscape": false,
+  "protocol": {
+    "type": "sysex",
+    "channel": 0,
+    "autoWrite": true,
+    "onConnect": [
+      { "bytes": "F0 00 21 59 00 01 00 02 01 01 7B F7" },
+      { "bytes": "F0 00 21 59 00 01 00 02 01 11 6B F7" },
+      { "bytes": "F0 00 21 59 00 01 00 02 01 03 79 F7" },
+      { "bytes": "F0 00 21 59 00 01 00 02 01 05 7F F7" }
+    ],
+    "responses": [
+      {
+        "id": "params",
+        "match": "F0 00 21 59 00 01 00 02 02 03",
+        "writePrefix": "F0 00 21 59 00 01 00 02 02 03",
+        "writeLength": 44,
+        "checksumType": "robkoo_xor"
+      },
+      {
+        "id": "instrument",
+        "match": "F0 00 21 59 00 01 00 02 02 09",
+        "checksumType": "robkoo_xor"
+      },
+      {
+        "id": "battery",
+        "role": "battery",
+        "match": "F0 00 21 59 00 01 00 02 02 11",
+        "byteIndex": 10,
+        "checksumType": "robkoo_xor"
+      },
+      {
+        "id": "patches",
+        "role": "patch_list",
+        "match": "F0 00 21 59 00 01 00 02 02 01",
+        "pcByteIndex": 10,
+        "internalIdByteIndex": 11,
+        "versionByteIndex": 20,
+        "typeMap": { "16": "Builtin", "17": "Value", "18": "Free" },
+        "nameMap": {
+            "16": { 
+                "2": "Pop Alto Saxophone",
+                "7": "Oboe",
+                "5": "Recorder",
+                "9": "Pop Trumpet",
+                "13": "Pop Violin",
+                "21": "Zhudi",
+                "22": "Hulusi",
+                "25": "Suona",
+                "30": "Pipa",
+                "17": "80s Gamer",
+                "19": "Firefly",
+                "20": "Heal",
+                "33": "Meow",
+                "35": "Shaker",
+                "36": "Kungfu",
+                "37": "Rainstick",
+                "39": "Synth Voice",
+                "76": "Nylon Guitar",
+                "105": "Fireworks"
+            },
+            "17": {
+                "23": "Muted Trumpet"
+
+            },
+            "18": {
+                "73": "Jazz Alto Saxophone", 
+                "55": "Tenor Saxophone",
+                "70": "Jazz Trumpet",
+                "67": "Fiddle",
+                "57": "Cello",
+                "58": "Pizzicato Contrabass",
+                "34": "Strings Sus",
+                "35": "Pizzicato Strings",
+                "38": "Harp",
+                "42": "Bagpipe",
+                "41": "Celesta",
+                "32": "Synth Brass",
+                "61": "Orchestral Drum Kit",
+                "111": "Chinese Percussion",
+                "24": "Clarinet"
+            }
+        },
+        "checksumType": "robkoo_xor"
+      },
+      {
+        "id": "liveKeys",
+        "match": "F0 00 21 59 00 01 00 02 02 02",
+        "checksumType": "robkoo_xor"
+      },
+      {
+        "id": "currentKeyHigh",
+        "match": "F0 00 21 59 00 01 00 02 02 2C",
+        "checksumType": "robkoo_xor"
+      },
+      {
+        "id": "currentKeyLow",
+        "match": "F0 00 21 59 00 01 00 02 02 2F",
+        "checksumType": "robkoo_xor"
+      },
+      {
+        "id": "fingeringCustom",
+        "match": "F0 00 21 59 00 01 00 02 02 05",
+        "checksumType": "robkoo_xor"
+      }
+    ]
+  },
+  "parameters": [
+    {
+      "id": "instrument",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "sendCommand": {
+        "type": "program_change"
+      }
+    },
+    { "id": "volume",            "source": "params", "byteIndex": 10, "min": 0, "max": 10, "default": 3 },
+    { "id": "reverb",            "source": "params", "byteIndex": 11, "min": 0, "max": 4,  "default": 3 },
+    { "id": "transpose",         "source": "params", "byteIndex": 12, "min": 0, "max": 11, "default": 5 },
+
+    { "id": "undefined0",        "source": "params", "byteIndex": 13, "min": 0, "max": 127, "default": 64 },
+
+    { "id": "octave",            "source": "params", "byteIndex": 14, "min": 0, "max": 6,  "default": 3, "valueInvert": true },
+    { "id": "undefined1",        "source": "params", "byteIndex": 15, "min": 0, "max": 127, "default": 64 },
+    { "id": "undefined2",        "source": "params", "byteIndex": 16, "min": 0, "max": 127, "default": 64 },
+    { "id": "undefined3",        "source": "params", "byteIndex": 17, "min": 0, "max": 127, "default": 64 },
+    { "id": "undefined4",        "source": "params", "byteIndex": 18, "min": 0, "max": 127, "default": 64 },
+
+    { "id": "elevation",         "source": "params", "byteIndex": 19, "min": 0, "max": 3,  "default": 0 },
+    { "id": "undefined5",        "source": "params", "byteIndex": 20, "min": 0, "max": 127, "default": 64 },
+    { "id": "undefined6",        "source": "params", "byteIndex": 21, "min": 0, "max": 127, "default": 64 },
+    { "id": "fingering",         "source": "params", "byteIndex": 22, "min": 0, "max": 4,  "default": 0 },
+    { "id": "breathSensitivityDisabled", "source": "params", "byteIndex": 23, "min": 0, "max": 5,  "default": 0 },
+    { "id": "keyDelay",          "source": "params", "byteIndex": 24, "min": 0, "max": 7,  "default": 0 },
+    { "id": "lightFx",           "source": "params", "byteIndex": 25, "min": 0, "max": 1,  "default": 0 },
+    { "id": "autoPowerOff",      "source": "params", "byteIndex": 26, "min": 0, "max": 3,  "default": 0 },
+    { "id": "undefined7",        "source": "params", "byteIndex": 27, "min": 0, "max": 127, "default": 64 },
+    { "id": "language. ",        "source": "params", "byteIndex": 28, "min": 0, "max": 9,  "default": 0 },
+    { "id": "portamento",        "source": "params", "byteIndex": 29, "min": 0, "max": 4,  "default": 0 },
+    { "id": "pitchBendRange",    "source": "params", "byteIndex": 30, "min": 0, "max": 2,  "default": 1 },
+    { "id": "breathCurveOld",       "source": "params", "byteIndex": 31, "min": 0, "max": 3,  "default": 2 },
+    { "id": "elevationAngle",    "source": "params", "byteIndex": 32, "min": 0, "max": 4,  "default": 0 },
+    { "id": "undefined9",        "source": "params", "byteIndex": 33, "min": 0, "max": 127, "default": 64 },
+    { "id": "undefined10",       "source": "params", "byteIndex": 34, "min": 0, "max": 127, "default": 64 },
+    { "id": "undefined11",       "source": "params", "byteIndex": 35, "min": 0, "max": 127, "default": 64 },
+    { "id": "undefined12",       "source": "params", "byteIndex": 36, "min": 0, "max": 127, "default": 64 },
+    { "id": "undefined13",       "source": "params", "byteIndex": 37, "min": 0, "max": 127, "default": 64 },
+    { "id": "okKey",             "source": "params", "byteIndex": 38, "min": 0, "max": 2,  "default": 0 },
+    { "id": "undefined14",       "source": "params", "byteIndex": 39, "min": 0, "max": 127, "default": 64 },
+    { "id": "undefined15",       "source": "params", "byteIndex": 40, "min": 0, "max": 127, "default": 64 },
+    { "id": "undefined16",       "source": "params", "byteIndex": 41, "min": 0, "max": 127, "default": 64 },
+    { "id": "roll",              "source": "params", "byteIndex": 42, "min": 0, "max": 2, "default": 0 },
+    { "id": "rollAngle",         "source": "params", "byteIndex": 43, "min": 0, "max": 3, "default": 0 },
+    { "id": "undefined18",       "source": "params", "byteIndex": 44, "min": 0, "max": 127, "default": 64 },
+    { "id": "undefined19",       "source": "params", "byteIndex": 45, "min": 0, "max": 127, "default": 64 },
+    { "id": "breathArticulation",       "source": "params", "byteIndex": 46, "min": 0, "max": 1, "default": 0, "valueInvert": true  },
+    { "id": "breathCurve",       "source": "params", "byteIndex": 47, "min": 0, "max": 4, "default": 0 },
+
+    {
+      "id": "liveKeysStream",
+      "min": 0,
+      "max": 1,
+      "default": 0,
+      "sendCommand": {
+        "type": "sysex",
+        "checksum": "robkoo_xor",
+        "postChecksumBytes": [144],
+        "bytes": "F0 00 21 59 00 01 00 02 01 02 $V $CS F7"
+      }
+    },
+    {
+      "id": "padMute",
+      "min": 0,
+      "max": 1,
+      "default": 0,
+      "sendCommand": {
+        "type": "sysex",
+        "checksum": "robkoo_xor",
+        "bytes": "F0 00 21 59 00 01 00 02 02 13 $V F7"
+      }
+    },
+    {
+      "id": "padMode",
+      "min": 0,
+      "max": 1,
+      "default": 0,
+      "onSet": [
+        { "param": "liveKeysStream" },
+        { "param": "padMute" }
+      ]
+    },
+
+    { "id": "padNoteOkKey", "min": 0, "max": 127, "default": 72 },
+    { "id": "padNoteOctUp", "min": 0, "max": 127, "default": 63 },
+    { "id": "padNoteOctDown", "min": 0, "max": 127, "default": 61 },
+    { "id": "padNoteLIndex", "min": 0, "max": 127, "default": 71 },
+    { "id": "padNoteLMiddle", "min": 0, "max": 127, "default": 69 },
+    { "id": "padNoteLRing", "min": 0, "max": 127, "default": 67 },
+    { "id": "padNoteThumbUp", "min": 0, "max": 127, "default": 68 },
+    { "id": "padNoteThumbDown", "min": 0, "max": 127, "default": 66 },
+    { "id": "padNoteRIndex", "min": 0, "max": 127, "default": 65 },
+    { "id": "padNoteRMiddle", "min": 0, "max": 127, "default": 64 },
+    { "id": "padNoteRRing", "min": 0, "max": 127, "default": 62 },
+    { "id": "padNoteRPinky", "min": 0, "max": 127, "default": 60 }
+
+
+  ],
+  "ui": {
+    "keyboardDefinitions": {
+      "mainFingering": {
+        "options": [72, 63, 61, 71, 69, 67, 68, 66, 65, 64, 62, 60],
+        "optionLabels": [
+          "Ok Key",
+          "Oct Up",
+          "Oct Down",
+          "L Index",
+          "L Middle",
+          "L Ring",
+          "St Up",
+          "St Down",
+          "R Index",
+          "R Middle",
+          "R Ring",
+          "R Pinky"
+        ],
+        "noteParams": [
+          "padNoteOkKey",
+          "padNoteOctUp",
+          "padNoteOctDown",
+          "padNoteLIndex",
+          "padNoteLMiddle",
+          "padNoteLRing",
+          "padNoteThumbUp",
+          "padNoteThumbDown",
+          "padNoteRIndex",
+          "padNoteRMiddle",
+          "padNoteRRing",
+          "padNoteRPinky"
+        ],
+        "groups": [
+          { "label": "Buttons", "indices": [0] },
+          { "label": "Octave", "indices": [1, 2] },
+          { "label": "Left Hand", "indices": [3, 4, 5] },
+          { "label": "Thumb", "indices": [6, 7] },
+          { "label": "Right Hand", "indices": [8, 9, 10, 11] }
+        ],
+        "sources": [
+          {
+            "source": "liveKeys",
+            "bitByteIndex": 10,
+            "bitOrder": "lsb",
+            "bits": [12, 11, 10, 6, 5, 4, 9, 8, 3, 2, 1, 0]
+          }
+        ],
+        "keyBits": [-1, -1, -1, 9, 8, 6, -1, -1, 5, 4, 3, 2]
+      }
+    },
+    "tabs": [
+      {
+        "label": "Main",
+        "sections": [
+          {
+            "title": "Sound",
+            "controls": [
+              {
+                "type": "tile_picker",
+                "param": "instrument",
+                "label": "Instrument",
+                "patchListSource": "patches",
+                "patchNameMap": {
+                    
+                  
+                }
+              },
+              { "type": "knob", "param": "volume", "label": "Volume" },
+              { "type": "knob", "param": "reverb", "label": "Reverb" }
+            ]
+          },
+          {
+            "title": "Breath",
+            "controls": [
+            { "type": "toggle", "param": "breathArticulation", "label": "Articulation" },
+              {
+                "type": "tile_picker",
+                "param": "breathCurve",
+                "label": "Breath Curve",
+                "options": [0, 1, 2, 3, 4],
+                "optionLabels": ["L2-Light", "L1", "M-Middle", "H1", "H2-Hard"]
+              }
+            ]
+          },
+          {
+            "title": "Pitch",
+            "controls": [
+              { "type": "knob", "param": "transpose", "label": "Transpose", "displayOffset": -5 },
+              { "type": "knob", "param": "octave", "label": "Octave", "displayOffset": -3 },
+              {
+                "type": "tile_picker",
+                "param": "pitchBendRange",
+                "label": "Pitch Bend Range",
+                "options": [0, 1, 2],
+                "optionLabels": ["1 semi", "2 semi", "3 semi"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Fingers",
+        "sections": [
+          {
+            "controls": [
+              {
+                "type": "tile_picker",
+                "param": "fingering",
+                "label": "Fingering",
+                "options": [0, 1, 2, 3, 4],
+                "optionLabels": ["Sax", "Hulusi", "Dizi", "Evi+", "Whistle+"]
+              },
+            {
+                "type": "tile_picker",
+                "param": "keyDelay",
+                "label": "Key Delay",
+                "options": [0, 1, 2, 3, 4, 5, 6, 7],
+                "optionLabels": ["Off", "10ms", "20ms", "30ms", "40ms", "50ms", "60ms", "70ms"]
+              },
+            {
+                "type": "tile_picker",
+                "param": "portamento",
+                "label": "Portamento Time",
+                "options": [0, 1, 2, 3, 4],
+                "optionLabels": ["Short", "2", "Middle", "4", "Long"]
+              }
+            ]
+          },
+           {
+            "title": "Pad Mode",
+            "controls": [
+                
+              {
+                "type": "toggle",
+                "param": "padMode",
+                "label": "Pad Mode"
+              },
+              {
+                "type": "pressed_keys",
+                "param": "",
+                "label": "Pressed Keys",
+                "keyboardRef": "mainFingering",
+                "noteOnVelocity": 90
+              }
+            ]
+          },
+          {
+            "title": "Custom Fingering",
+            "controls": [
+              {
+                "type": "custom_fingering_manager",
+                "param": "",
+                "label": "Custom Fingerings",
+                "keyboardRef": "mainFingering",
+                "customProfile": "clarii",
+                "slotCount": 256,
+                "includeDisabledSlot": false,
+                "slotDataSource": "fingeringCustom",
+                "slotDataOffset": 10,
+                "listenStreamParam": "liveKeysStream",
+                "padModeParam": "padMode",
+                "checksum": "robkoo_xor"
+              }
+            ]
+          }
+        ]
+      }
+      ,
+      {
+        "label": "Debug",
+        "enabled": false,
+        "sections": [
+          {
+            "title": "Bytes 10–18",
+            "controls": [
+              { "type": "knob", "param": "volume",     "label": "B10 volume" },
+              { "type": "knob", "param": "reverb",     "label": "B11 reverb" },
+              { "type": "knob", "param": "transpose",  "label": "B12 transpose" },
+              { "type": "knob", "param": "undefined0", "label": "B13 ?" },
+              { "type": "knob", "param": "octave",     "label": "B14 octave" },
+              { "type": "knob", "param": "undefined1", "label": "B15 ?" },
+              { "type": "knob", "param": "undefined2", "label": "B16 ?" },
+              { "type": "knob", "param": "undefined3", "label": "B17 ?" },
+              { "type": "knob", "param": "undefined4", "label": "B18 ?" }
+            ]
+          },
+          {
+            "title": "Bytes 19–28",
+            "controls": [
+              { "type": "knob", "param": "elevation",     "label": "B19 mCtrl" },
+              { "type": "knob", "param": "undefined5",        "label": "B20 ?" },
+              { "type": "knob", "param": "undefined6",        "label": "B21 ?" },
+              { "type": "knob", "param": "fingering",         "label": "B22 finger" },
+              { "type": "knob", "param": "breathSensitivity", "label": "B23 breath" },
+              { "type": "knob", "param": "keyDelay",    "label": "B24 keySens" },
+              { "type": "knob", "param": "lightFx",           "label": "B25 light" },
+              { "type": "knob", "param": "autoPowerOff",      "label": "B26 autoPwr" },
+              { "type": "knob", "param": "undefined7",        "label": "B27 ?" },
+              { "type": "knob", "param": "language",        "label": "B28 language" }
+            ]
+          },
+          {
+            "title": "Bytes 29–38",
+            "controls": [
+              { "type": "knob", "param": "portamento",    "label": "B29 porta" },
+              { "type": "knob", "param": "pitchBendRange","label": "B30 pbRange" },
+              { "type": "knob", "param": "breathCurveOld",   "label": "B31 bCurve" },
+              { "type": "knob", "param": "elevationAngle",   "label": "B32 mAngle" },
+              { "type": "knob", "param": "undefined9",    "label": "B33 ?" },
+              { "type": "knob", "param": "undefined10",   "label": "B34 ?" },
+              { "type": "knob", "param": "undefined11",   "label": "B35 ?" },
+              { "type": "knob", "param": "undefined12",   "label": "B36 ?" },
+              { "type": "knob", "param": "undefined13",   "label": "B37 ?" },
+              { "type": "knob", "param": "okKey",         "label": "B38 okKey" }
+            ]
+          },
+        
+                   {
+            "title": "Bytes 39–44",
+            "controls": [
+              { "type": "knob", "param": "undefined14",   "label": "B39 ?" },
+              { "type": "knob", "param": "undefined15",   "label": "B40 ?" },
+              { "type": "knob", "param": "undefined16",   "label": "B41 ?" },
+              { "type": "knob", "param": "roll",          "label": "B42 roll" },
+              { "type": "knob", "param": "undefined17",   "label": "B43 ?" },
+              { "type": "knob", "param": "undefined18",   "label": "B44 ?" },
+              { "type": "knob", "param": "undefined19",   "label": "B45 ?" },
+              { "type": "knob", "param": "breathArticulation",   "label": "B46 breathArt" },
+              { "type": "knob", "param": "breathCurve",   "label": "B47 bCurve" }
+            ]
+            
+      }
+    ]
+      },
+            {
+        "label": "Other",
+        "sections": [
+          {
+            "title": "Motion",
+            "controls": [
+              {
+                "type": "tile_picker",
+                "param": "elevation",
+                "label": "Elevation Control",
+                "options": [0, 1, 2, 3],
+                "optionLabels": ["Off", "Pitch Bend", "Portamento", "Vibrato"]
+              },
+              {
+                "type": "tile_picker",
+                "param": "elevationAngle",
+                "label": "Elevation Angle",
+                "options": [0, 1, 2, 3, 4],
+                "optionLabels": ["Low", "2", "Middle", "4", "High"]
+              },
+              {
+                "type": "tile_picker",
+                "param": "roll",
+                "label": "Roll Control",
+                "options": [0, 1, 2],
+                "optionLabels": ["Off", "Pitch Bend", "Bend/Portamento"]
+              },
+                {
+                    "type": "tile_picker",
+                    "param": "rollAngle",
+                    "label": "Roll Angle",
+                    "options": [0, 1, 2, 3],
+                    "optionLabels": ["5°", "10°", "20°", "30°"]
+                }
+            ]
+          },
+          {
+            "title": "Other",
+            "controls": [
+                { "type": "toggle", "param": "lightFx", "label": "Light FX" },
+
+              {
+                "type": "tile_picker",
+                "param": "okKey",
+                "label": "OK Key",
+                "options": [0, 1, 2],
+                "optionLabels": ["Octave +2","Octave +3", "Fav. (hold)"]
+              },
+              {
+                "type": "tile_picker",
+                "param": "autoPowerOff",
+                "label": "Auto Off",
+                "options": [0, 1, 2, 3],
+                "optionLabels": ["5 mins", "30 min", "60 min", "Never"]
+              }
+            ]
+          }
+        ]
+    }
+    ],
+    "actions": [
+      { "label": "Read", "action": "request" },
+      { "label": "Write", "action": "writeAll" }
+    ]
+  }
+}

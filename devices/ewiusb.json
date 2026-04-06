@@ -1,0 +1,320 @@
+{
+  "slug": "ewiusb",
+  "name": "Akai EWI USB",
+  "manufacturer": "Akai Professional",
+  "author": "Gianluca Barbaro",
+  "version": "1.0.0",
+  "enabled": true,
+  "triggers": ["EWI-USB", "EWI USB", "EWI4000S"],
+  "requiresLandscape": false,
+  "protocol": {
+    "type": "sysex",
+    "channel": 0,
+    "autoWrite": true,
+    "onConnect": [
+      { "bytes": "F0 47 7F 6D 40 00 00 F7" },
+      { "bytes": "F0 47 7F 6D 42 00 00 F7" }
+    ],
+    "responses": [
+      {
+        "id": "bank0",
+        "match": "F0 47 00 6D 00 00 06",
+        "writePrefix": "F0 47 7F 6D 00 00 06"
+      },
+      {
+        "id": "bank2",
+        "match": "F0 47 00 6D 02 00 0B",
+        "writePrefix": "F0 47 7F 6D 02 00 0B"
+      }
+    ]
+  },
+  "parameters": [
+    { "id": "breathGain",     "source": "bank0", "byteIndex": 7,  "min": 0, "max": 127, "default": 64 },
+    { "id": "biteGain",       "source": "bank0", "byteIndex": 8,  "min": 0, "max": 127, "default": 64 },
+    { "id": "biteACGain",     "source": "bank0", "byteIndex": 9,  "min": 0, "max": 127, "default": 64 },
+    { "id": "pbGain",         "source": "bank0", "byteIndex": 10, "min": 0, "max": 127, "default": 64 },
+    { "id": "keyDelay",       "source": "bank0", "byteIndex": 11, "min": 0, "max": 127, "default": 0 },
+    { "id": "midiCh",         "source": "bank2", "byteIndex": 7,  "min": 0, "max": 15,  "default": 0 },
+    {
+      "id": "fingeringSelect",
+      "source": "bank2", "byteIndex": 8, "min": 0, "max": 8, "default": 0
+    },
+    {
+      "id": "transpose",
+      "source": "bank2", "byteIndex": 9,
+      "valueOffset": -64,
+      "min": -12, "max": 12, "default": 0
+    },
+    { "id": "velocity",       "source": "bank2", "byteIndex": 10, "min": 0, "max": 127, "default": 64 },
+    { "id": "breathCC1",      "source": "bank2", "byteIndex": 11, "min": 0, "max": 127, "default": 2 },
+    { "id": "breathCC2",      "source": "bank2", "byteIndex": 12, "min": 0, "max": 127, "default": 11 },
+    { "id": "biteCC1",        "source": "bank2", "byteIndex": 14, "min": 0, "max": 127, "default": 1 },
+    { "id": "biteCC2",        "source": "bank2", "byteIndex": 15, "min": 0, "max": 127, "default": 0 },
+    { "id": "pbUp",           "source": "bank2", "byteIndex": 16, "min": 0, "max": 127, "default": 127 },
+    { "id": "pbDown",         "source": "bank2", "byteIndex": 17, "min": 0, "max": 127, "default": 127 }
+  ],
+  "presets": [
+    {
+      "name": "Default",
+      "values": {
+        "breathGain": 64,
+        "biteGain": 64,
+        "biteACGain": 64,
+        "pbGain": 64,
+        "keyDelay": 0,
+        "midiCh": 0,
+        "fingeringSelect": 0,
+        "transpose": 0,
+        "velocity": 64,
+        "breathCC1": 2,
+        "breathCC2": 11,
+        "biteCC1": 1,
+        "biteCC2": 0,
+        "pbUp": 127,
+        "pbDown": 127
+      }
+    }
+  ],
+  "ui": {
+    "tabs": [
+      {
+        "label": "Breath",
+        "sections": [
+          {
+            "controls": [
+              { "type": "knob", "param": "breathGain",  "label": "Breath Gain" },
+              { "type": "knob", "param": "biteGain",    "label": "Bite Gain" },
+              { "type": "knob", "param": "biteACGain",  "label": "Bite AC Gain" }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Fingers",
+        "sections": [
+          {
+            "controls": [
+              {
+                "type": "tile_picker",
+                "param": "fingeringSelect",
+                "label": "Fingering",
+                "options": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                "optionLabels": ["EWI", "EVI", "Saxophone", "Oboe", "Flute", "Clarinet", "Trumpet", "Midi-Horn", "Midi-Key"]
+              },
+              { "type": "knob", "param": "transpose",  "label": "Transpose", "min": -12, "max": 12 },
+              { "type": "knob", "param": "keyDelay",    "label": "Key Delay" },
+              { "type": "knob", "param": "pbGain",      "label": "PB Gain" }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "MIDI",
+        "sections": [
+          {
+            "title": "Channel",
+            "controls": [
+              { "type": "knob", "param": "midiCh", "label": "MIDI Channel", "min": 0, "max": 15 },
+              { "type": "knob", "param": "velocity", "label": "Velocity" }
+            ]
+          },
+          {
+            "title": "Breath CC",
+            "controls": [
+              { "type": "cc_select", "param": "breathCC1", "label": "Breath CC 1" },
+              { "type": "cc_select", "param": "breathCC2", "label": "Breath CC 2" }
+            ]
+          },
+          {
+            "title": "Bite CC",
+            "controls": [
+              { "type": "cc_select", "param": "biteCC1", "label": "Bite CC 1" },
+              { "type": "cc_select", "param": "biteCC2", "label": "Bite CC 2" }
+            ]
+          },
+          {
+            "title": "Pitch Bend",
+            "controls": [
+              { "type": "knob", "param": "pbUp",   "label": "PB Up" },
+              { "type": "knob", "param": "pbDown", "label": "PB Down" }
+            ]
+          }
+        ]
+      }
+    ],
+    "actions": [
+      { "label": "Read", "action": "request" },
+      { "label": "Write", "action": "writeAll" }
+    ]
+  },
+  "help": [
+    {
+      "title": "EWI USB – Overview",
+      "icon": "air",
+      "entries": [
+        {
+          "type": "para",
+          "text": "The Akai EWI USB is a USB MIDI wind controller. This section documents all parameters configurable from the Configuration Tool."
+        },
+        {
+          "type": "note",
+          "text": "Every parameter change is sent to the device immediately. Use the Read button to reload the current device settings and the Write button to send the full configuration."
+        }
+      ]
+    },
+    {
+      "title": "Tab: Breath",
+      "icon": "air",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "Breath Gain"
+        },
+        {
+          "type": "para",
+          "text": "Controls the sensitivity of the breath sensor. Higher values make the instrument respond more aggressively to breath pressure."
+        },
+        {
+          "type": "subtitle",
+          "text": "Bite Gain"
+        },
+        {
+          "type": "para",
+          "text": "Controls the sensitivity of the bite sensor for vibrato or pitch bend. Increase for a wider effect, decrease for subtler response."
+        },
+        {
+          "type": "subtitle",
+          "text": "Bite AC Gain"
+        },
+        {
+          "type": "para",
+          "text": "Controls the AC (alternating) component of the bite sensor, which affects how fast biting motions translate into vibrato depth."
+        }
+      ]
+    },
+    {
+      "title": "Tab: Fingers",
+      "icon": "music_note",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "Fingering"
+        },
+        {
+          "type": "para",
+          "text": "Select the fingering system. Each mode maps the touch keys to different note layouts:"
+        },
+        {
+          "type": "item",
+          "text": "EWI – standard EWI fingering"
+        },
+        {
+          "type": "item",
+          "text": "EVI – Electronic Valve Instrument (brass) fingering"
+        },
+        {
+          "type": "item",
+          "text": "Saxophone – traditional saxophone fingering"
+        },
+        {
+          "type": "item",
+          "text": "Oboe / Flute / Clarinet – woodwind fingerings"
+        },
+        {
+          "type": "item",
+          "text": "Trumpet – brass valve fingering"
+        },
+        {
+          "type": "item",
+          "text": "Midi-Horn / Midi-Key – generic MIDI controller layouts"
+        },
+        {
+          "type": "subtitle",
+          "text": "Transpose"
+        },
+        {
+          "type": "para",
+          "text": "Shifts all notes up or down in semitones (−12 to +12). 0 = concert pitch."
+        },
+        {
+          "type": "subtitle",
+          "text": "Key Delay"
+        },
+        {
+          "type": "para",
+          "text": "Adds a small delay (in milliseconds) between key touch and note-on, helping to avoid spurious notes when transitioning between fingerings. Keep low for fast passages; raise if you experience glitches."
+        },
+        {
+          "type": "subtitle",
+          "text": "PB Gain"
+        },
+        {
+          "type": "para",
+          "text": "Controls the sensitivity of the pitch-bend plates on the side of the instrument. Higher values produce wider pitch bends with less finger pressure."
+        }
+      ]
+    },
+    {
+      "title": "Tab: MIDI",
+      "icon": "tune",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "Channel"
+        },
+        {
+          "type": "item",
+          "text": "MIDI Channel – the MIDI channel the EWI sends on (0–15)."
+        },
+        {
+          "type": "item",
+          "text": "Velocity – fixed velocity value sent with every note‑on message."
+        },
+        {
+          "type": "subtitle",
+          "text": "Breath CC"
+        },
+        {
+          "type": "para",
+          "text": "Choose which MIDI CC numbers are driven by the breath sensor. Two independent slots let you control two parameters at once (e.g. CC 2 Breath Controller + CC 11 Expression)."
+        },
+        {
+          "type": "item",
+          "text": "Breath CC 1 – primary breath controller CC (default: CC 2)."
+        },
+        {
+          "type": "item",
+          "text": "Breath CC 2 – secondary breath controller CC (default: CC 11)."
+        },
+        {
+          "type": "subtitle",
+          "text": "Bite CC"
+        },
+        {
+          "type": "para",
+          "text": "Choose which MIDI CC numbers are driven by the bite sensor."
+        },
+        {
+          "type": "item",
+          "text": "Bite CC 1 – primary bite controller CC (default: CC 1 Mod Wheel)."
+        },
+        {
+          "type": "item",
+          "text": "Bite CC 2 – secondary bite controller CC (default: 0 = off)."
+        },
+        {
+          "type": "subtitle",
+          "text": "Pitch Bend"
+        },
+        {
+          "type": "item",
+          "text": "PB Up – pitch-bend range for upward bends (0–127). 127 sends standard pitch bend messages, lower values can be used to send custom CC messages instead for better DAW integration."
+        },
+        {
+          "type": "item",
+          "text": "PB Down – pitch-bend range for downward bends (0–127). 127 sends standard pitch bend messages, lower values can be used to send custom CC messages instead for better DAW integration."
+        }
+      ]
+    }
+  ]
+}

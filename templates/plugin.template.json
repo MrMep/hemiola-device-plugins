@@ -1,0 +1,100 @@
+{
+  "slug": "my_device",
+  "name": "My Device",
+  "version": "1.0.0",
+  "enabled": true,
+  "triggers": [
+    "My Device",
+    "MYDEVICE"
+  ],
+  "requiresLandscape": false,
+  "protocol": {
+    "type": "mixed",
+    "channel": 0,
+    "autoWrite": false,
+    "onConnect": [],
+    "responses": []
+  },
+  "parameters": [
+    {
+      "id": "volume",
+      "min": 0,
+      "max": 10,
+      "default": 5,
+      "sendCommand": {
+        "type": "cc",
+        "cc": 7,
+        "transform": {
+          "inputMin": 0,
+          "inputMax": 10,
+          "outputMin": 0,
+          "outputMax": 127
+        }
+      }
+    },
+    {
+      "id": "program",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "sendCommand": {
+        "type": "program_change"
+      }
+    }
+  ],
+  "presets": [
+    {
+      "name": "Default",
+      "values": {
+        "volume": 5,
+        "program": 0
+      }
+    }
+  ],
+  "ui": {
+    "tabs": [
+      {
+        "label": "Main",
+        "sections": [
+          {
+            "title": "Sound",
+            "controls": [
+              {
+                "type": "knob",
+                "param": "volume",
+                "label": "Volume",
+                "min": 0,
+                "max": 10
+              },
+              {
+                "type": "knob",
+                "param": "program",
+                "label": "Program",
+                "min": 0,
+                "max": 127
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "label": "Send All",
+        "action": "writeAll"
+      }
+    ]
+  },
+  "help": [
+    {
+      "title": "My Device – Overview",
+      "icon": "air",
+      "entries": [
+        {
+          "type": "para",
+          "text": "Replace this template text with device-specific help."
+        }
+      ]
+    }
+  ]
+}

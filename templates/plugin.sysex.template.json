@@ -1,0 +1,126 @@
+{
+  "slug": "my_sysex_device",
+  "name": "My SysEx Device",
+  "version": "1.0.0",
+  "enabled": true,
+  "triggers": [
+    "My SysEx Device",
+    "MYSYSEXDEVICE"
+  ],
+  "requiresLandscape": false,
+  "protocol": {
+    "type": "sysex",
+    "channel": 0,
+    "autoWrite": false,
+    "onConnect": [
+      {
+        "bytes": "F0 7D 00 01 00 F7"
+      }
+    ],
+    "responses": [
+      {
+        "id": "mainBank",
+        "match": "F0 7D 00 02 00",
+        "writePrefix": "F0 7D 00 03 00"
+      }
+    ]
+  },
+  "parameters": [
+    {
+      "id": "gain",
+      "source": "mainBank",
+      "byteIndex": 5,
+      "min": 0,
+      "max": 127,
+      "default": 64
+    },
+    {
+      "id": "curve",
+      "source": "mainBank",
+      "byteIndex": 6,
+      "min": 0,
+      "max": 5,
+      "default": 2
+    },
+    {
+      "id": "transpose",
+      "source": "mainBank",
+      "byteIndex": 7,
+      "min": -12,
+      "max": 12,
+      "default": 0,
+      "valueOffset": -64
+    }
+  ],
+  "presets": [
+    {
+      "name": "Default",
+      "values": {
+        "gain": 64,
+        "curve": 2,
+        "transpose": 0
+      }
+    }
+  ],
+  "ui": {
+    "tabs": [
+      {
+        "label": "Main",
+        "sections": [
+          {
+            "title": "Sound",
+            "controls": [
+              {
+                "type": "knob",
+                "param": "gain",
+                "label": "Gain",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "tile_picker",
+                "param": "curve",
+                "label": "Curve",
+                "options": [0, 1, 2, 3, 4, 5],
+                "optionLabels": ["1", "2", "3", "4", "5", "Auto"]
+              },
+              {
+                "type": "knob",
+                "param": "transpose",
+                "label": "Transpose",
+                "min": -12,
+                "max": 12
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "label": "Read",
+        "action": "request"
+      },
+      {
+        "label": "Write",
+        "action": "writeAll"
+      }
+    ]
+  },
+  "help": [
+    {
+      "title": "My SysEx Device – Overview",
+      "icon": "memory",
+      "entries": [
+        {
+          "type": "para",
+          "text": "Replace this with device-specific instructions for a bank-based SysEx plugin."
+        },
+        {
+          "type": "note",
+          "text": "Confirm the request header, response header, byte offsets, write header, and checksum rules against real hardware."
+        }
+      ]
+    }
+  ]
+}

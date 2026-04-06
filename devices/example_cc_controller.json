@@ -1,0 +1,80 @@
+{
+  "slug": "example_cc_controller",
+  "name": "Example CC Controller",
+  "manufacturer": "Generic",
+  "author": "Gianluca Barbaro",
+  "version": "1.0.0",
+  "enabled": false,
+  "triggers": ["ExampleCC"],
+  "requiresLandscape": false,
+
+  "protocol": {
+    "type": "cc",
+    "channel": 0,
+    "onConnect": []
+  },
+
+  "parameters": [
+    { "id": "volume",        "cc": 7,   "min": 0, "max": 127, "default": 100 },
+    { "id": "expression",   "cc": 11,  "min": 0, "max": 127, "default": 127 },
+    { "id": "reverb",        "cc": 91,  "min": 0, "max": 127, "default": 0 },
+    { "id": "chorus",        "cc": 93,  "min": 0, "max": 127, "default": 0 },
+    { "id": "breathCC",      "cc": 2,   "min": 0, "max": 127, "default": 0 },
+    { "id": "midiChannel",   "cc": 6,   "min": 0, "max": 15,  "default": 0 },
+    { "id": "transpose",     "cc": 20,  "min": -24, "max": 24, "default": 0, "valueOffset": -64 },
+    { "id": "octave",        "cc": 21,  "min": -3, "max": 3,   "default": 0, "valueOffset": -64 }
+  ],
+
+  "ui": {
+    "tabs": [
+      {
+        "label": "Sound",
+        "sections": [
+          {
+            "title": "Levels",
+            "controls": [
+              { "type": "slider",   "param": "volume",     "label": "Volume",     "min": 0, "max": 127 },
+              { "type": "slider",   "param": "expression", "label": "Expression", "min": 0, "max": 127 },
+              { "type": "slider",   "param": "breathCC",   "label": "Breath CC",  "min": 0, "max": 127 }
+            ]
+          },
+          {
+            "title": "FX",
+            "controls": [
+              { "type": "slider", "param": "reverb",  "label": "Reverb",  "min": 0, "max": 127 },
+              { "type": "slider", "param": "chorus",  "label": "Chorus",  "min": 0, "max": 127 }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "MIDI",
+        "sections": [
+          {
+            "title": "Channel & Pitch",
+            "controls": [
+              {
+                "type": "dropdown",
+                "param": "midiChannel",
+                "label": "MIDI Channel",
+                "options": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+                "optionLabels": ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"]
+              },
+              { "type": "slider", "param": "transpose", "label": "Transpose (st)", "min": -24, "max": 24 },
+              {
+                "type": "dropdown",
+                "param": "octave",
+                "label": "Octave",
+                "options": [-3,-2,-1,0,1,2,3],
+                "optionLabels": ["-3","-2","-1","0","+1","+2","+3"]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "actions": [
+      { "label": "Send All", "action": "writeAll" }
+    ]
+  }
+}

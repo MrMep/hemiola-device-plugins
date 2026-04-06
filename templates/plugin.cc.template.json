@@ -1,0 +1,119 @@
+{
+  "slug": "my_cc_device",
+  "name": "My CC Device",
+  "version": "1.0.0",
+  "enabled": true,
+  "triggers": [
+    "My CC Device",
+    "MYCCDEVICE"
+  ],
+  "requiresLandscape": false,
+  "protocol": {
+    "type": "cc",
+    "channel": 0,
+    "onConnect": []
+  },
+  "parameters": [
+    {
+      "id": "volume",
+      "cc": 7,
+      "min": 0,
+      "max": 127,
+      "default": 100
+    },
+    {
+      "id": "expression",
+      "cc": 11,
+      "min": 0,
+      "max": 127,
+      "default": 127
+    },
+    {
+      "id": "reverb",
+      "cc": 91,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "program",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "sendCommand": {
+        "type": "program_change"
+      }
+    }
+  ],
+  "presets": [
+    {
+      "name": "Default",
+      "values": {
+        "volume": 100,
+        "expression": 127,
+        "reverb": 0,
+        "program": 0
+      }
+    }
+  ],
+  "ui": {
+    "tabs": [
+      {
+        "label": "Main",
+        "sections": [
+          {
+            "title": "Mix",
+            "controls": [
+              {
+                "type": "slider",
+                "param": "volume",
+                "label": "Volume",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "slider",
+                "param": "expression",
+                "label": "Expression",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "slider",
+                "param": "reverb",
+                "label": "Reverb",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "knob",
+                "param": "program",
+                "label": "Program",
+                "min": 0,
+                "max": 127
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "label": "Send All",
+        "action": "writeAll"
+      }
+    ]
+  },
+  "help": [
+    {
+      "title": "My CC Device – Overview",
+      "icon": "tune",
+      "entries": [
+        {
+          "type": "para",
+          "text": "Replace this with device-specific instructions for a CC-based plugin."
+        }
+      ]
+    }
+  ]
+}

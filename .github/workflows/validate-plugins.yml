@@ -1,0 +1,35 @@
+name: Validate Plugins
+
+on:
+  push:
+    paths:
+      - 'devices/*.json'
+      - 'templates/*.json'
+      - 'schema/*.json'
+      - 'tools/validate_plugins.py'
+      - '.github/workflows/validate-plugins.yml'
+  pull_request:
+    paths:
+      - 'devices/*.json'
+      - 'templates/*.json'
+      - 'schema/*.json'
+      - 'tools/validate_plugins.py'
+      - '.github/workflows/validate-plugins.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install validator dependency
+        run: python -m pip install --upgrade pip jsonschema
+
+      - name: Validate plugin JSON
+        run: python tools/validate_plugins.py
