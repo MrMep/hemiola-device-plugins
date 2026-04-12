@@ -1,0 +1,1486 @@
+{
+  "_notes": "Akai LPD8 plugin for Hemiola. 8 pads + 8 knobs, 4 internal program slots. SysEx bulk transfer protocol. Factory presets map pads and knobs to Hemiola synth/FX parameters for live control.",
+  "slug": "lpd8",
+  "name": "Akai LPD8",
+  "manufacturer": "Akai Professional",
+  "author": "Gianluca Barbaro",
+  "version": "1.0.0",
+  "enabled": true,
+  "triggers": [
+    "LPD8"
+  ],
+  "requiresLandscape": false,
+  "protocol": {
+    "type": "sysex",
+    "channel": 0,
+    "autoWrite": false,
+    "onConnect": [
+      {
+        "bytes": "F0 47 7F 75 63 00 01 01 F7"
+      }
+    ],
+    "responses": [
+      {
+        "id": "preset",
+        "match": "F0 47 7F 75 63 00 3A",
+        "writePrefix": "F0 47 7F 75 61 00 3A"
+      }
+    ]
+  },
+  "parameters": [
+    {
+      "id": "loadPresetSlot",
+      "min": 1,
+      "max": 4,
+      "default": 1,
+      "sendCommand": {
+        "type": "sysex_map",
+        "options": {
+          "1": "F0 47 7F 75 63 00 01 01 F7",
+          "2": "F0 47 7F 75 63 00 01 02 F7",
+          "3": "F0 47 7F 75 63 00 01 03 F7",
+          "4": "F0 47 7F 75 63 00 01 04 F7"
+        }
+      }
+    },
+    {
+      "id": "presetSlot",
+      "source": "preset",
+      "byteIndex": 7,
+      "min": 1,
+      "max": 4,
+      "default": 1
+    },
+    {
+      "id": "midiChannel",
+      "source": "preset",
+      "byteIndex": 8,
+      "min": 0,
+      "max": 15,
+      "default": 10
+    },
+    {
+      "id": "pad1Note",
+      "source": "preset",
+      "byteIndex": 9,
+      "min": 0,
+      "max": 127,
+      "default": 36
+    },
+    {
+      "id": "pad1Pc",
+      "source": "preset",
+      "byteIndex": 10,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "pad1Cc",
+      "source": "preset",
+      "byteIndex": 11,
+      "min": 0,
+      "max": 127,
+      "default": 1
+    },
+    {
+      "id": "pad1Toggle",
+      "source": "preset",
+      "byteIndex": 12,
+      "min": 0,
+      "max": 1,
+      "default": 0
+    },
+    {
+      "id": "pad2Note",
+      "source": "preset",
+      "byteIndex": 13,
+      "min": 0,
+      "max": 127,
+      "default": 38
+    },
+    {
+      "id": "pad2Pc",
+      "source": "preset",
+      "byteIndex": 14,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "pad2Cc",
+      "source": "preset",
+      "byteIndex": 15,
+      "min": 0,
+      "max": 127,
+      "default": 2
+    },
+    {
+      "id": "pad2Toggle",
+      "source": "preset",
+      "byteIndex": 16,
+      "min": 0,
+      "max": 1,
+      "default": 0
+    },
+    {
+      "id": "pad3Note",
+      "source": "preset",
+      "byteIndex": 17,
+      "min": 0,
+      "max": 127,
+      "default": 42
+    },
+    {
+      "id": "pad3Pc",
+      "source": "preset",
+      "byteIndex": 18,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "pad3Cc",
+      "source": "preset",
+      "byteIndex": 19,
+      "min": 0,
+      "max": 127,
+      "default": 3
+    },
+    {
+      "id": "pad3Toggle",
+      "source": "preset",
+      "byteIndex": 20,
+      "min": 0,
+      "max": 1,
+      "default": 0
+    },
+    {
+      "id": "pad4Note",
+      "source": "preset",
+      "byteIndex": 21,
+      "min": 0,
+      "max": 127,
+      "default": 46
+    },
+    {
+      "id": "pad4Pc",
+      "source": "preset",
+      "byteIndex": 22,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "pad4Cc",
+      "source": "preset",
+      "byteIndex": 23,
+      "min": 0,
+      "max": 127,
+      "default": 4
+    },
+    {
+      "id": "pad4Toggle",
+      "source": "preset",
+      "byteIndex": 24,
+      "min": 0,
+      "max": 1,
+      "default": 0
+    },
+    {
+      "id": "pad5Note",
+      "source": "preset",
+      "byteIndex": 25,
+      "min": 0,
+      "max": 127,
+      "default": 50
+    },
+    {
+      "id": "pad5Pc",
+      "source": "preset",
+      "byteIndex": 26,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "pad5Cc",
+      "source": "preset",
+      "byteIndex": 27,
+      "min": 0,
+      "max": 127,
+      "default": 5
+    },
+    {
+      "id": "pad5Toggle",
+      "source": "preset",
+      "byteIndex": 28,
+      "min": 0,
+      "max": 1,
+      "default": 0
+    },
+    {
+      "id": "pad6Note",
+      "source": "preset",
+      "byteIndex": 29,
+      "min": 0,
+      "max": 127,
+      "default": 45
+    },
+    {
+      "id": "pad6Pc",
+      "source": "preset",
+      "byteIndex": 30,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "pad6Cc",
+      "source": "preset",
+      "byteIndex": 31,
+      "min": 0,
+      "max": 127,
+      "default": 6
+    },
+    {
+      "id": "pad6Toggle",
+      "source": "preset",
+      "byteIndex": 32,
+      "min": 0,
+      "max": 1,
+      "default": 0
+    },
+    {
+      "id": "pad7Note",
+      "source": "preset",
+      "byteIndex": 33,
+      "min": 0,
+      "max": 127,
+      "default": 51
+    },
+    {
+      "id": "pad7Pc",
+      "source": "preset",
+      "byteIndex": 34,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "pad7Cc",
+      "source": "preset",
+      "byteIndex": 35,
+      "min": 0,
+      "max": 127,
+      "default": 7
+    },
+    {
+      "id": "pad7Toggle",
+      "source": "preset",
+      "byteIndex": 36,
+      "min": 0,
+      "max": 1,
+      "default": 0
+    },
+    {
+      "id": "pad8Note",
+      "source": "preset",
+      "byteIndex": 37,
+      "min": 0,
+      "max": 127,
+      "default": 49
+    },
+    {
+      "id": "pad8Pc",
+      "source": "preset",
+      "byteIndex": 38,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "pad8Cc",
+      "source": "preset",
+      "byteIndex": 39,
+      "min": 0,
+      "max": 127,
+      "default": 8
+    },
+    {
+      "id": "pad8Toggle",
+      "source": "preset",
+      "byteIndex": 40,
+      "min": 0,
+      "max": 1,
+      "default": 0
+    },
+    {
+      "id": "knob1Cc",
+      "source": "preset",
+      "byteIndex": 41,
+      "min": 0,
+      "max": 127,
+      "default": 1
+    },
+    {
+      "id": "knob1Min",
+      "source": "preset",
+      "byteIndex": 42,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "knob1Max",
+      "source": "preset",
+      "byteIndex": 43,
+      "min": 0,
+      "max": 127,
+      "default": 127
+    },
+    {
+      "id": "knob2Cc",
+      "source": "preset",
+      "byteIndex": 44,
+      "min": 0,
+      "max": 127,
+      "default": 2
+    },
+    {
+      "id": "knob2Min",
+      "source": "preset",
+      "byteIndex": 45,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "knob2Max",
+      "source": "preset",
+      "byteIndex": 46,
+      "min": 0,
+      "max": 127,
+      "default": 127
+    },
+    {
+      "id": "knob3Cc",
+      "source": "preset",
+      "byteIndex": 47,
+      "min": 0,
+      "max": 127,
+      "default": 3
+    },
+    {
+      "id": "knob3Min",
+      "source": "preset",
+      "byteIndex": 48,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "knob3Max",
+      "source": "preset",
+      "byteIndex": 49,
+      "min": 0,
+      "max": 127,
+      "default": 127
+    },
+    {
+      "id": "knob4Cc",
+      "source": "preset",
+      "byteIndex": 50,
+      "min": 0,
+      "max": 127,
+      "default": 4
+    },
+    {
+      "id": "knob4Min",
+      "source": "preset",
+      "byteIndex": 51,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "knob4Max",
+      "source": "preset",
+      "byteIndex": 52,
+      "min": 0,
+      "max": 127,
+      "default": 127
+    },
+    {
+      "id": "knob5Cc",
+      "source": "preset",
+      "byteIndex": 53,
+      "min": 0,
+      "max": 127,
+      "default": 5
+    },
+    {
+      "id": "knob5Min",
+      "source": "preset",
+      "byteIndex": 54,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "knob5Max",
+      "source": "preset",
+      "byteIndex": 55,
+      "min": 0,
+      "max": 127,
+      "default": 127
+    },
+    {
+      "id": "knob6Cc",
+      "source": "preset",
+      "byteIndex": 56,
+      "min": 0,
+      "max": 127,
+      "default": 6
+    },
+    {
+      "id": "knob6Min",
+      "source": "preset",
+      "byteIndex": 57,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "knob6Max",
+      "source": "preset",
+      "byteIndex": 58,
+      "min": 0,
+      "max": 127,
+      "default": 127
+    },
+    {
+      "id": "knob7Cc",
+      "source": "preset",
+      "byteIndex": 59,
+      "min": 0,
+      "max": 127,
+      "default": 7
+    },
+    {
+      "id": "knob7Min",
+      "source": "preset",
+      "byteIndex": 60,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "knob7Max",
+      "source": "preset",
+      "byteIndex": 61,
+      "min": 0,
+      "max": 127,
+      "default": 127
+    },
+    {
+      "id": "knob8Cc",
+      "source": "preset",
+      "byteIndex": 62,
+      "min": 0,
+      "max": 127,
+      "default": 8
+    },
+    {
+      "id": "knob8Min",
+      "source": "preset",
+      "byteIndex": 63,
+      "min": 0,
+      "max": 127,
+      "default": 0
+    },
+    {
+      "id": "knob8Max",
+      "source": "preset",
+      "byteIndex": 64,
+      "min": 0,
+      "max": 127,
+      "default": 127
+    }
+  ],
+  "presets": [
+    {
+      "name": "Minimoog Perf",
+      "values": {
+        "presetSlot": 1,
+        "midiChannel": 10,
+        "pad1Note": 49,
+        "pad1Pc": 0,
+        "pad1Cc": 1,
+        "pad1Toggle": 0,
+        "pad2Note": 77,
+        "pad2Pc": 0,
+        "pad2Cc": 2,
+        "pad2Toggle": 0,
+        "pad3Note": 23,
+        "pad3Pc": 0,
+        "pad3Cc": 3,
+        "pad3Toggle": 0,
+        "pad4Note": 72,
+        "pad4Pc": 0,
+        "pad4Cc": 4,
+        "pad4Toggle": 0,
+        "pad5Note": 116,
+        "pad5Pc": 0,
+        "pad5Cc": 5,
+        "pad5Toggle": 0,
+        "pad6Note": 110,
+        "pad6Pc": 0,
+        "pad6Cc": 6,
+        "pad6Toggle": 0,
+        "pad7Note": 112,
+        "pad7Pc": 0,
+        "pad7Cc": 7,
+        "pad7Toggle": 0,
+        "pad8Note": 121,
+        "pad8Pc": 0,
+        "pad8Cc": 8,
+        "pad8Toggle": 0,
+        "knob1Cc": 1,
+        "knob1Min": 0,
+        "knob1Max": 127,
+        "knob2Cc": 79,
+        "knob2Min": 0,
+        "knob2Max": 127,
+        "knob3Cc": 98,
+        "knob3Min": 0,
+        "knob3Max": 127,
+        "knob4Cc": 67,
+        "knob4Min": 0,
+        "knob4Max": 127,
+        "knob5Cc": 68,
+        "knob5Min": 0,
+        "knob5Max": 127,
+        "knob6Cc": 69,
+        "knob6Min": 0,
+        "knob6Max": 127,
+        "knob7Cc": 64,
+        "knob7Min": 0,
+        "knob7Max": 127,
+        "knob8Cc": 65,
+        "knob8Min": 0,
+        "knob8Max": 127
+      }
+    },
+    {
+      "name": "Filter & Env",
+      "values": {
+        "presetSlot": 2,
+        "midiChannel": 10,
+        "pad1Note": 49,
+        "pad1Pc": 0,
+        "pad1Cc": 1,
+        "pad1Toggle": 0,
+        "pad2Note": 77,
+        "pad2Pc": 0,
+        "pad2Cc": 2,
+        "pad2Toggle": 0,
+        "pad3Note": 72,
+        "pad3Pc": 0,
+        "pad3Cc": 3,
+        "pad3Toggle": 0,
+        "pad4Note": 119,
+        "pad4Pc": 0,
+        "pad4Cc": 4,
+        "pad4Toggle": 0,
+        "pad5Note": 112,
+        "pad5Pc": 0,
+        "pad5Cc": 5,
+        "pad5Toggle": 0,
+        "pad6Note": 109,
+        "pad6Pc": 0,
+        "pad6Cc": 6,
+        "pad6Toggle": 0,
+        "pad7Note": 113,
+        "pad7Pc": 0,
+        "pad7Cc": 7,
+        "pad7Toggle": 0,
+        "pad8Note": 16,
+        "pad8Pc": 0,
+        "pad8Cc": 8,
+        "pad8Toggle": 0,
+        "knob1Cc": 78,
+        "knob1Min": 0,
+        "knob1Max": 127,
+        "knob2Cc": 82,
+        "knob2Min": 0,
+        "knob2Max": 127,
+        "knob3Cc": 96,
+        "knob3Min": 0,
+        "knob3Max": 127,
+        "knob4Cc": 97,
+        "knob4Min": 0,
+        "knob4Max": 127,
+        "knob5Cc": 67,
+        "knob5Min": 0,
+        "knob5Max": 127,
+        "knob6Cc": 68,
+        "knob6Max": 127,
+        "knob7Cc": 75,
+        "knob7Min": 0,
+        "knob7Max": 127,
+        "knob8Cc": 76,
+        "knob8Min": 0,
+        "knob8Max": 127
+      }
+    },
+    {
+      "name": "Osc & Duty",
+      "values": {
+        "presetSlot": 3,
+        "midiChannel": 10,
+        "pad1Note": 49,
+        "pad1Pc": 0,
+        "pad1Cc": 1,
+        "pad1Toggle": 0,
+        "pad2Note": 23,
+        "pad2Pc": 0,
+        "pad2Cc": 2,
+        "pad2Toggle": 0,
+        "pad3Note": 24,
+        "pad3Pc": 0,
+        "pad3Cc": 3,
+        "pad3Toggle": 0,
+        "pad4Note": 116,
+        "pad4Pc": 0,
+        "pad4Cc": 4,
+        "pad4Toggle": 0,
+        "pad5Note": 60,
+        "pad5Pc": 0,
+        "pad5Cc": 5,
+        "pad5Toggle": 0,
+        "pad6Note": 64,
+        "pad6Pc": 0,
+        "pad6Cc": 6,
+        "pad6Toggle": 0,
+        "pad7Note": 67,
+        "pad7Pc": 0,
+        "pad7Cc": 7,
+        "pad7Toggle": 0,
+        "pad8Note": 72,
+        "pad8Pc": 0,
+        "pad8Cc": 8,
+        "pad8Toggle": 0,
+        "knob1Cc": 101,
+        "knob1Min": 0,
+        "knob1Max": 127,
+        "knob2Cc": 102,
+        "knob2Min": 0,
+        "knob2Max": 127,
+        "knob3Cc": 103,
+        "knob3Min": 0,
+        "knob3Max": 127,
+        "knob4Cc": 58,
+        "knob4Min": 0,
+        "knob4Max": 127,
+        "knob5Cc": 59,
+        "knob5Min": 0,
+        "knob5Max": 127,
+        "knob6Cc": 60,
+        "knob6Min": 0,
+        "knob6Max": 127,
+        "knob7Cc": 5,
+        "knob7Min": 0,
+        "knob7Max": 127,
+        "knob8Cc": 105,
+        "knob8Min": 0,
+        "knob8Max": 127
+      }
+    },
+    {
+      "name": "Live FX & Mix",
+      "values": {
+        "presetSlot": 4,
+        "midiChannel": 10,
+        "pad1Note": 16,
+        "pad1Pc": 0,
+        "pad1Cc": 1,
+        "pad1Toggle": 0,
+        "pad2Note": 49,
+        "pad2Pc": 0,
+        "pad2Cc": 2,
+        "pad2Toggle": 0,
+        "pad3Note": 80,
+        "pad3Pc": 0,
+        "pad3Cc": 3,
+        "pad3Toggle": 0,
+        "pad4Note": 87,
+        "pad4Pc": 0,
+        "pad4Cc": 4,
+        "pad4Toggle": 0,
+        "pad5Note": 92,
+        "pad5Pc": 0,
+        "pad5Cc": 5,
+        "pad5Toggle": 0,
+        "pad6Note": 107,
+        "pad6Pc": 0,
+        "pad6Cc": 6,
+        "pad6Toggle": 0,
+        "pad7Note": 105,
+        "pad7Pc": 0,
+        "pad7Cc": 7,
+        "pad7Toggle": 0,
+        "pad8Note": 106,
+        "pad8Pc": 0,
+        "pad8Cc": 8,
+        "pad8Toggle": 0,
+        "knob1Cc": 17,
+        "knob1Min": 0,
+        "knob1Max": 127,
+        "knob2Cc": 50,
+        "knob2Min": 0,
+        "knob2Max": 127,
+        "knob3Cc": 81,
+        "knob3Min": 0,
+        "knob3Max": 127,
+        "knob4Cc": 88,
+        "knob4Min": 0,
+        "knob4Max": 127,
+        "knob5Cc": 95,
+        "knob5Min": 0,
+        "knob5Max": 127,
+        "knob6Cc": 90,
+        "knob6Min": 0,
+        "knob6Max": 127,
+        "knob7Cc": 84,
+        "knob7Min": 0,
+        "knob7Max": 127,
+        "knob8Cc": 93,
+        "knob8Min": 0,
+        "knob8Max": 127
+      }
+    }
+  ],
+  "ui": {
+    "tabs": [
+      {
+        "label": "Setup",
+        "sections": [
+          {
+            "title": "Load Preset from Device",
+            "controls": [
+              {
+                "type": "tile_picker",
+                "param": "loadPresetSlot",
+                "label": "Load Program",
+                "options": [
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "optionLabels": [
+                  "Program 1",
+                  "Program 2",
+                  "Program 3",
+                  "Program 4"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Write Preset to Device",
+            "controls": [
+              {
+                "type": "tile_picker",
+                "param": "presetSlot",
+                "label": "Target Program Slot",
+                "options": [
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "optionLabels": [
+                  "Program 1",
+                  "Program 2",
+                  "Program 3",
+                  "Program 4"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "MIDI Channel",
+            "controls": [
+              {
+                "type": "dropdown",
+                "param": "midiChannel",
+                "label": "MIDI Channel",
+                "options": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11,
+                  12,
+                  13,
+                  14,
+                  15
+                ],
+                "optionLabels": [
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5",
+                  "6",
+                  "7",
+                  "8",
+                  "9",
+                  "10",
+                  "11",
+                  "12",
+                  "13",
+                  "14",
+                  "15",
+                  "16"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Pads",
+        "sections": [
+          {
+            "title": "Pad 1",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "pad1Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "pad1Note",
+                "label": "Note",
+                "min": 0,
+                "max": 127,
+                "valueFormatter": {
+                  "type": "midi_note"
+                }
+              },
+              {
+                "type": "knob",
+                "param": "pad1Pc",
+                "label": "PC",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "toggle",
+                "param": "pad1Toggle",
+                "label": "Toggle Mode",
+                "color": "#22C55E"
+              }
+            ]
+          },
+          {
+            "title": "Pad 2",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "pad2Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "pad2Note",
+                "label": "Note",
+                "min": 0,
+                "max": 127,
+                "valueFormatter": {
+                  "type": "midi_note"
+                }
+              },
+              {
+                "type": "knob",
+                "param": "pad2Pc",
+                "label": "PC",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "toggle",
+                "param": "pad2Toggle",
+                "label": "Toggle Mode",
+                "color": "#22C55E"
+              }
+            ]
+          },
+          {
+            "title": "Pad 3",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "pad3Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "pad3Note",
+                "label": "Note",
+                "min": 0,
+                "max": 127,
+                "valueFormatter": {
+                  "type": "midi_note"
+                }
+              },
+              {
+                "type": "knob",
+                "param": "pad3Pc",
+                "label": "PC",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "toggle",
+                "param": "pad3Toggle",
+                "label": "Toggle Mode",
+                "color": "#22C55E"
+              }
+            ]
+          },
+          {
+            "title": "Pad 4",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "pad4Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "pad4Note",
+                "label": "Note",
+                "min": 0,
+                "max": 127,
+                "valueFormatter": {
+                  "type": "midi_note"
+                }
+              },
+              {
+                "type": "knob",
+                "param": "pad4Pc",
+                "label": "PC",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "toggle",
+                "param": "pad4Toggle",
+                "label": "Toggle Mode",
+                "color": "#22C55E"
+              }
+            ]
+          },
+          {
+            "title": "Pad 5",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "pad5Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "pad5Note",
+                "label": "Note",
+                "min": 0,
+                "max": 127,
+                "valueFormatter": {
+                  "type": "midi_note"
+                }
+              },
+              {
+                "type": "knob",
+                "param": "pad5Pc",
+                "label": "PC",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "toggle",
+                "param": "pad5Toggle",
+                "label": "Toggle Mode",
+                "color": "#22C55E"
+              }
+            ]
+          },
+          {
+            "title": "Pad 6",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "pad6Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "pad6Note",
+                "label": "Note",
+                "min": 0,
+                "max": 127,
+                "valueFormatter": {
+                  "type": "midi_note"
+                }
+              },
+              {
+                "type": "knob",
+                "param": "pad6Pc",
+                "label": "PC",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "toggle",
+                "param": "pad6Toggle",
+                "label": "Toggle Mode",
+                "color": "#22C55E"
+              }
+            ]
+          },
+          {
+            "title": "Pad 7",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "pad7Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "pad7Note",
+                "label": "Note",
+                "min": 0,
+                "max": 127,
+                "valueFormatter": {
+                  "type": "midi_note"
+                }
+              },
+              {
+                "type": "knob",
+                "param": "pad7Pc",
+                "label": "PC",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "toggle",
+                "param": "pad7Toggle",
+                "label": "Toggle Mode",
+                "color": "#22C55E"
+              }
+            ]
+          },
+          {
+            "title": "Pad 8",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "pad8Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "pad8Note",
+                "label": "Note",
+                "min": 0,
+                "max": 127,
+                "valueFormatter": {
+                  "type": "midi_note"
+                }
+              },
+              {
+                "type": "knob",
+                "param": "pad8Pc",
+                "label": "PC",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "toggle",
+                "param": "pad8Toggle",
+                "label": "Toggle Mode",
+                "color": "#22C55E"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Knobs",
+        "sections": [
+          {
+            "title": "Knob K1",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "knob1Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "knob1Min",
+                "label": "Min Value",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "knob",
+                "param": "knob1Max",
+                "label": "Max Value",
+                "min": 0,
+                "max": 127
+              }
+            ]
+          },
+          {
+            "title": "Knob K2",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "knob2Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "knob2Min",
+                "label": "Min Value",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "knob",
+                "param": "knob2Max",
+                "label": "Max Value",
+                "min": 0,
+                "max": 127
+              }
+            ]
+          },
+          {
+            "title": "Knob K3",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "knob3Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "knob3Min",
+                "label": "Min Value",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "knob",
+                "param": "knob3Max",
+                "label": "Max Value",
+                "min": 0,
+                "max": 127
+              }
+            ]
+          },
+          {
+            "title": "Knob K4",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "knob4Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "knob4Min",
+                "label": "Min Value",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "knob",
+                "param": "knob4Max",
+                "label": "Max Value",
+                "min": 0,
+                "max": 127
+              }
+            ]
+          },
+          {
+            "title": "Knob K5",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "knob5Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "knob5Min",
+                "label": "Min Value",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "knob",
+                "param": "knob5Max",
+                "label": "Max Value",
+                "min": 0,
+                "max": 127
+              }
+            ]
+          },
+          {
+            "title": "Knob K6",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "knob6Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "knob6Min",
+                "label": "Min Value",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "knob",
+                "param": "knob6Max",
+                "label": "Max Value",
+                "min": 0,
+                "max": 127
+              }
+            ]
+          },
+          {
+            "title": "Knob K7",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "knob7Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "knob7Min",
+                "label": "Min Value",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "knob",
+                "param": "knob7Max",
+                "label": "Max Value",
+                "min": 0,
+                "max": 127
+              }
+            ]
+          },
+          {
+            "title": "Knob K8",
+            "controls": [
+              {
+                "type": "cc_select",
+                "param": "knob8Cc",
+                "label": "CC"
+              },
+              {
+                "type": "knob",
+                "param": "knob8Min",
+                "label": "Min Value",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "knob",
+                "param": "knob8Max",
+                "label": "Max Value",
+                "min": 0,
+                "max": 127
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "label": "Write To Device",
+        "action": "writeAll",
+        "tabs": [
+          "Setup"
+        ]
+      }
+    ]
+  },
+  "help": [
+    {
+      "title": "Akai LPD8 \u2013 Overview",
+      "icon": "tune",
+      "entries": [
+        {
+          "type": "para",
+          "text": "The Akai LPD8 is a USB MIDI pad controller with 8 velocity-sensitive pads and 8 assignable knobs. It stores 4 internal programs, each with independent MIDI channel, pad assignments, and knob mappings."
+        },
+        {
+          "type": "note",
+          "text": "The LPD8 uses bulk SysEx transfers only. Changes are NOT sent in real time. Use the Load buttons to read a program from the device, edit the settings, then press Write to save them back."
+        }
+      ]
+    },
+    {
+      "title": "Controlling Hemiola",
+      "icon": "sports_esports",
+      "entries": [
+        {
+          "type": "para",
+          "text": "The LPD8 can control Hemiola's synth engine in real time. Pads toggle modules on/off (e.g. LPF, LFO, Reverb, Chorus, Delay), while knobs adjust continuous parameters (e.g. Filter Cutoff, ADSR, FX sends)."
+        },
+        {
+          "type": "note",
+          "text": "Pads should be in Momentary mode (Toggle off) when used for Hemiola module toggles: each press sends a note-on that Hemiola interprets as a toggle command."
+        },
+        {
+          "type": "subtitle",
+          "text": "Factory Presets"
+        },
+        {
+          "type": "note",
+          "text": "Preset table format: K1..K8 = knob CCs, P1..P8 = pad Note numbers. Channel shown below is the built-in mapping channel (11 user-visible, MIDI byte value 10)."
+        },
+        {
+          "type": "subtitle",
+          "text": "Minimoog Perf"
+        },
+        {
+          "type": "item",
+          "text": "Channel: 11 | K1..K8: 1,79,98,67,68,69,64,65 | P1..P8: 49,77,23,72,116,110,112,121"
+        },
+        {
+          "type": "item",
+          "text": "Use case: classic monosynth performance with filter, envelope, and modulation controls."
+        },
+        {
+          "type": "subtitle",
+          "text": "Filter & Env"
+        },
+        {
+          "type": "item",
+          "text": "Channel: 11 | K1..K8: 78,82,96,97,67,68,75,76 | P1..P8: 49,77,72,119,112,109,113,16"
+        },
+        {
+          "type": "item",
+          "text": "Use case: deep filter sculpting and ADSR envelope shaping."
+        },
+        {
+          "type": "subtitle",
+          "text": "Osc & Duty"
+        },
+        {
+          "type": "item",
+          "text": "Channel: 11 | K1..K8: 101,102,103,58,59,60,5,105 | P1..P8: 49,23,24,116,60,64,67,72"
+        },
+        {
+          "type": "item",
+          "text": "Use case: oscillator mixing, waveform duty cycle adjustment, and tone shaping."
+        },
+        {
+          "type": "subtitle",
+          "text": "Live FX & Mix"
+        },
+        {
+          "type": "item",
+          "text": "Channel: 11 | K1..K8: 17,50,81,88,95,90,84,93 | P1..P8: 16,49,80,87,92,107,105,106"
+        },
+        {
+          "type": "item",
+          "text": "Use case: live effects sends, delay/reverb tweaks, and master mix balancing."
+        }
+      ]
+    },
+    {
+      "title": "Tab: Setup",
+      "icon": "settings",
+      "entries": [
+        {
+          "type": "subtitle",
+          "text": "Load Program 1\u20134"
+        },
+        {
+          "type": "para",
+          "text": "Reads the selected program slot from the device and populates all pad and knob parameters."
+        },
+        {
+          "type": "subtitle",
+          "text": "Write to Program Slot"
+        },
+        {
+          "type": "para",
+          "text": "Selects which of the 4 internal program slots will be overwritten when you press the Write button."
+        },
+        {
+          "type": "note",
+          "text": "Hint: after selecting the target slot, tap Write To Device at the bottom of the Setup tab to actually send the SysEx write message."
+        },
+        {
+          "type": "subtitle",
+          "text": "MIDI Channel"
+        },
+        {
+          "type": "para",
+          "text": "Sets the MIDI channel for the current program (1\u201316). All pad notes, CC messages, and program changes will be sent on this channel."
+        }
+      ]
+    },
+    {
+      "title": "Tab: Pads",
+      "icon": "grid_view",
+      "entries": [
+        {
+          "type": "para",
+          "text": "Each pad has a Note number (sent on pad hit), a CC number, a Program Change number, and a Toggle/Momentary mode. In Momentary mode the pad sends note-on on press and note-off on release. In Toggle mode, one press sends note-on and the next press sends note-off."
+        },
+        {
+          "type": "note",
+          "text": "For controlling Hemiola modules, use Momentary mode and set the Note to the Hemiola parameter toggle number (e.g. 77 for LPF, 72 for LFO, 80 for Reverb). See the factory presets for ready-made mappings."
+        }
+      ]
+    },
+    {
+      "title": "Tab: Knobs",
+      "icon": "tune",
+      "entries": [
+        {
+          "type": "para",
+          "text": "Each knob is assigned a CC number and a value range (Min/Max). The physical knob sweep is mapped to the configured CC range."
+        },
+        {
+          "type": "note",
+          "text": "Set the CC to a Hemiola parameter CC (e.g. 1 for Filter Cutoff, 67\u201370 for ADSR, 81 for Reverb Send) and use Min=0, Max=127 for full range."
+        }
+      ]
+    }
+  ]
+}

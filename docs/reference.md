@@ -454,6 +454,48 @@ Supported placeholders inside `bytes`:
 }
 ```
 
+### Type: `cc_pair_14bit`
+
+```json
+"sendCommand": {
+  "type": "cc_pair_14bit",
+  "cc1": 104,
+  "cc1ValueLsb": 85,
+  "cc1ValueMsb": 88,
+  "cc2": 105,
+  "min": 0,
+  "max": 16383
+}
+```
+
+Behavior:
+
+- Encodes a 14-bit parameter value across two `cc_pair` consecutive messages (LSB, then MSB).
+- First message: `cc1 = cc1ValueLsb`, `cc2 = value & 0x7F`.
+- Second message: `cc1 = cc1ValueMsb`, `cc2 = (value >> 7) & 0x7F`.
+- `cc1`, `cc1ValueLsb`, `cc1ValueMsb`, and `cc2` are required fields (each in range `0..127`).
+- `min` and `max` must bound the total 14-bit range (max 16383) to limit user input prior to sending.
+
+### Type: `cc_index_toggle`
+
+```json
+"sendCommand": {
+  "type": "cc_index_toggle",
+  "cc": 106,
+  "baseIndexOn": 20,
+  "baseIndexOff": 30,
+  "bitCount": 9
+}
+```
+
+Behavior:
+
+- Handles up to 32 bits (array of toggles, typically bound to a `pressed_keys` UI control).
+- For each bit set to `1` in the `value` integer, it emits a single message with CC `(baseIndexOn + bitPosition)` and data byte `0`.
+- For each bit set to `0`, it emits a single message with CC `(baseIndexOff + bitPosition)` and data byte `0`.
+- Requires `cc`, `baseIndexOn`, `baseIndexOff`, and `bitCount`. 
+- No value is written to a secondary "data CC"—the identity of the target CC itself indicates the action.
+
 ### Type: `cc_sequence`
 
 ```json
@@ -758,10 +800,14 @@ Example:
 ### `knob`-specific helpers
 
 - `size`
-- `color`
+- `color` — accent colour for the knob arc (`"#RRGGBB"` string or `0xAARRGGBB` int)
 - `displayOffset`
 - `inputOffset`
 - `valueFormatter`
+
+### `toggle`-specific helpers
+
+- `color` — accent colour applied to the switch thumb and track outline when on (`"#RRGGBB"` string or `0xAARRGGBB` int). Use a full-saturation colour; the renderer applies reduced opacity automatically for the track outline.
 
 `valueFormatter` is display-only and does not affect parameter values or MIDI output.
 
@@ -1054,6 +1100,7 @@ the entire sequence is aborted and nothing is sent.
 | `send_param` | `param` | Emit the current value of the named parameter using its `sendCommand`. |
 | `program_change` | exactly one of `value` or `param` | Send a Program Change on `channel` (or the protocol default). |
 | `cc` | `cc`, `value` | Send a Control Change on `channel` (or the protocol default). |
+| `expect_cc` | `cc` | Suspend sequence until seeing the specified CC, abiding by `timeoutMs`. |
 
 For `send_param`:
 
@@ -1061,6 +1108,13 @@ For `send_param`:
 - runtime uses the parameter's current value at sequence execution time
 - if the parameter has no `sendCommand`, the step is a no-op
 - if the parameter id does not exist, the sequence is aborted
+
+For `expect_cc`:
+
+- requires `cc`
+- supports optional `timeoutMs` (defaults to 1000 ms) and `channel`
+- if the specified `cc` event is matched in the bridge inbound stream within the timeout, the sequence continues
+- if the timeout is reached without the matching CC arriving, the sequence skips or aborts subsequent dependent steps
 
 For `program_change`:
 

@@ -241,6 +241,8 @@ Supported types:
 - `sysex`
 - `multi_sysex`
 - `cc_pair`
+- `cc_pair_14bit`
+- `cc_index_toggle`
 - `cc_sequence`
 
 Use the simplest one that exactly matches the protocol.
@@ -328,6 +330,13 @@ For a first plugin draft, prefer these controls:
 - `cc_select`
 
 Do not start with advanced widgets unless you already understand the incoming live data format.
+
+### Control type best practices
+
+- **Always prefer `tile_picker` over `dropdown`** when the number of options is less than 5. Tile pickers give better at-a-glance visibility and require fewer taps.
+- **Always prefer `knob` over `slider`**, unless a slider is explicitly more appropriate (e.g. the parameter conceptually maps to a linear fader or a left-right pan). Knobs are more compact, allow finer control, and fit the instrument-panel aesthetic of the app.
+- Use the `color` field to visually group related controls. It is supported on both `knob` and `toggle` types. Give controls in the same functional section a similar hue.
+- Consecutive `toggle` controls in the same section are automatically placed on one row, so there is no need to set `inline: true` on them manually.
 
 ## 10. Validate the plugin in this order
 

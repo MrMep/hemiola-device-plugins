@@ -25,7 +25,7 @@ def main() -> int:
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
     validator = jsonschema.Draft202012Validator(schema)
 
-    candidate_files = sorted(devices_dir.glob("*.json")) + sorted(templates_dir.glob("*.json")) + sorted(work_dir.glob("*.json"))
+    candidate_files = sorted(devices_dir.glob("*.json")) + sorted(templates_dir.glob("*.json")) + sorted(work_dir.glob("*/*.json"))
     if not candidate_files:
         print("No plugin JSON files found.")
         return 0
