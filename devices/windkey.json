@@ -840,7 +840,8 @@
               {
                 "type": "toggle",
                 "param": "bcOnOff",
-                "label": "Breath Ctrl"
+                "label": "Breath Ctrl",
+                "color": "#4ADE80"
               },
               {
                 "type": "knob",
@@ -973,7 +974,8 @@
               {
                 "type": "toggle",
                 "param": "eqOnOff",
-                "label": "EQ Enable"
+                "label": "EQ Enable",
+                "color": "#FB923C"
               },
               {
                 "type": "knob",

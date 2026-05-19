@@ -5,7 +5,12 @@
   "author": "Gianluca Barbaro",
   "version": "1.0.0",
   "enabled": true,
-  "triggers": ["AE-01", "ae-01", "ae01", "Roland AE"],
+  "triggers": [
+    "AE-01",
+    "ae-01",
+    "ae01",
+    "Roland AE"
+  ],
   "requiresLandscape": false,
   "protocol": {
     "type": "mixed",
@@ -26,8 +31,12 @@
       {
         "bytes": "F0 41 10 00 00 00 5A 11 00 42 00 03 00 00 00 01 0E F7"
       },
-      { "bytes": "F0 41 10 00 00 00 5A 11 00 27 32 0E 00 00 00 01 6C F7" },
-      { "bytes": "F0 41 10 00 00 00 5A 11 00 27 32 0F 00 00 00 01 6B F7" },
+      {
+        "bytes": "F0 41 10 00 00 00 5A 11 00 27 32 0E 00 00 00 01 6C F7"
+      },
+      {
+        "bytes": "F0 41 10 00 00 00 5A 11 00 27 32 0F 00 00 00 01 6B F7"
+      },
       {
         "bytes": "F0 41 10 00 00 00 5A 11 00 42 00 00 00 00 00 01 11 F7"
       },
@@ -179,7 +188,12 @@
         "type": "sysex",
         "checksum": "ae01",
         "bytes": "F0 41 10 00 00 00 5A 12 00 27 34 13 $V $CS F7",
-        "transform": { "inputMin": 0, "inputMax": 4, "outputMin": 1, "outputMax": 5 }
+        "transform": {
+          "inputMin": 0,
+          "inputMax": 4,
+          "outputMin": 1,
+          "outputMax": 5
+        }
       }
     },
     {
@@ -191,7 +205,12 @@
         "type": "sysex",
         "checksum": "ae01",
         "bytes": "F0 41 10 00 00 00 5A 12 00 27 32 14 $V $CS F7",
-        "transform": { "inputMin": 0, "inputMax": 1, "outputMin": 1, "outputMax": 0 }
+        "transform": {
+          "inputMin": 0,
+          "inputMax": 1,
+          "outputMin": 1,
+          "outputMax": 0
+        }
       }
     },
     {
@@ -247,7 +266,12 @@
         "type": "sysex",
         "checksum": "ae01",
         "bytes": "F0 41 10 00 00 00 5A 12 00 35 00 00 $V $CS F7",
-        "transform": { "inputMin": 0, "inputMax": 1, "outputMin": 1, "outputMax": 3 }
+        "transform": {
+          "inputMin": 0,
+          "inputMax": 1,
+          "outputMin": 1,
+          "outputMax": 3
+        }
       }
     },
     {
@@ -281,7 +305,12 @@
         "type": "sysex",
         "checksum": "ae01",
         "bytes": "F0 41 10 00 00 00 5A 12 00 42 00 05 $V $CS F7",
-        "transform": { "inputMin": 0, "inputMax": 4, "outputMin": 62, "outputMax": 66 }
+        "transform": {
+          "inputMin": 0,
+          "inputMax": 4,
+          "outputMin": 62,
+          "outputMax": 66
+        }
       }
     },
     {
@@ -479,7 +508,19 @@
   "ui": {
     "keyboardDefinitions": {
       "mainFingering": {
-        "options": [63, 61, 71, 69, 67, 68, 66, 65, 64, 62, 60],
+        "options": [
+          63,
+          61,
+          71,
+          69,
+          67,
+          68,
+          66,
+          65,
+          64,
+          62,
+          60
+        ],
         "optionLabels": [
           "Oct Up",
           "Oct Down",
@@ -507,26 +548,89 @@
           "padNoteRPinky"
         ],
         "groups": [
-          { "label": "Octave", "indices": [0, 1] },
-          { "label": "Left Hand", "indices": [2, 3, 4] },
-          { "label": "Thumb", "indices": [5, 6] },
-          { "label": "Right Hand", "indices": [7, 8, 9, 10] }
+          {
+            "label": "Octave",
+            "indices": [
+              0,
+              1
+            ]
+          },
+          {
+            "label": "Left Hand",
+            "indices": [
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "label": "Thumb",
+            "indices": [
+              5,
+              6
+            ]
+          },
+          {
+            "label": "Right Hand",
+            "indices": [
+              7,
+              8,
+              9,
+              10
+            ]
+          }
         ],
         "sources": [
           {
             "source": "currentKeyHigh",
             "bitByteIndex": 12,
             "bitOrder": "msb",
-            "bits": [-1, -1, -1, -1, -1, 14, -1, -1, -1, -1, -1]
+            "bits": [
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              14,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1
+            ]
           },
           {
             "source": "currentKeyLow",
             "bitByteIndex": 12,
             "bitOrder": "msb",
-            "bits": [23, 21, 18, 17, 15, -1, 10, 14, 13, 12, 11]
+            "bits": [
+              23,
+              21,
+              18,
+              17,
+              15,
+              -1,
+              10,
+              14,
+              13,
+              12,
+              11
+            ]
           }
         ],
-        "keyBits": [14, 12, 9, 8, 6, 0, 1, 5, 4, 3, 2]
+        "keyBits": [
+          14,
+          12,
+          9,
+          8,
+          6,
+          0,
+          1,
+          5,
+          4,
+          3,
+          2
+        ]
       }
     },
     "tabs": [
@@ -540,84 +644,213 @@
                 "type": "tile_picker",
                 "param": "instrument",
                 "label": "Instrument",
-                "options": [0, 1, 2, 3, 4, 5],
-                "optionLabels": ["Sax", "Flute", "Clarinet", "Trumpet", "Violin", "Saw Lead"]
+                "options": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "optionLabels": [
+                  "Sax",
+                  "Flute",
+                  "Clarinet",
+                  "Trumpet",
+                  "Violin",
+                  "Saw Lead"
+                ]
               },
-              { "type": "knob", "param": "volume", "label": "Volume", "min": 0, "max": 4 },
-              { "type": "knob", "param": "reverb", "label": "Reverb", "min": 0, "max": 4 },
-              { "type": "toggle", "param": "mute", "label": "Mute" }
+              {
+                "type": "knob",
+                "param": "volume",
+                "label": "Volume",
+                "min": 0,
+                "max": 4
+              },
+              {
+                "type": "knob",
+                "param": "reverb",
+                "label": "Reverb",
+                "min": 0,
+                "max": 4
+              },
+              {
+                "type": "toggle",
+                "param": "mute",
+                "label": "Mute",
+                "color": "#EF4444"
+              }
             ]
           },
           {
             "title": "System",
             "controls": [
-              { "type": "toggle", "param": "speaker", "label": "Speaker" },
-              { "type": "toggle", "param": "beep", "label": "Beep" },
+              {
+                "type": "toggle",
+                "param": "speaker",
+                "label": "Speaker",
+                "color": "#F59E0B"
+              },
+              {
+                "type": "toggle",
+                "param": "beep",
+                "label": "Beep",
+                "color": "#F59E0B"
+              },
               {
                 "type": "tile_picker",
                 "param": "autoOff",
                 "label": "Auto Off",
-                "options": [0, 1, 2],
-                "optionLabels": ["Off", "5 mins", "30 min"]
+                "options": [
+                  0,
+                  1,
+                  2
+                ],
+                "optionLabels": [
+                  "Off",
+                  "5 mins",
+                  "30 min"
+                ]
               }
             ]
           },
-           {
+          {
             "title": "Midi",
             "controls": [
-                { "type": "knob", "param": "midiCh", "label": "MIDI Channel", "min": 0, "max": 15 },
-                { "type": "knob", "param": "velocity", "label": "Velocity", "min": 1, "max": 127 },
-                { "type": "knob", "param": "btId", "label": "Bluetooth ID", "min": 0, "max": 17 }
-
+              {
+                "type": "knob",
+                "param": "midiCh",
+                "label": "MIDI Channel",
+                "min": 0,
+                "max": 15
+              },
+              {
+                "type": "knob",
+                "param": "velocity",
+                "label": "Velocity",
+                "min": 1,
+                "max": 127
+              },
+              {
+                "type": "knob",
+                "param": "btId",
+                "label": "Bluetooth ID",
+                "min": 0,
+                "max": 17
+              }
             ]
-        }
+          }
         ]
       },
       {
         "label": "Breath",
         "sections": [
-        {
+          {
             "title": "Response",
             "controls": [
               {
                 "type": "tile_picker",
                 "param": "breathSensitivity",
                 "label": "Breath Sensitivity",
-                "options": [20, 40, 60, 80, 100, 101],
-                "optionLabels": ["1", "2", "3", "4", "5", "Auto"]
+                "options": [
+                  20,
+                  40,
+                  60,
+                  80,
+                  100,
+                  101
+                ],
+                "optionLabels": [
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5",
+                  "Auto"
+                ]
               },
               {
                 "type": "tile_picker",
                 "param": "breathCurve",
                 "label": "Breath Curve",
-                "options": [0, 1, 2, 3, 4],
-                "optionLabels": ["L2", "L1", "M", "H1", "H2"]
+                "options": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "optionLabels": [
+                  "L2",
+                  "L1",
+                  "M",
+                  "H1",
+                  "H2"
+                ]
               },
-              { "type": "knob", "param": "keyDelay", "label": "Key Delay", "min": 0, "max": 10 }
+              {
+                "type": "knob",
+                "param": "keyDelay",
+                "label": "Key Delay",
+                "min": 0,
+                "max": 10
+              }
             ]
           },
           {
             "title": "Breath CC 1",
             "controls": [
-              { "type": "cc_select", "param": "breathCC1", "label": "Breath CC 1" },
-              { "type": "knob", "param": "breath1Min", "label": "Min", "min": 0, "max": 127 },
-              { "type": "knob", "param": "breath1Max", "label": "Max", "min": 0, "max": 127 }
+              {
+                "type": "cc_select",
+                "param": "breathCC1",
+                "label": "Breath CC 1"
+              },
+              {
+                "type": "knob",
+                "param": "breath1Min",
+                "label": "Min",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "knob",
+                "param": "breath1Max",
+                "label": "Max",
+                "min": 0,
+                "max": 127
+              }
             ]
           },
           {
             "title": "Breath CC 2",
             "controls": [
-              { "type": "cc_select", "param": "breathCC2", "label": "Breath CC 2" },
-              { "type": "knob", "param": "breath2Min", "label": "Min", "min": 0, "max": 127 },
-              { "type": "knob", "param": "breath2Max", "label": "Max", "min": 0, "max": 127 }
+              {
+                "type": "cc_select",
+                "param": "breathCC2",
+                "label": "Breath CC 2"
+              },
+              {
+                "type": "knob",
+                "param": "breath2Min",
+                "label": "Min",
+                "min": 0,
+                "max": 127
+              },
+              {
+                "type": "knob",
+                "param": "breath2Max",
+                "label": "Max",
+                "min": 0,
+                "max": 127
+              }
             ]
           }
         ]
-    },
+      },
       {
         "label": "Fingers",
         "sections": [
-          
           {
             "title": "Fingering",
             "controls": [
@@ -625,15 +858,27 @@
                 "type": "tile_picker",
                 "param": "fingering",
                 "label": "Fingering",
-                "options": [0, 1],
-                "optionLabels": ["Recorder", "Trumpet"]
+                "options": [
+                  0,
+                  1
+                ],
+                "optionLabels": [
+                  "Recorder",
+                  "Trumpet"
+                ]
               },
               {
                 "type": "tile_picker",
                 "param": "tuning",
                 "label": "Tuning",
-                "options": [0, 1],
-                "optionLabels": ["440 Hz", "442 Hz"]
+                "options": [
+                  0,
+                  1
+                ],
+                "optionLabels": [
+                  "440 Hz",
+                  "442 Hz"
+                ]
               },
               {
                 "type": "knob",
@@ -646,16 +891,39 @@
                 "type": "tile_picker",
                 "param": "octave",
                 "label": "Octave",
-                "options": [0, 1, 2, 3, 4],
-                "optionLabels": ["-2", "-1", "0", "+1", "+2"]
+                "options": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "optionLabels": [
+                  "-2",
+                  "-1",
+                  "0",
+                  "+1",
+                  "+2"
+                ]
               }
             ]
           },
           {
             "title": "Pad Mode",
             "controls": [
-                { "type": "toggle", "param": "liveKeysStream", "label": "Single Keys Stream", "enabled": false },
-              { "type": "toggle", "param": "padMode", "label": "Pad Mode" },
+              {
+                "type": "toggle",
+                "param": "liveKeysStream",
+                "label": "Single Keys Stream",
+                "enabled": false,
+                "color": "#3B82F6"
+              },
+              {
+                "type": "toggle",
+                "param": "padMode",
+                "label": "Pad Mode",
+                "color": "#8B5CF6"
+              },
               {
                 "type": "pressed_keys",
                 "param": "",
@@ -664,12 +932,11 @@
                 "noteOnVelocity": 90
               }
             ]
-         },
-
+          },
           {
             "title": "Custom Fingering",
             "controls": [
-            {
+              {
                 "type": "custom_fingering_manager",
                 "param": "",
                 "label": "Custom Fingerings",
@@ -681,17 +948,31 @@
                 "listenStreamParam": "liveKeysStream",
                 "padModeParam": "padMode",
                 "checksum": "ae01",
-                "addressPrefix": [0, 53, 0],
+                "addressPrefix": [
+                  0,
+                  53,
+                  0
+                ],
                 "slotStride": 8,
                 "enabledOffset": 1,
                 "highOffset": 2,
                 "lowOffset": 5,
                 "noteOffset": 8,
-                "disabledHighAddress": [0, 39, 52, 8],
-                "disabledLowAddress": [0, 39, 52, 11]
+                "disabledHighAddress": [
+                  0,
+                  39,
+                  52,
+                  8
+                ],
+                "disabledLowAddress": [
+                  0,
+                  39,
+                  52,
+                  11
+                ]
               }
             ]
-        }
+          }
         ]
       }
     ],
